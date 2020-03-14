@@ -5,19 +5,26 @@ using UnityEngine;
 public class PlayerController : CharacterController {
     // Start is called before the first frame update
     private Rigidbody2D rbody;
+    private Dictionary<string,float> sneak;
     private Gun gun;
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();
         gun = transform.GetChild(0).gameObject.GetComponent<Gun>();
         gun.reloadMagazine();
+        gun.setPlayerController(this);
         healthBar = gameObject.transform.GetChild(1).gameObject;
         maxHealth = 100;
         health = maxHealth;
-
+        sneak = new Dictionary<string, float>() {
+            { "timeUntilDetection", 4f },
+            { "detectionDistance", 12f },
+            { "attackDistance", 8f }
+        };
     }
 
     // Update is called once per frame
     void Update() {
+        Debug.Log(sneak["detectionDistance"]);
         var speed = 6;
         movementControls(speed);
         gun.directionallyShootGun();
@@ -42,5 +49,21 @@ public class PlayerController : CharacterController {
 
     public Gun getGun() {
         return this.gun;
+    }
+
+    public float getSneakStat(string key) {
+        return sneak[key];
+    }
+
+     public void setSneakStat(string key, float value) {
+        sneak[key] = value;
+    }
+
+    public void resetSneakStats() {
+        sneak = new Dictionary<string, float>() {
+            { "timeUntilDetection", 4f },
+            { "detectionDistance", 12f },
+            { "attackDistance", 8f }
+        };
     }
 }

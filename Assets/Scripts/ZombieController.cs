@@ -9,8 +9,12 @@ public class ZombieController : CharacterController
     public Rigidbody2D rbody;
     private GameObject player;
     private float damage;
+    private string status;
+    private float detectionTimer;
+    private Transform intents;
     private GameController gameController;
     private PlayerController playerController;
+    private Vector3 playersLastKnownPosition;
 
     void Start()
     {
@@ -19,14 +23,25 @@ public class ZombieController : CharacterController
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         maxHealth = 50;
-        damage = 5;
+        damage = 15;
         health = maxHealth;
         healthBar = gameObject.transform.GetChild(0).gameObject;
+        status = "idle";
+        detectionTimer = -1f;
+        intents = transform.GetChild(1);
     }
 
     // Update is called once per frame
     void Update() {
-        moveToObject(player);
+
+        switch (status) {
+            case "attacking":
+                moveToObject(player);
+                break;
+            case "idle":
+                idleBehaviour();
+                break;
+        }
         if(health <= 0) {
             Destroy(gameObject);
             gameController.checkWaveComplete();
@@ -44,16 +59,6 @@ public class ZombieController : CharacterController
         var yDir = nY < oY ? 0.1f : -0.1f;
 
         var primaryDirection = (Mathf.Abs(oX) - Mathf.Abs(nX)) > (Mathf.Abs(oY) - Mathf.Abs(nY)) ? "x" : "y";
-        
-        // if(inContact) {
-        //     if (collisionSide == "x") {
-        //         movementDirection = new Vector2(0, yDir);
-        //         wasInContact = true;);
-        //     } else if (collisionSide == "y") {
-        //         movementDirection = new Vector2(xDir, 0);
-        //         wasInContact = true;
-        //     }
-        // } else {
         var movementDirection = new Vector2(xDir, yDir);
         if(nX == oX) {
             movementDirection = new Vector2(0, yDir);
@@ -65,15 +70,58 @@ public class ZombieController : CharacterController
         rbody.MovePosition(rbody.position + movementDirection * Time.deltaTime * 40);
     }
 
+    private void idleBehaviour() {
+        float dist = Vector3.Distance(playerController.transform.position, transform.position);
+        if(dist < playerController.getSneakStat("attackDistance")) {
+            setAttacking();
+        }
+        if(dist < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) {
+            playersLastKnownPosition = playerController.transform.position;
+            setAlert();
+        }
+        if(detectionTimer > 0) {
+            detectionTimer -= Time.deltaTime;
+            if(detectionTimer < playerController.getSneakStat("timeUntilDetection")/2f) {
+                Debug.Log("moving to location");
+                transform.position = Vector3.MoveTowards(transform.position, playersLastKnownPosition, Time.deltaTime * 2f);
+            }
+            if(detectionTimer <= 0) {
+                if( dist < playerController.getSneakStat("detectionDistance")) {
+                    setAttacking();
+                } else if (dist > 10) {
+                    setIdle();
+                }
+            }
+        }
+    }
+    
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Bullet(Clone)") {
             Destroy(col.gameObject);
             updateHealth(-playerController.getGun().getStat("damage"));
-            rbody.AddForce(col.GetContact(0).normal * 40);
         }
         if(col.gameObject.name == "Player") {
             // var pC = col.gameObject.GetComponent<PlayerController>();
-            playerController.updateHealth(-10);
+            playerController.updateHealth(damage);
         }
     }
+
+    private void setAttacking() {
+        intents.GetChild(0).gameObject.SetActive(false);
+        intents.GetChild(1).gameObject.SetActive(true);
+        status = "attacking";
+    }
+    private void setAlert() {
+        Debug.Log("?????");
+        intents.GetChild(0).gameObject.SetActive(true);
+        detectionTimer = playerController.getSneakStat("timeUntilDetection");
+    }
+
+    private void setIdle() {
+        intents.GetChild(0).gameObject.SetActive(false);
+        intents.GetChild(1).gameObject.SetActive(false);
+        status = "idle";
+        detectionTimer = -1f;
+    }
+
 }

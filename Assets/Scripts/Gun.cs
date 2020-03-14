@@ -2,51 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour {
+public abstract class Gun : MonoBehaviour {
     public float shooting;
     public float ammoQuantity;
 
     public float reloadTimer;
-    private Dictionary<string, float> stats;
+    public Dictionary<string, float> stats;
 
-    private GameObject bulletDisplay;
+    public GameObject bulletDisplay;
     private GameObject reloadBulletObject;
-    private GameObject ammoClone;
-    private GameObject reloadBar;
-    private GameObject bulletObject;
+    public GameObject ammoClone;
+    public GameObject reloadBar;
+    public GameObject bulletObject;
+    private PlayerController playerController;
     void Start() {
-        bulletDisplay = transform.GetChild(0).gameObject;
-        reloadBar = transform.GetChild(1).gameObject;
-        bulletObject = GameObject.Find("Bullet");
-        ammoClone = GameObject.Find("Ammo");
-        reloadTimer = -1;
-        // shotDelay = 0.1f;
+        reloadTimer = -1f;
         shooting = -1f;
-        stats = new Dictionary<string, float>() {
-            { "ammoCapacity", 6f },
-            { "reloadSpeed", 2f },
-            { "damage", 8f },
-            { "shotDelay", 0.2f }
-        };
         ammoQuantity = stats["ammoCapacity"];
     }
 
     void Update() {
-        if(reloadTimer > 0) {
+        if(reloadTimer > 0f) {
             reloadTimer -= Time.deltaTime;
-            if(reloadTimer <= 0) {
-                reloadTimer = -1;
+            if(reloadTimer <= 0f) {
+                reloadTimer = -1f;
                 reloadMagazine();
             }
         }
-        if(shooting > 0) {
+        if(shooting > 0f) {
             shooting -= Time.deltaTime;
-            if(shooting <= 0) {
-                shooting = -1;
+            if(shooting <= 0f) {
+                playerController.resetSneakStats();
+                shooting = -1f;
             }
         }
     }
-    public void reloadMagazine () {
+    public virtual void reloadMagazine () {
         for (int i = 0; i < stats["ammoCapacity"]; i++) {
             var ammoBullet = Instantiate(ammoClone, new Vector2(2, 0), Quaternion.identity);
             ammoBullet.transform.SetParent(bulletDisplay.transform);
@@ -55,29 +46,39 @@ public class Gun : MonoBehaviour {
         transform.GetChild(1).gameObject.SetActive(false);
     }
 
-    public void directionallyShootGun () {
+    public virtual void directionallyShootGun () {
         if(reloadTimer < 0 && shooting < 0) {
+            var rand = new System.Random((int)System.DateTime.Now.Ticks);
+            var spread = rand.Next(0, (int)stats["spread"]);
+            float spreadFloat = ((float)spread - stats["spread"]/2)/1000;
             if (Input.GetKey(KeyCode.UpArrow)) {
                 GameObject bullet = Instantiate(bulletObject, new Vector2(transform.position.x, transform.position.y + 2), Quaternion.identity) as GameObject;
-                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1) * 100);
+                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(spreadFloat, 1) * stats["bulletVelocity"]);
+                bullet.GetComponent<Bullet>().setLifetime(stats["lifetime"]);
                 shootGun();
             } else if (Input.GetKey(KeyCode.DownArrow)) {
                 GameObject bullet = Instantiate(bulletObject, new Vector2(transform.position.x, transform.position.y - 2), Quaternion.identity) as GameObject;
-                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -1) * 100);
+                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(spreadFloat, -1) * stats["bulletVelocity"]);
+                bullet.GetComponent<Bullet>().setLifetime(stats["lifetime"]);
                 shootGun();
             } else if (Input.GetKey(KeyCode.LeftArrow)) {
                 GameObject bullet = Instantiate(bulletObject, new Vector2(transform.position.x - 2, transform.position.y), Quaternion.identity) as GameObject;
-                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1, 0) * 100);
+                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(-1, spreadFloat) * stats["bulletVelocity"]);
+                bullet.GetComponent<Bullet>().setLifetime(stats["lifetime"]);
                 shootGun();
             } else if (Input.GetKey(KeyCode.RightArrow)) {
                 GameObject bullet = Instantiate(bulletObject, new Vector2(transform.position.x + 2, transform.position.y), Quaternion.identity) as GameObject;
-                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(1, 0) * 100);
+                bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(1, spreadFloat) * stats["bulletVelocity"]);
+                bullet.GetComponent<Bullet>().setLifetime(stats["lifetime"]);
                 shootGun();
             }
         }
     }
 
-    public void shootGun () {
+    public virtual void shootGun () {
+        playerController.resetSneakStats();
+        playerController.setSneakStat("detectionDistance", playerController.getSneakStat("detectionDistance") + (stats["loudness"] * 2));
+        playerController.setSneakStat("attackDistance", playerController.getSneakStat("attackDistance") + stats["loudness"]);
         shooting = stats["shotDelay"];
         ammoQuantity -= 1;
         Destroy(bulletDisplay.transform.GetChild(bulletDisplay.transform.childCount - 1).gameObject);
@@ -86,7 +87,7 @@ public class Gun : MonoBehaviour {
         }
     }
 
-    public void reload () {
+    public virtual void reload () {
         transform.GetChild(1).gameObject.SetActive(true);
         reloadTimer = stats["reloadSpeed"];
         ammoQuantity = stats["ammoCapacity"];
@@ -95,11 +96,15 @@ public class Gun : MonoBehaviour {
         // 
     }
 
-    public float getStat(string key) {
+    public virtual float getStat(string key) {
         return stats[key];
     }
 
-    public void setStat(string key, float value) {
+    public virtual void setStat(string key, float value) {
         stats[key] = value;
+    }
+
+    public void setPlayerController(PlayerController pc) {
+        playerController = pc;
     }
 }
