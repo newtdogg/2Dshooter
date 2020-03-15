@@ -11,10 +11,12 @@ public abstract class Gun : MonoBehaviour {
 
     public GameObject bulletDisplay;
     private GameObject reloadBulletObject;
+    public string ammoType;
     public GameObject ammoClone;
     public GameObject reloadBar;
     public GameObject bulletObject;
     private PlayerController playerController;
+    private GameObject boltObject;
     void Start() {
         reloadTimer = -1f;
         shooting = -1f;
