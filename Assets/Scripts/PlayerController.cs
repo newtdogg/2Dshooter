@@ -24,7 +24,7 @@ public class PlayerController : CharacterController {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(sneak["detectionDistance"]);
+        // Debug.Log(sneak["dsetectionDistance"]);
         var speed = 6;
         movementControls(speed);
         gun.directionallyShootGun();

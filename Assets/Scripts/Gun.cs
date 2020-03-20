@@ -16,7 +16,7 @@ public abstract class Gun : MonoBehaviour {
     public GameObject reloadBar;
     public GameObject bulletObject;
     private PlayerController playerController;
-    private GameObject boltObject;
+
     void Start() {
         reloadTimer = -1f;
         shooting = -1f;
