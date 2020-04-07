@@ -64,7 +64,6 @@ public class ZombieController : CharacterController
 		if (pathSuccessful) {
 			path = newPath;
 			targetIndex = 0;
-            // Debug.Log("onPathFound (success)");
 			StopCoroutine("FollowPath");
 			StartCoroutine("FollowPath");
 		}
@@ -74,7 +73,6 @@ public class ZombieController : CharacterController
 		Vector2 currentWaypoint = path[0];
 		while (true) {
             var zomPos = new Vector2(transform.position.x, transform.position.y);
-			// if (zomPos == currentWaypoint) {
             if ((Mathf.Floor(zomPos.x) == Mathf.Floor(currentWaypoint.x)) &&
                 (Mathf.Floor(zomPos.y) == Mathf.Floor(currentWaypoint.y))) {
 				targetIndex ++;
@@ -83,8 +81,6 @@ public class ZombieController : CharacterController
 				}
 				currentWaypoint = path[targetIndex];
 			}
-            Debug.Log(currentWaypoint);
-            // Debug.Log(transform.position);
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentWaypoint.x, currentWaypoint.y, 0), Time.deltaTime * 8f);
 			yield return null;
 		}
