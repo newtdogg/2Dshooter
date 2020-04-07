@@ -16,7 +16,7 @@ public class Pathfinding : MonoBehaviour
     void Start()
     {
         mapGenerator = GameObject.Find("Map").GetComponent<MapGenerator>();
-        tilemap = GameObject.Find("PathfindMap").GetComponent<Tilemap>();
+        tilemap = GameObject.Find("DebuggingMap").GetComponent<Tilemap>();
         requestManager = GetComponent<PathRequestManager>();
         map = mapGenerator.map;
     }
@@ -53,10 +53,8 @@ public class Pathfinding : MonoBehaviour
                 var currentWorldTile = openSet.RemoveFirst();
                 closedSet.Add(currentWorldTile);
 
-                var cwPos = new Vector3Int((int)currentWorldTile.worldPosition.x, (int)currentWorldTile.worldPosition.y, 0);
-                tilemap.SetTileFlags(cwPos, TileFlags.None);
-                tilemap.SetColor(cwPos, new Color(0.74f, 0.23f, 0.1f, 1f));
-
+                // NOTE Debugging
+                // setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
 
                 if ((Mathf.Floor(currentWorldTile.worldPosition.x) == Mathf.Floor(targetPosition.x)) &&
                     (Mathf.Floor(currentWorldTile.worldPosition.y) == Mathf.Floor(targetPosition.y))) {
@@ -93,9 +91,9 @@ public class Pathfinding : MonoBehaviour
         var currentWorldTile = endTile;
         while(startingTile != endTile && currentWorldTile != null) {
             path.Add(currentWorldTile);
-            var pos = new Vector3Int((int)currentWorldTile.worldPosition.x, (int)currentWorldTile.worldPosition.y, 0);
-            tilemap.SetTileFlags(pos, TileFlags.None);
-            tilemap.SetColor(pos, new Color(0.34f, 0.43f, 0.47f, 1f));
+
+            // DEBUGGING
+            setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.34f, 0.43f, 0.47f, 1f));
             currentWorldTile = currentWorldTile.parent;
         }
         var waypoints = simplifyPath(path);
@@ -128,6 +126,12 @@ public class Pathfinding : MonoBehaviour
         } else {
             return 14 * distX + 10 * (distY - distX);
         }
+    }
+
+    public void setTileColor(float x, float y, Color color) {
+         var pos = new Vector3Int((int)x, (int)y, 0);
+        tilemap.SetTileFlags(pos, TileFlags.None);
+        tilemap.SetColor(pos, color);
     }
 
 }

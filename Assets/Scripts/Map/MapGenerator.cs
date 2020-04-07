@@ -63,7 +63,7 @@ public class MapGenerator : MonoBehaviour {
 		primaryGrassTilemap = transform.GetChild(3).gameObject.GetComponent<Tilemap>();
 		groundTextureTilemap = transform.GetChild(4).gameObject.GetComponent<Tilemap>();
 		groundTilemap = transform.GetChild(5).gameObject.GetComponent<Tilemap>();
-		pathTilemap = transform.GetChild(8).gameObject.GetComponent<Tilemap>();
+		// pathTilemap = transform.GetChild(8).gameObject.GetComponent<Tilemap>();
 		
 		palette = transform.GetChild(6).gameObject.GetComponent<Tilemap>();
 		
@@ -261,8 +261,8 @@ public class MapGenerator : MonoBehaviour {
 					}
 				}
 				if(!tile.walkable) {
-					pathTilemap.SetTileFlags(pos, TileFlags.None);
-					pathTilemap.SetColor(pos, new Color(1f, 0.65f, 0.0f, 1f));
+					// pathTilemap.SetTileFlags(pos, TileFlags.None);
+					// pathTilemap.SetColor(pos, new Color(1f, 0.65f, 0.0f, 1f));
 				}
 			}
 		}
@@ -323,8 +323,8 @@ public class MapGenerator : MonoBehaviour {
 		var totalVal = topRow + middleRow + bottomRow;
 		if(totalVal != 0 && tileCover == "trees") {
 			map[x,y].walkable = false;
-			pathTilemap.SetTileFlags(new Vector3Int(x, y, 0), TileFlags.None);
-			pathTilemap.SetColor(new Vector3Int(x, y, 0), new Color(1f, 0.65f, 0.0f, 1f));
+			// pathTilemap.SetTileFlags(new Vector3Int(x, y, 0), TileFlags.None);
+			// pathTilemap.SetColor(new Vector3Int(x, y, 0), new Color(1f, 0.65f, 0.0f, 1f));
 		}
 		if(totalVal == 3) {
 			if(bottomRow == 3) {
