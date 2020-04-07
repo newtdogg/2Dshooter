@@ -71,7 +71,6 @@ public class ZombieController : CharacterController
 	}
 
     public IEnumerator FollowPath() {
-        Debug.Log("following path");
 		Vector2 currentWaypoint = path[0];
 		while (true) {
             var zomPos = new Vector2(transform.position.x, transform.position.y);
@@ -86,7 +85,7 @@ public class ZombieController : CharacterController
 			}
             Debug.Log(currentWaypoint);
             // Debug.Log(transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentWaypoint.x, currentWaypoint.y, 0), Time.deltaTime * 2f);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentWaypoint.x, currentWaypoint.y, 0), Time.deltaTime * 8f);
 			yield return null;
 		}
 	}
