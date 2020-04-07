@@ -17,8 +17,8 @@ public class PlayerController : CharacterController {
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
             { "timeUntilDetection", 4f },
-            { "detectionDistance", 12f },
-            { "attackDistance", 8f }
+            { "detectionDistance", 24f },
+            { "attackDistance", 16f }
         };
     }
 

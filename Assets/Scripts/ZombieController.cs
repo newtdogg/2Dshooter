@@ -15,6 +15,10 @@ public class ZombieController : CharacterController
     private GameController gameController;
     private PlayerController playerController;
     private Vector3 playersLastKnownPosition;
+    public Transform target;
+	public float speed = 20;
+	private Vector2[] path;
+	private int targetIndex;
 
     void Start()
     {
@@ -33,10 +37,10 @@ public class ZombieController : CharacterController
 
     // Update is called once per frame
     void Update() {
-
         switch (status) {
-            case "attacking":
+            case "attackNow":
                 moveToObject(player);
+                status = "attacking";
                 break;
             case "idle":
                 idleBehaviour();
@@ -49,26 +53,43 @@ public class ZombieController : CharacterController
     }
 
     public void moveToObject(GameObject obj) {
-        // rounds the positon floats 
-        var oX = Mathf.Round(obj.transform.position.x * 10f) / 10f;
-        var oY = Mathf.Round(obj.transform.position.y * 10f) / 10f;
-        var nX = Mathf.Round(transform.position.x * 10f) / 10f;
-        var nY = Mathf.Round(transform.position.y * 10f) / 10f;
-        
-        var xDir = nX < oX ? 0.1f : -0.1f;
-        var yDir = nY < oY ? 0.1f : -0.1f;
-
-        var primaryDirection = (Mathf.Abs(oX) - Mathf.Abs(nX)) > (Mathf.Abs(oY) - Mathf.Abs(nY)) ? "x" : "y";
-        var movementDirection = new Vector2(xDir, yDir);
-        if(nX == oX) {
-            movementDirection = new Vector2(0, yDir);
-        } else if (nY == oY ) {
-            movementDirection = new Vector2(xDir, 0);
-        }
-        // }
-        if(gameObject.name != "Zombie1")
-        rbody.MovePosition(rbody.position + movementDirection * Time.deltaTime * 40);
+        PathRequestManager.RequestPath(
+            new Vector2(transform.position.x, transform.position.y),
+            new Vector2(obj.transform.position.x, obj.transform.position.y),
+            OnPathFound
+        );
     }
+
+    public void OnPathFound(Vector2[] newPath, bool pathSuccessful) {
+		if (pathSuccessful) {
+			path = newPath;
+			targetIndex = 0;
+            // Debug.Log("onPathFound (success)");
+			StopCoroutine("FollowPath");
+			StartCoroutine("FollowPath");
+		}
+	}
+
+    public IEnumerator FollowPath() {
+        Debug.Log("following path");
+		Vector2 currentWaypoint = path[0];
+		while (true) {
+            var zomPos = new Vector2(transform.position.x, transform.position.y);
+			// if (zomPos == currentWaypoint) {
+            if ((Mathf.Floor(zomPos.x) == Mathf.Floor(currentWaypoint.x)) &&
+                (Mathf.Floor(zomPos.y) == Mathf.Floor(currentWaypoint.y))) {
+				targetIndex ++;
+				if (targetIndex >= path.Length) {
+					yield break;
+				}
+				currentWaypoint = path[targetIndex];
+			}
+            Debug.Log(currentWaypoint);
+            // Debug.Log(transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentWaypoint.x, currentWaypoint.y, 0), Time.deltaTime * 2f);
+			yield return null;
+		}
+	}
 
     private void idleBehaviour() {
         float dist = Vector3.Distance(playerController.transform.position, transform.position);
@@ -109,7 +130,7 @@ public class ZombieController : CharacterController
     private void setAttacking() {
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(true);
-        status = "attacking";
+        status = "attackNow";
     }
     private void setAlert() {
         Debug.Log("?????");
