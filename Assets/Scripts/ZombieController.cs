@@ -17,7 +17,7 @@ public class ZombieController : CharacterController
     private Vector3 playersLastKnownPosition;
     public Transform target;
 	public float speed = 20;
-	private Vector2[] path;
+	private List<Vector2> path;
 	private int targetIndex;
 
     void Start()
@@ -60,8 +60,9 @@ public class ZombieController : CharacterController
         );
     }
 
-    public void OnPathFound(Vector2[] newPath, bool pathSuccessful) {
+    public void OnPathFound(List<Vector2> newPath, bool pathSuccessful) {
 		if (pathSuccessful) {
+            Debug.Log("OnPathFound");
 			path = newPath;
 			targetIndex = 0;
 			StopCoroutine("FollowPath");
@@ -73,10 +74,15 @@ public class ZombieController : CharacterController
 		Vector2 currentWaypoint = path[0];
 		while (true) {
             var zomPos = new Vector2(transform.position.x, transform.position.y);
+            var target = path[path.Count - 1];
             if ((Mathf.Floor(zomPos.x) == Mathf.Floor(currentWaypoint.x)) &&
                 (Mathf.Floor(zomPos.y) == Mathf.Floor(currentWaypoint.y))) {
 				targetIndex ++;
-				if (targetIndex >= path.Length) {
+                if ((Mathf.Floor(player.transform.position.x) != Mathf.Floor(currentWaypoint.x)) &&
+                    (Mathf.Floor(player.transform.position.y) != Mathf.Floor(currentWaypoint.y))) {
+                    path.Add(new Vector2(player.transform.position.x, player.transform.position.y));
+                }
+				if (targetIndex >= path.Count) {
 					yield break;
 				}
 				currentWaypoint = path[targetIndex];

@@ -33,15 +33,17 @@ public class Pathfinding : MonoBehaviour
     }
 
     public IEnumerator findPath(Vector2 startingPosition, Vector2 targetPosition) {
-        Vector2[] waypoints = new Vector2[0];
+        List<Vector2> waypoints = new List<Vector2>();
         bool pathSuccess = false;
        
         var startingTile = map[(int)startingPosition.x, (int)startingPosition.y];
         var endTile = map[(int)targetPosition.x, (int)targetPosition.y];
 
-        var tPos = new Vector3Int((int)targetPosition.x, (int)targetPosition.y, 0);
-        tilemap.SetTileFlags(tPos, TileFlags.None);
-        tilemap.SetColor(tPos, new Color(0.74f, 0.23f, 0.1f, 1f));
+        // Debugging
+        // Debug.Log(startingPosition);
+        // var tPos = new Vector3Int((int)targetPosition.x, (int)targetPosition.y, 0);
+        // tilemap.SetTileFlags(tPos, TileFlags.None);
+        // tilemap.SetColor(tPos, new Color(0.74f, 0.23f, 0.1f, 1f));
 
         if(startingTile.walkable && endTile.walkable) {
             Heap<WorldTile> openSet = new Heap<WorldTile>(mapGenerator.width * mapGenerator.height);
@@ -73,6 +75,8 @@ public class Pathfinding : MonoBehaviour
                         neighbour.parent = currentWorldTile;
                         if(!openSet.Contains(neighbour)) {
                             openSet.Add(neighbour);
+                        } else {
+                            openSet.UpdateItem(neighbour);
                         }
                     }
                 }
@@ -85,7 +89,7 @@ public class Pathfinding : MonoBehaviour
         requestManager.FinishedProcessingPath(waypoints, pathSuccess); 
     }
 
-    Vector2[] retracePath(WorldTile startingTile, WorldTile endTile) {
+    List<Vector2> retracePath(WorldTile startingTile, WorldTile endTile) {
         List<WorldTile> path = new List<WorldTile>();
 
         var currentWorldTile = endTile;
@@ -93,15 +97,17 @@ public class Pathfinding : MonoBehaviour
             path.Add(currentWorldTile);
 
             // DEBUGGING
+            Debug.Log("retracePath");
             setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.34f, 0.43f, 0.47f, 1f));
             currentWorldTile = currentWorldTile.parent;
         }
         var waypoints = simplifyPath(path);
-        Array.Reverse(waypoints);
+        // Array.Reverse(waypoints);
+        waypoints.Reverse();
         return waypoints;
     }
 
-    Vector2[] simplifyPath (List<WorldTile> path) {
+    List<Vector2> simplifyPath (List<WorldTile> path) {
         List<Vector2> waypoints = new List<Vector2>();
         Vector2 directionOld = Vector2.zero;
         for (int i = 1; i < path.Count; i++) {
@@ -114,7 +120,7 @@ public class Pathfinding : MonoBehaviour
             }
             directionOld = directionNew;
         }
-        return waypoints.ToArray();
+        return waypoints;
     }
 
     public int getDistance(WorldTile a, WorldTile b) {

@@ -16,7 +16,7 @@ public class PlayerController : CharacterController {
         maxHealth = 100;
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
-            { "timeUntilDetection", 2f },
+            { "timeUntilDetection", 0f },
             { "detectionDistance", 60f },
             { "attackDistance", 60f }
         };
@@ -24,7 +24,6 @@ public class PlayerController : CharacterController {
 
     // Update is called once per frame
     void Update() {
-        // Debug.Log(sneak["dsetectionDistance"]);
         var speed = 6;
         movementControls(speed);
         gun.directionallyShootGun();
