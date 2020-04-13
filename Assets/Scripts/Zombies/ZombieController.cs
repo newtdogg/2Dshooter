@@ -18,6 +18,7 @@ public class ZombieController : CharacterController
     private Vector3 playersLastKnownPosition;
     public Transform target;
 	public float speed;
+    public GameObject zombieObj;
 	private List<Vector2> path;
 	private int targetIndex;
 

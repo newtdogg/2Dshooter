@@ -12,12 +12,13 @@ public class Lubber : ZombieController
         damage = 25;
         status = "idle";
         detectionTimer = -1f;
-        rbody = gameObject.GetComponent<Rigidbody2D>();
+        zombieObj = transform.GetChild(0).gameObject;
+        rbody = zombieObj.GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         health = maxHealth;
-        healthBar = gameObject.transform.GetChild(0).gameObject;
-        intents = transform.GetChild(1);
+        healthBar = gameObject.transform.GetChild(1).gameObject;
+        intents = transform.GetChild(2);
     }
 }
