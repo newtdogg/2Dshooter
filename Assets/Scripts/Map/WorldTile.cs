@@ -8,7 +8,6 @@ public class WorldTile {
     public string bedrockName;
 
     public Dictionary<string, int> tileCover;
-    public bool hasZombie;
     public WorldTile(int pg, int sg) {
         tileCover = new Dictionary<string, int>(){
             { "primaryGrass", pg },

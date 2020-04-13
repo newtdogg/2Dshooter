@@ -27,12 +27,10 @@ public class MapGenerator : MonoBehaviour {
 	[Range(0,10)]
 	public int secondaryGrassSmoothValue;
 	private Transform treeParent;
-
-	public WorldTile[,] map;
+	public Map map;
 	private Tilemap groundTextureTilemap;
 	private Tilemap groundTilemap;
 	private Tilemap grassDetailTilemap;
-
 	private Tilemap primaryGrassTilemap;
 	private Tilemap secondaryGrassTilemap;
 	public Dictionary<string, Vector3Int> bedrockStartingLocations;
@@ -46,15 +44,21 @@ public class MapGenerator : MonoBehaviour {
 	private TileBase[,] secondaryGrassEdges;
 	private TileBase[,] treeGrassEdges;
 	private List<GameObject> trees;
-	public bool mapGenerated;
-	// private List<GameObject> shrubs;
+	public System.Random random = new System.Random();
 	void Start() {
-		// useRandomSeed = true;
-		width = 101;
-		height = 101;
+
+	}
+
+	public void Initialize() {
+				// useRandomSeed = true;
+		width = 1010;
+		height = 1010;
 		// primaryGrassFillPercent = 55;
 		// secondaryGrassFillPercent = 70;
-		// treeFillPercent = 40;
+
+		if (!useRandomSeed) {
+			random = new System.Random(seed.GetHashCode());
+		}
 
 		treesTilemap = transform.GetChild(0).gameObject.GetComponent<Tilemap>();
 		grassDetailTilemap = transform.GetChild(1).gameObject.GetComponent<Tilemap>();
@@ -64,19 +68,6 @@ public class MapGenerator : MonoBehaviour {
 		groundTilemap = transform.GetChild(5).gameObject.GetComponent<Tilemap>();
 		
 		palette = transform.GetChild(6).gameObject.GetComponent<Tilemap>();
-		
-		trees = new List<GameObject>();
-		treeParent = transform.GetChild(7);
-		foreach (Transform tree in treeParent)
-        {
-            trees.Add(tree.gameObject);
-        }
-
-		// shrubs = new List<GameObject>();
-		// // var shrubParent = GameObject.Find("Shrubs");
-		// // foreach (Transform shrub in shrubParent.transform) {
-            // // shrubs.Add(shrub.gameObject);
-        // }
 
 		groundTiles = new TileBase[12,14];
 		primaryGrassEdges = new TileBase[6,7];
@@ -101,12 +92,6 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
 
-		for (int x = 6; x < 12; x ++) {
-			for (int y = 0; y < 7; y ++) {
-				treeGrassEdges[x - 6, y] = palette.GetTile(new Vector3Int(x, y, 0));
-			}
-		}
-
 		bedrockTypes = new Dictionary<string, TileBase> { 
 			{"clay", groundTiles[6,13]},
 			{"sandstone", groundTiles[7,13]},
@@ -118,56 +103,40 @@ public class MapGenerator : MonoBehaviour {
 		grassDefault = groundTiles[1,1];
 
 		GenerateMap();
-		mapGenerated = true;
-	}
+		map.mapGenerated = true;
+	} 
 
 	void Update() {
-		// var mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // Debug.Log(new Vector3Int(Mathf.FloorToInt(mousePoint.x), Mathf.FloorToInt(mousePoint.y), 0));
-		if (Input.GetMouseButtonDown(0)) {
-			seed += 1;
-			GenerateMap();
-		}
+
 	}
 
 	void GenerateMap() {
-		map = new WorldTile[width,height];
+		// map = new WorldTile[width,height];
+		map = new Map(width, height);
 		RandomFillMap();
 
 		
 		SmoothMap(primaryGrassSmoothValue, "primaryGrass");
 		SmoothMap(secondaryGrassSmoothValue, "secondaryGrass");
-		SmoothMap(5, "trees");
+
 		SetTiles();
 	}
-
-
 	void RandomFillMap() {
-		if (useRandomSeed) {
-			seed = Time.time.ToString();
-		}
-		System.Random pseudoRandomPrimaryGrass = new System.Random(seed.GetHashCode()+ 1);
-		System.Random pseudoRandomSecondaryGrass = new System.Random(seed.GetHashCode() + 2);
-		System.Random pseudoRandomTrees = new System.Random(seed.GetHashCode() + 3);
-
-		System.Random pseudoRandomBedrock = new System.Random(seed.GetHashCode() + 5);
-
 		List<string> bedrockNameList = new List<string>(bedrockTypes.Keys);
 		bedrockStartingLocations = new Dictionary<string, Vector3Int>();
 
 		for(int i = 0; i < bedrockTypes.Count; i++) {
-			var x = pseudoRandomBedrock.Next(0, width);
+			var x = random.Next(0, width);
 
-			var y = pseudoRandomBedrock.Next(0, height);
+			var y = random.Next(0, height);
 			bedrockStartingLocations.Add(bedrockNameList[i], new Vector3Int(x, y, 0));
 		}
 
 		for (int x = 0; x < width; x ++) {
 			for (int y = 0; y < height; y ++) {
-				var primaryGrassVal = (pseudoRandomPrimaryGrass.Next(0,100) < primaryGrassFillPercent)? 1: 0;
-				var secondaryGrassVal = (pseudoRandomSecondaryGrass.Next(0,100) < secondaryGrassFillPercent) && primaryGrassVal == 1 ? 1: 0;
-				map[x,y] = new WorldTile(primaryGrassVal, secondaryGrassVal);
-				map[x,y].tileCover["trees"] = (pseudoRandomTrees.Next(0,100) < treeFillPercent)? 1: 0;
+				var primaryGrassVal = (random.Next(0,100) < primaryGrassFillPercent)? 1: 0;
+				var secondaryGrassVal = (random.Next(0,100) < secondaryGrassFillPercent) && primaryGrassVal == 1 ? 1: 0;
+				map.getTiles()[x,y] = new WorldTile(primaryGrassVal, secondaryGrassVal);
 				var lowestDelta = width * height;
 				var lowestDeltaRock = "";
 				foreach(var point in bedrockStartingLocations) {
@@ -179,88 +148,32 @@ public class MapGenerator : MonoBehaviour {
 						lowestDeltaRock = point.Key;
 					}
 				}
-				map[x, y].bedrockName = lowestDeltaRock;
+				map.getTiles()[x, y].bedrockName = lowestDeltaRock;
 			}
 		}
 	}
 
 	void SetTiles() {
-		var grassStreak = 0;
+
 		foreach (Vector3Int pos in palette.cellBounds.allPositionsWithin) {
 			if(pos.x >= 0 && pos.y >= 0 && pos.x <= width && pos.y <= height) {
-				var tile = map[pos.x, pos.y];
-				var rand = new System.Random((int)System.DateTime.Now.Ticks);
-				var rand1 = new System.Random((int)System.DateTime.Now.Ticks);
-				var rand2 = new System.Random((int)System.DateTime.Now.Ticks);
-				var rand3 = new System.Random((int)System.DateTime.Now.Ticks);
+				var tile =map.getTiles()[pos.x, pos.y];
 				groundTilemap.SetTile(pos, bedrockTypes[tile.bedrockName]);
-				groundTextureTilemap.SetTile(pos, textures[rand.Next(4)]);
+				groundTextureTilemap.SetTile(pos, textures[random.Next(4)]);
 				var vec = new Vector3Int(pos.x, pos.y, 0);
 				if(tile.tileCover["primaryGrass"] == 1) {
 					primaryGrassTilemap.SetTile(pos, grassDefault);
-					if(tile.tileCover["trees"] == 0 && tile.tileCover["secondaryGrass"] == 0) {
-						if(rand1.Next(0, 250) == 0) {
-							tile.hasZombie = true;
-						}
-					}
-					// if(rand1.Next(0, 250) == 0) {
-						// grassDetailTilemap.SetTile(pos, groundTiles[rand.Next(6, 12), rand.Next(3, 5)]);
-					// }
-					if(tile.tileCover["secondaryGrass"] == 0) {
-						// grassDetailTilemap.SetTile(pos, groundTiles[rand.Next(6, 11), rand.Next(5, 7)]);
-					}
 				}
 				if(tile.tileCover["secondaryGrass"] == 1) {
 					secondaryGrassTilemap.SetTile(pos, groundTiles[1,8]);
 				}
-				if(tile.tileCover["primaryGrass"] == 0) {
-					if(rand2.Next(0, 6) == 0) {
-						// groundTilemap.SetTile(pos, groundTiles[rand2.Next(6, 12), rand2.Next(3, 5)]);
-					}
-					
-				}
-				if(tile.tileCover["trees"] == 1) {
-					treesTilemap.SetTile(pos, groundTiles[7,1]);
-					// treesTilemap.SetTileFlags(pos, TileFlags.None);
-					// treesTilemap.SetColor(pos, new Color(0.34f, 0.43f, 0.47f, 1f));
-					var rand4 = new System.Random((int)System.DateTime.Now.Ticks);
-					var rand5 = new System.Random((int)System.DateTime.Now.Ticks);
-					var rand6 = new System.Random((int)System.DateTime.Now.Ticks);
-					float localXrand = (float)rand4.Next(0, 10);
-					float localYrand = (float)rand5.Next(0, 10);
-					// int shrubChance = rand6.Next(0, 10);
-					var randomTree = trees[rand5.Next(trees.Count)];
-					var treePos = new Vector3(pos.x + (localXrand/10), pos.y + 1.5f + (localYrand/10), 0);
-					var newTree = Instantiate(randomTree, new Vector3(0, 0, 0), Quaternion.identity);
-					newTree.GetComponent<SpriteRenderer>().sortingOrder = 200 - pos.y;
-					newTree.transform.SetParent(treeParent);
-					newTree.transform.position = treePos;
-					if(localXrand > 7 || localYrand > 7) {
-						var treePos2 = new Vector3(pos.x + (1 - localXrand/10), pos.y + 1.5f + (1 - localYrand/10), 0);
-						var newTree2 = Instantiate(randomTree, new Vector3(0, 0, 0) , Quaternion.identity);
-						newTree2.GetComponent<SpriteRenderer>().sortingOrder = 200 - pos.y;
-						newTree2.transform.SetParent(treeParent);
-						newTree2.transform.position = treePos2;
-					}
-					// if(shrubChance == 1) {
-						// // // var randomShrub = shrubs[rand6.Next(shrubs.Count)];
-						// // var newShrub = Instantiate(randomShrub, new Vector3(pos.x + (1 - (localXrand/10)), pos.y + (1 -(localYrand/10)), 0), Quaternion.identity);
-						// newShrub.GetComponent<SpriteRenderer>().sortingOrder = 201 - pos.y;
-					// }
 
-				}
-				if(rand1.Next(0, 1000) == 0) {
-					if(rand1.Next(0, 1000) > 499) {
-						// setFourTilesFromBottomLeft(groundTilemap, pos, 8, 12);
-					} else {
-						// setFourTilesFromBottomLeft(groundTilemap, pos, 6, 12);
-					}
-				}
 			}
 		}
+
 		foreach (Vector3Int pos in palette.cellBounds.allPositionsWithin) {
 			if(pos.x >= 0 && pos.y >= 0 && pos.x <= width && pos.y <= height) {
-				var tile = map[pos.x, pos.y];
+				var tile =map.getTiles()[pos.x, pos.y];
 				if(pos.x != 0 && pos.x != width-1 && pos.y != 0 && pos.y != height -1){
 					if(tile.tileCover["primaryGrass"] == 0) {
 						SetGrassEdgeTile(pos.x, pos.y, primaryGrassEdges, "primaryGrass", primaryGrassTilemap);
@@ -282,27 +195,20 @@ public class MapGenerator : MonoBehaviour {
 				for (int y = 0; y < height; y ++) {
 					int neighbourgroundTiles = GetSurroundingTileCount(x,y, tileCover);
 					if (neighbourgroundTiles > 4) {
-						map[x,y].tileCover[tileCover] = 1;
+						map.getTiles()[x,y].tileCover[tileCover] = 1;
 					} else if (neighbourgroundTiles < 4) {
-						map[x,y].tileCover[tileCover] = 0;
-					}										
+						map.getTiles()[x,y].tileCover[tileCover] = 0;
+					}																		
 				}
 			}
 		}
-	}
-
-	void setFourTilesFromBottomLeft(Tilemap palette, Vector3Int pos, int x, int y) {
-		palette.SetTile(pos, groundTiles[x, y]);
-		palette.SetTile(new Vector3Int(pos.x + 1, pos.y, 0), groundTiles[x + 1, y]);
-		palette.SetTile(new Vector3Int(pos.x, pos.y + 1, 0), groundTiles[x, y + 1]);
-		palette.SetTile(new Vector3Int(pos.x + 1, pos.y + 1, 0), groundTiles[x + 1, y + 1]);
 	}
 
 	void SetGrassEdgeTile(int x, int y, TileBase[,] edges, string tileCover, Tilemap edgeTilemap) {
 		var surroundingTiles = new int[3,3];
 		for (int neighbourX = 0; neighbourX < 3; neighbourX ++) {
 			for (int neighbourY = 0; neighbourY < 3; neighbourY ++) {
-				surroundingTiles[neighbourX, neighbourY] = map[x + (neighbourX - 1), y + (neighbourY - 1)].tileCover[tileCover];
+				surroundingTiles[neighbourX, neighbourY] =map.getTiles()[x + (neighbourX - 1), y + (neighbourY - 1)].tileCover[tileCover];
 			}
 		}
 		var topRow = surroundingTiles[0, 2] + surroundingTiles[1, 2] + surroundingTiles[2, 2];
@@ -313,7 +219,7 @@ public class MapGenerator : MonoBehaviour {
 		var rightRow = surroundingTiles[2, 0] + surroundingTiles[2, 1] + surroundingTiles[2, 2];
 		var crossVal = surroundingTiles[0, 1] + surroundingTiles[2, 1] + surroundingTiles[1, 2] + surroundingTiles[1, 0];
 		var totalVal = topRow + middleRow + bottomRow;
-		// Debug.Log($"{topRow}, {middleRow}, {bottomRow}");
+
 		if(totalVal == 3) {
 			if(bottomRow == 3) {
 				edgeTilemap.SetTile(new Vector3Int(x, y, 0), edges[1,2]);
@@ -506,7 +412,7 @@ public class MapGenerator : MonoBehaviour {
 			for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY ++) {
 				if (neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height) {
 					if (neighbourX != gridX || neighbourY != gridY) {
-						wallCount += map[neighbourX,neighbourY].tileCover[tileCover];
+						wallCount +=map.getTiles()[neighbourX,neighbourY].tileCover[tileCover];
 					}
 				}
 				else {

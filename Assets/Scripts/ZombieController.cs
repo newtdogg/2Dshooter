@@ -44,7 +44,7 @@ public class ZombieController : CharacterController
         }
         if(health <= 0) {
             Destroy(gameObject);
-            gameController.checkWaveComplete();
+            // gameController.checkWaveComplete();
         }
     }
 
