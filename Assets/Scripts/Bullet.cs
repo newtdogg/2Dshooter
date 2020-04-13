@@ -17,4 +17,8 @@ public class Bullet : MonoBehaviour
     public void setLifetime(float lt) {
         lifetime = lt;
     }
+
+    void OnCollisionEnter2D(Collision2D col) {
+        Destroy (gameObject);
+    }
 }

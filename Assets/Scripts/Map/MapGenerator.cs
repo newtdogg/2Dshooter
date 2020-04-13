@@ -31,6 +31,7 @@ public class MapGenerator : MonoBehaviour {
 	public WorldTile[,] map;
 	private Tilemap groundTextureTilemap;
 	private Tilemap groundTilemap;
+	private Tilemap pathTilemap;
 	private Tilemap grassDetailTilemap;
 
 	private Tilemap primaryGrassTilemap;
@@ -62,6 +63,7 @@ public class MapGenerator : MonoBehaviour {
 		primaryGrassTilemap = transform.GetChild(3).gameObject.GetComponent<Tilemap>();
 		groundTextureTilemap = transform.GetChild(4).gameObject.GetComponent<Tilemap>();
 		groundTilemap = transform.GetChild(5).gameObject.GetComponent<Tilemap>();
+		// pathTilemap = transform.GetChild(8).gameObject.GetComponent<Tilemap>();
 		
 		palette = transform.GetChild(6).gameObject.GetComponent<Tilemap>();
 		
@@ -124,10 +126,10 @@ public class MapGenerator : MonoBehaviour {
 	void Update() {
 		// var mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // Debug.Log(new Vector3Int(Mathf.FloorToInt(mousePoint.x), Mathf.FloorToInt(mousePoint.y), 0));
-		if (Input.GetMouseButtonDown(0)) {
-			seed += 1;
-			GenerateMap();
-		}
+		// if (Input.GetMouseButtonDown(0)) {
+		// 	seed += 1;
+		// 	GenerateMap();
+		// }
 	}
 
 	void GenerateMap() {
@@ -167,6 +169,7 @@ public class MapGenerator : MonoBehaviour {
 				var primaryGrassVal = (pseudoRandomPrimaryGrass.Next(0,100) < primaryGrassFillPercent)? 1: 0;
 				var secondaryGrassVal = (pseudoRandomSecondaryGrass.Next(0,100) < secondaryGrassFillPercent) && primaryGrassVal == 1 ? 1: 0;
 				map[x,y] = new WorldTile(primaryGrassVal, secondaryGrassVal);
+				map[x,y].worldPosition = new Vector2(x, y);
 				map[x,y].tileCover["trees"] = (pseudoRandomTrees.Next(0,100) < treeFillPercent)? 1: 0;
 				var lowestDelta = width * height;
 				var lowestDeltaRock = "";
@@ -200,7 +203,7 @@ public class MapGenerator : MonoBehaviour {
 					primaryGrassTilemap.SetTile(pos, grassDefault);
 					if(tile.tileCover["trees"] == 0 && tile.tileCover["secondaryGrass"] == 0) {
 						if(rand1.Next(0, 250) == 0) {
-							tile.hasZombie = true;
+							// tile.hasZombie = true;
 						}
 					}
 					// if(rand1.Next(0, 250) == 0) {
@@ -220,6 +223,7 @@ public class MapGenerator : MonoBehaviour {
 					
 				}
 				if(tile.tileCover["trees"] == 1) {
+					map[pos.x, pos.y].walkable = false;
 					treesTilemap.SetTile(pos, groundTiles[7,1]);
 					// treesTilemap.SetTileFlags(pos, TileFlags.None);
 					// treesTilemap.SetColor(pos, new Color(0.34f, 0.43f, 0.47f, 1f));
@@ -255,6 +259,10 @@ public class MapGenerator : MonoBehaviour {
 					} else {
 						// setFourTilesFromBottomLeft(groundTilemap, pos, 6, 12);
 					}
+				}
+				if(!tile.walkable) {
+					// pathTilemap.SetTileFlags(pos, TileFlags.None);
+					// pathTilemap.SetColor(pos, new Color(1f, 0.65f, 0.0f, 1f));
 				}
 			}
 		}
@@ -313,7 +321,11 @@ public class MapGenerator : MonoBehaviour {
 		var rightRow = surroundingTiles[2, 0] + surroundingTiles[2, 1] + surroundingTiles[2, 2];
 		var crossVal = surroundingTiles[0, 1] + surroundingTiles[2, 1] + surroundingTiles[1, 2] + surroundingTiles[1, 0];
 		var totalVal = topRow + middleRow + bottomRow;
-		// Debug.Log($"{topRow}, {middleRow}, {bottomRow}");
+		if(totalVal != 0 && tileCover == "trees") {
+			map[x,y].walkable = false;
+			// pathTilemap.SetTileFlags(new Vector3Int(x, y, 0), TileFlags.None);
+			// pathTilemap.SetColor(new Vector3Int(x, y, 0), new Color(1f, 0.65f, 0.0f, 1f));
+		}
 		if(totalVal == 3) {
 			if(bottomRow == 3) {
 				edgeTilemap.SetTile(new Vector3Int(x, y, 0), edges[1,2]);
@@ -500,7 +512,7 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-	int GetSurroundingTileCount(int gridX, int gridY, string tileCover) {
+	public int GetSurroundingTileCount(int gridX, int gridY, string tileCover) {
 		int wallCount = 0;
 		for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX ++) {
 			for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY ++) {
@@ -515,5 +527,24 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
 		return wallCount;
+	}
+
+	public List<WorldTile> getNeighbourTiles(Vector2 tilePos) {
+		List<WorldTile> neighbours = new List<WorldTile>();
+		for (int x = -1; x <= 1; x++) {
+			for (int y = -1; y <= 1; y++) {
+				if(x == 0 && y == 0) {
+					continue;
+				}
+				var checkX = tilePos.x + x;
+				var checkY = tilePos.y + y;
+
+				if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < height) {
+					neighbours.Add(map[(int)checkX, (int)checkY]);
+				}
+			}
+		}
+		return neighbours;
+
 	}
 }
