@@ -7,68 +7,83 @@ public class ZombieController : CharacterController
     // Start is called before the first frame update
 
     public Rigidbody2D rbody;
-    private GameObject player;
-    private float damage;
-    private string status;
-    private float detectionTimer;
-    private Transform intents;
-    private GameController gameController;
-    private PlayerController playerController;
+    public GameObject player;
+    public float damage;
+    public string status;
+    public float detectionTimer;
+    public Transform intents;
+    public GameController gameController;
+    public bool clone;
+    public PlayerController playerController;
     private Vector3 playersLastKnownPosition;
+    public Transform target;
+	public float speed;
+	private List<Vector2> path;
+	private int targetIndex;
 
-    void Start()
-    {
-        rbody = gameObject.GetComponent<Rigidbody2D>();
-        player = GameObject.Find("Player");
-        gameController = GameObject.Find("GameController").GetComponent<GameController>();
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        maxHealth = 50;
-        damage = 15;
-        health = maxHealth;
-        healthBar = gameObject.transform.GetChild(0).gameObject;
-        status = "idle";
-        detectionTimer = -1f;
-        intents = transform.GetChild(1);
-    }
+    // void Start()
+    // {
+        
+    // }
 
     // Update is called once per frame
     void Update() {
-
-        switch (status) {
-            case "attacking":
-                moveToObject(player);
-                break;
-            case "idle":
-                idleBehaviour();
-                break;
-        }
-        if(health <= 0) {
-            Destroy(gameObject);
-            gameController.checkWaveComplete();
+        if(!clone) { 
+            switch (status) {
+                case "attackNow":
+                    moveToObject(player);
+                    status = "attacking";
+                    break;
+                case "idle":
+                    idleBehaviour();
+                    break;
+            }
+            if(health <= 0) {
+                Destroy(gameObject);
+                gameController.checkWaveComplete();
+            }
         }
     }
 
     public void moveToObject(GameObject obj) {
-        // rounds the positon floats 
-        var oX = Mathf.Round(obj.transform.position.x * 10f) / 10f;
-        var oY = Mathf.Round(obj.transform.position.y * 10f) / 10f;
-        var nX = Mathf.Round(transform.position.x * 10f) / 10f;
-        var nY = Mathf.Round(transform.position.y * 10f) / 10f;
-        
-        var xDir = nX < oX ? 0.1f : -0.1f;
-        var yDir = nY < oY ? 0.1f : -0.1f;
-
-        var primaryDirection = (Mathf.Abs(oX) - Mathf.Abs(nX)) > (Mathf.Abs(oY) - Mathf.Abs(nY)) ? "x" : "y";
-        var movementDirection = new Vector2(xDir, yDir);
-        if(nX == oX) {
-            movementDirection = new Vector2(0, yDir);
-        } else if (nY == oY ) {
-            movementDirection = new Vector2(xDir, 0);
-        }
-        // }
-        if(gameObject.name != "Zombie1")
-        rbody.MovePosition(rbody.position + movementDirection * Time.deltaTime * 40);
+        PathRequestManager.RequestPath(
+            new Vector2(transform.position.x, transform.position.y),
+            new Vector2(obj.transform.position.x, obj.transform.position.y),
+            OnPathFound
+        );
     }
+
+    public void OnPathFound(List<Vector2> newPath, bool pathSuccessful) {
+		if (pathSuccessful) {
+            Debug.Log("OnPathFound");
+			path = newPath;
+			targetIndex = 0;
+			StopCoroutine("FollowPath");
+			StartCoroutine("FollowPath");
+		}
+	}
+
+    public IEnumerator FollowPath() {
+		Vector2 currentWaypoint = path[0];
+		while (true) {
+            var zomPos = new Vector2(transform.position.x, transform.position.y);
+            var target = path[path.Count - 1];
+            if ((Mathf.Floor(zomPos.x) == Mathf.Floor(currentWaypoint.x)) &&
+                (Mathf.Floor(zomPos.y) == Mathf.Floor(currentWaypoint.y))) {
+				targetIndex ++;
+                if ((Mathf.Floor(player.transform.position.x) != Mathf.Floor(currentWaypoint.x)) &&
+                    (Mathf.Floor(player.transform.position.y) != Mathf.Floor(currentWaypoint.y))) {
+                    path.Add(new Vector2(player.transform.position.x, player.transform.position.y));
+                }
+				if (targetIndex >= path.Count) {
+					yield break;
+				}
+				currentWaypoint = path[targetIndex];
+			}
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentWaypoint.x, currentWaypoint.y, 0), Time.deltaTime * speed/5);
+			yield return null;
+		}
+	}
 
     private void idleBehaviour() {
         float dist = Vector3.Distance(playerController.transform.position, transform.position);
@@ -109,7 +124,7 @@ public class ZombieController : CharacterController
     private void setAttacking() {
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(true);
-        status = "attacking";
+        status = "attackNow";
     }
     private void setAlert() {
         Debug.Log("?????");
