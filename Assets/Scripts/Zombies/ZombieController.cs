@@ -28,20 +28,18 @@ public class ZombieController : CharacterController
 
     // Update is called once per frame
     void Update() {
-        if(!clone) { 
-            switch (status) {
-                case "attackNow":
-                    moveToObject(player);
-                    status = "attacking";
-                    break;
-                case "idle":
-                    idleBehaviour();
-                    break;
-            }
-            if(health <= 0) {
-                Destroy(gameObject);
-                gameController.checkWaveComplete();
-            }
+        switch (status) {
+            case "attackNow":
+                moveToObject(player);
+                status = "attacking";
+                break;
+            case "idle":
+                idleBehaviour();
+                break;
+        }
+        if(health <= 0) {
+            Destroy(gameObject);
+            gameController.checkWaveComplete();
         }
     }
 
