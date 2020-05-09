@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     private float waveDowntime;
     public int zombiesPerWave;
     private MapGenerator mapGenerator;
+    public bool debug;
 
 
     void Start()
@@ -28,9 +29,11 @@ public class GameController : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if(mapGenerator.mapGenerated) {
-            spawnZombies();
-            mapGenerator.mapGenerated = false;
+        if(!debug) {
+            if(mapGenerator.mapGenerated) {
+                spawnZombies();
+                mapGenerator.mapGenerated = false;
+            }
         }
         // if(waveDowntime > 0) {
         //     waveDowntime -= Time.deltaTime;

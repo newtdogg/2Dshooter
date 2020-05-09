@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ZombieController : CharacterController
 {
@@ -18,44 +19,21 @@ public class ZombieController : CharacterController
     private Vector3 playersLastKnownPosition;
     public Transform target;
 	public float speed;
+    public Vector2 currentWaypoint;
     public GameObject zombieObj;
-	private List<Vector2> path;
+	private Vector2[] path;
 	private int targetIndex;
+    public float distance;
+    public Tilemap tilemap;
 
-    // void Start()
-    // {
-        
-    // }
 
-    // Update is called once per frame
-    void Update() {
-        switch (status) {
-            case "attackNow":
-                moveToObject(player);
-                status = "attacking";
-                break;
-            case "idle":
-                idleBehaviour();
-                break;
-        }
-        if(health <= 0) {
-            Destroy(gameObject);
-            gameController.checkWaveComplete();
-        }
-    }
+    private float minPathUpdateTime = 0.15f;
+	private float pathUpdateMoveThreshold = 1.1f;
 
-    public void moveToObject(GameObject obj) {
-        PathRequestManager.RequestPath(
-            new Vector2(transform.position.x, transform.position.y),
-            new Vector2(obj.transform.position.x, obj.transform.position.y),
-            OnPathFound
-        );
-    }
-
-    public void OnPathFound(List<Vector2> newPath, bool pathSuccessful) {
-		if (pathSuccessful) {
-            Debug.Log("OnPathFound");
+    public void OnPathFound(Vector2[] newPath, bool pathSuccessful) {
+		if (pathSuccessful && newPath.Length > 1) {
 			path = newPath;
+            currentWaypoint = path[0];
 			targetIndex = 0;
 			StopCoroutine("FollowPath");
 			StartCoroutine("FollowPath");
@@ -63,75 +41,110 @@ public class ZombieController : CharacterController
 	}
 
     public IEnumerator FollowPath() {
-		Vector2 currentWaypoint = path[0];
+		currentWaypoint = path[0];
 		while (true) {
             var zomPos = new Vector2(transform.position.x, transform.position.y);
-            var target = path[path.Count - 1];
-            if ((Mathf.Floor(zomPos.x) == Mathf.Floor(currentWaypoint.x)) &&
-                (Mathf.Floor(zomPos.y) == Mathf.Floor(currentWaypoint.y))) {
+            var target = path[path.Length - 1];
+            var currentWaypointInt = new Vector3Int((int)Mathf.Floor(currentWaypoint.x), (int)Mathf.Floor(currentWaypoint.y), 0);
+            var zombiePosInt = new Vector3Int((int)Mathf.Floor(zomPos.x), (int)Mathf.Floor(zomPos.y), 0);
+            // Debug.Log(currentWaypointInt);
+            // Debug.Log(zombiePosInt);
+            if(distance > playerController.getSneakStat("detectionDistance") * 2f) {
+                setIdle();
+                yield break;
+            } else if (zombiePosInt.x == currentWaypointInt.x && zombiePosInt.y == currentWaypointInt.y) {
 				targetIndex ++;
-                if ((Mathf.Floor(player.transform.position.x) != Mathf.Floor(currentWaypoint.x)) &&
-                    (Mathf.Floor(player.transform.position.y) != Mathf.Floor(currentWaypoint.y))) {
-                    path.Add(new Vector2(player.transform.position.x, player.transform.position.y));
+                if (targetIndex >= path.Length) {
+                    currentWaypoint = player.transform.position;
+                } else {
+                    var waypointDirection = (transform.position - new Vector3(path[targetIndex].x, path[targetIndex].y)).normalized;
+                    var playerDirection = (transform.position - player.transform.position).normalized;
+                    if(waypointDirection != playerDirection) {
+                        currentWaypoint = player.transform.position;
+                    } else {
+                        currentWaypoint = path[targetIndex];
+                    }
                 }
-				if (targetIndex >= path.Count) {
-					yield break;
-				}
-				currentWaypoint = path[targetIndex];
-			}
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(currentWaypoint.x, currentWaypoint.y, 0), Time.deltaTime * speed/5);
+            }
+            tilemap.SetTileFlags(currentWaypointInt, TileFlags.None);
+            tilemap.SetColor(currentWaypointInt, Color.black);
+            transform.position = Vector3.MoveTowards(transform.position, (Vector3)currentWaypoint, Time.deltaTime * speed/5);
 			yield return null;
 		}
 	}
 
-    private void idleBehaviour() {
-        float dist = Vector3.Distance(playerController.transform.position, transform.position);
-        if(dist < playerController.getSneakStat("attackDistance")) {
+    public IEnumerator UpdatePath() {
+
+		if (Time.timeSinceLevelLoad < 0.3f) {
+			yield return new WaitForSeconds (0.3f);
+		}
+
+		PathRequestManager.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
+
+		float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
+		Vector3 targetPosOld = player.transform.position;
+
+		while (true) {
+			yield return new WaitForSeconds (minPathUpdateTime);
+			if ((player.transform.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
+                // Debug.Log("new path");
+				PathRequestManager.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
+				targetPosOld = player.transform.position;
+			}
+            if(distance < 5) {
+                Debug.Log("chasing");
+                currentWaypoint = player.transform.position;
+            }
+		}
+	}
+
+    public void idleBehaviour() {
+        // float dist = Vector3.Distance(playerController.transform.position, transform.position);
+        if(distance < playerController.getSneakStat("attackDistance")) {
             setAttacking();
         }
-        if(dist < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) {
+        if(distance < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) {
             playersLastKnownPosition = playerController.transform.position;
             setAlert();
         }
         if(detectionTimer > 0) {
             detectionTimer -= Time.deltaTime;
             if(detectionTimer < playerController.getSneakStat("timeUntilDetection")/2f) {
-                Debug.Log("moving to location");
                 transform.position = Vector3.MoveTowards(transform.position, playersLastKnownPosition, Time.deltaTime * 2f);
             }
             if(detectionTimer <= 0) {
-                if( dist < playerController.getSneakStat("detectionDistance")) {
+                if(distance < playerController.getSneakStat("detectionDistance")) {
                     setAttacking();
-                } else if (dist > 10) {
-                    setIdle();
+                // } else if (distance > 10) {
+                //     setIdle();
                 }
             }
         }
     }
-    
+
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Bullet(Clone)") {
-            Destroy(col.gameObject);
-            updateHealth(-playerController.getGun().getStat("damage"));
+            // Stick to player
+           health -= playerController.getGun().getStat("damage");
         }
         if(col.gameObject.name == "Player") {
-            // var pC = col.gameObject.GetComponent<PlayerController>();
-            playerController.updateHealth(damage);
+            // playerController.updateHealth(damage);
+            Debug.Log("kill");
+            playerController.canMove = false;
+            StopCoroutine("FollowPath");
         }
     }
-
-    private void setAttacking() {
+    public void setAttacking() {
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(true);
         status = "attackNow";
     }
-    private void setAlert() {
-        Debug.Log("?????");
+    public void setAlert() {
         intents.GetChild(0).gameObject.SetActive(true);
         detectionTimer = playerController.getSneakStat("timeUntilDetection");
     }
 
-    private void setIdle() {
+    public void setIdle() {
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(false);
         status = "idle";
