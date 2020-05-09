@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+
 public class Pathfinding : MonoBehaviour
 {
     // Start is called before the first frame update
     private MapGenerator mapGenerator;
     private WorldTile[,] map;
     private Tilemap tilemap;
+    public bool debug;
     private PathRequestManager requestManager;
 
 
 
     void Start()
     {
-        mapGenerator = GameObject.Find("Map").GetComponent<MapGenerator>();
-        tilemap = GameObject.Find("DebuggingMap").GetComponent<Tilemap>();
         requestManager = GetComponent<PathRequestManager>();
+        tilemap = GameObject.Find("DebuggingMap").GetComponent<Tilemap>();
+        mapGenerator = debug ? GameObject.Find("DbTm").GetComponent<DebugMap>() : GameObject.Find("Map").GetComponent<MapGenerator>();
         map = mapGenerator.map;
     }
 
     // Update is called once per frame
     void Update() {
-        if(mapGenerator.mapGenerated) {
-            map = mapGenerator.map;
+        if(!debug) {
+            if(mapGenerator.mapGenerated) {
+                map = mapGenerator.map;
+            }
         }
     }
 
@@ -33,14 +37,14 @@ public class Pathfinding : MonoBehaviour
     }
 
     public IEnumerator findPath(Vector2 startingPosition, Vector2 targetPosition) {
-        List<Vector2> waypoints = new List<Vector2>();
+        Vector2[] waypoints = new Vector2[0];
         bool pathSuccess = false;
        
         var startingTile = map[(int)startingPosition.x, (int)startingPosition.y];
         var endTile = map[(int)targetPosition.x, (int)targetPosition.y];
+        startingTile.parent = startingTile;
 
         // Debugging
-        // Debug.Log(startingPosition);
         // var tPos = new Vector3Int((int)targetPosition.x, (int)targetPosition.y, 0);
         // tilemap.SetTileFlags(tPos, TileFlags.None);
         // tilemap.SetColor(tPos, new Color(0.74f, 0.23f, 0.1f, 1f));
@@ -55,8 +59,9 @@ public class Pathfinding : MonoBehaviour
                 var currentWorldTile = openSet.RemoveFirst();
                 closedSet.Add(currentWorldTile);
 
-                // NOTE Debugging
-                setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
+            //     // NOTE Debugging
+            //     // Debug.Log(currentWorldTile.worldPosition);
+            //     // setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
 
                 if ((Mathf.Floor(currentWorldTile.worldPosition.x) == Mathf.Floor(targetPosition.x)) &&
                     (Mathf.Floor(currentWorldTile.worldPosition.y) == Mathf.Floor(targetPosition.y))) {
@@ -81,6 +86,9 @@ public class Pathfinding : MonoBehaviour
                     }
                 }
             }
+            // pathSuccess = true;
+            // Debug.Log("nice");
+            // waypoints = new Vector2[0];
         }
         yield return null;
         if(pathSuccess) {
@@ -89,25 +97,33 @@ public class Pathfinding : MonoBehaviour
         requestManager.FinishedProcessingPath(waypoints, pathSuccess); 
     }
 
-    List<Vector2> retracePath(WorldTile startingTile, WorldTile endTile) {
+    Vector2[] retracePath(WorldTile startingTile, WorldTile endTile) {
+        resetAllTiles();
         List<WorldTile> path = new List<WorldTile>();
 
         var currentWorldTile = endTile;
-        while(startingTile != endTile && currentWorldTile != null) {
+        // while(startingTile != endTile) {
+        while((startingTile.worldPosition.x != currentWorldTile.worldPosition.x) &&
+              (startingTile.worldPosition.y != currentWorldTile.worldPosition.y)) {
             path.Add(currentWorldTile);
 
             // DEBUGGING
-            Debug.Log("retracePath");
             setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.34f, 0.43f, 0.47f, 1f));
+
             currentWorldTile = currentWorldTile.parent;
         }
         var waypoints = simplifyPath(path);
-        // Array.Reverse(waypoints);
-        waypoints.Reverse();
+
+        // var waypointVectors = new List<Vector2>();
+        // for (int i = 0; i < path.Count; i++) {
+        //     waypointVectors.Add(path[i].worldPosition);
+        // }
+        // var waypoints = waypointVectors.ToArray();
+
         return waypoints;
     }
 
-    List<Vector2> simplifyPath (List<WorldTile> path) {
+    Vector2[] simplifyPath (List<WorldTile> path) {
         List<Vector2> waypoints = new List<Vector2>();
         Vector2 directionOld = Vector2.zero;
         for (int i = 1; i < path.Count; i++) {
@@ -116,11 +132,11 @@ public class Pathfinding : MonoBehaviour
                 path[i-1].worldPosition.y - path[i].worldPosition.y 
             );
             if(directionNew != directionOld) {
-                waypoints.Add(path[i].worldPosition);
+                waypoints.Add(path[i - 1].worldPosition);
             }
             directionOld = directionNew;
         }
-        return waypoints;
+		return waypoints.ToArray();
     }
 
     public int getDistance(WorldTile a, WorldTile b) {
@@ -134,8 +150,19 @@ public class Pathfinding : MonoBehaviour
         }
     }
 
+
+    // DEBUGGING
+
+    public void resetAllTiles() {
+        for(var x = 0; x < 60; x++) {
+            for(var y = 0; y < 60; y++) {
+                setTileColor(x, y, new Color(0, 0, 0, 0));
+            }
+        }
+    }
+
     public void setTileColor(float x, float y, Color color) {
-         var pos = new Vector3Int((int)x, (int)y, 0);
+        var pos = new Vector3Int((int)x, (int)y, 0);
         tilemap.SetTileFlags(pos, TileFlags.None);
         tilemap.SetColor(pos, color);
     }
