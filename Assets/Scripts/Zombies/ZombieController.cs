@@ -21,10 +21,12 @@ public class ZombieController : CharacterController
 	public float speed;
     public Vector2 currentWaypoint;
     public GameObject zombieObj;
+    public GameObject scrapObject;
 	private Vector2[] path;
 	private int targetIndex;
     public float distance;
     public Tilemap tilemap;
+    public int scrap;
 
 
     private float minPathUpdateTime = 0.15f;
@@ -97,6 +99,10 @@ public class ZombieController : CharacterController
             }
 		}
 	}
+    public void dropScrap() {
+        var newScrapObj = Instantiate(scrapObject, transform.position, Quaternion.identity) as GameObject;
+        newScrapObj.GetComponent<Scrap>().value = scrap;
+    }
 
     public void idleBehaviour() {
         // float dist = Vector3.Distance(playerController.transform.position, transform.position);
