@@ -11,6 +11,7 @@ public class PlayerController : CharacterController {
     private Gun gun;
     public int scrap;
     private Text scrapText;
+    private GameObject shop;
     private float speed;
     private GameObject detection;
     public bool canMove;
@@ -20,6 +21,7 @@ public class PlayerController : CharacterController {
         detection = transform.GetChild(3).gameObject;
         gun.reloadMagazine();
         gun.setPlayerController(this);
+        shop = GameObject.Find("Shop");
         scrapText = transform.GetChild(4).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = gameObject.transform.GetChild(1).gameObject;
         maxHealth = 100;
@@ -41,6 +43,9 @@ public class PlayerController : CharacterController {
 
     // Update is called once per frame
     void Update() {
+        if(gun == null) {
+            gun = transform.GetChild(0).gameObject.GetComponent<Gun>();
+        }
         detection.transform.GetChild(0).localScale = new Vector3(sneak["detectionDistance"], sneak["detectionDistance"], 0) * 2;
         detection.transform.GetChild(1).localScale = new Vector3(sneak["attackDistance"], sneak["attackDistance"], 0) * 2;
         var movSpeed = speed;
@@ -93,11 +98,19 @@ public class PlayerController : CharacterController {
         scrap += amount;
         scrapText.text = scrap.ToString();
     }
+
+    private void toggleShopUI(bool value) {
+        shop.transform.GetChild(1).gameObject.SetActive(value);
+    }
+
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Scrap(Clone)") {
             Debug.Log(col.gameObject.GetComponent<Scrap>().value);
             updateScrap(col.gameObject.GetComponent<Scrap>().value);
             Destroy(col.gameObject);
+        }
+        if(col.gameObject.name == "Shop") {
+            toggleShopUI(true);
         }
     }
 
@@ -107,5 +120,10 @@ public class PlayerController : CharacterController {
             { "detectionDistance", 12f },
             { "attackDistance", 8f }
         };
+    }
+    void OnCollisionExit2D(Collision2D col) {
+        if(col.gameObject.name == "Shop") {
+            toggleShopUI(false);
+        }
     }
 }
