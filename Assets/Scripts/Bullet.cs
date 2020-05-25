@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float lifetime;
+    public Dictionary<string, bool> defaultProperties;
+    public Dictionary<string, bool> properties;
 
+    void Start() {
+        defaultProperties = new Dictionary<string, bool>() {
+            { "poison", false }
+        };
+    }
     // Update is called once per frame
     void Update() {
         if(gameObject.name == "Bullet(Clone)") {

@@ -7,7 +7,7 @@ public class Crossbow : Gun
        // Start is called before the first frame update
     void Start()
     {
-        stats = new Dictionary<string, float>() {
+        baseStats = new Dictionary<string, float>() {
             { "ammoCapacity", 1f },
             { "reloadSpeed", 1.7f },
             { "damage", 14f },
@@ -23,6 +23,6 @@ public class Crossbow : Gun
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
-        ammoQuantity = stats["ammoCapacity"];
+        ammoQuantity = baseStats["ammoCapacity"];
     }
 }

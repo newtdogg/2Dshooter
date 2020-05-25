@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour
     public GameObject zombieList;
     private GameObject perk;
     public int wave;
-    private float waveDowntime;
     public int zombiesPerWave;
     private MapGenerator mapGenerator;
     public bool debug;
@@ -22,7 +21,6 @@ public class GameController : MonoBehaviour
 
         perk = GameObject.Find("Perk");
         wave = 0;
-        waveDowntime = -1;
         zombiesPerWave = 3;
         mapGenerator = GameObject.Find("Map").GetComponent<MapGenerator>();
     }
@@ -48,15 +46,6 @@ public class GameController : MonoBehaviour
         var zombieClone = Instantiate(zombie, new Vector2(0, 0), Quaternion.identity) as GameObject;
         zombieClone.transform.SetParent(zombieList.transform);
         zombieClone.transform.position = new Vector2(x, y);
-    }
-
-
-    public void checkWaveComplete() {
-        if(zombieList.transform.childCount == 1) {
-            waveDowntime = 5;
-            GameObject newPerk = Instantiate(perk, new Vector2(0, 0), Quaternion.identity) as GameObject;
-            newPerk.GetComponent<Perk>().setStatTypeAndValue(wave);
-        }
     }
 
     public void spawnZombies() {

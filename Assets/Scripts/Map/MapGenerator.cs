@@ -188,7 +188,7 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	void SetTiles() {
-		var grassStreak = 0;
+		// var grassStreak = 0;
 		foreach (Vector3Int pos in palette.cellBounds.allPositionsWithin) {
 			if(pos.x >= 0 && pos.y >= 0 && pos.x <= width && pos.y <= height) {
 				var tile = map[pos.x, pos.y];

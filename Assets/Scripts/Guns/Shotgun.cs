@@ -8,7 +8,7 @@ public class Shotgun : Gun
     private int buck;
     void Start()
     {
-        stats = new Dictionary<string, float>() {
+        baseStats = new Dictionary<string, float>() {
             { "ammoCapacity", 5f },
             { "reloadSpeed", 3f },
             { "damage", 3f },
@@ -24,12 +24,12 @@ public class Shotgun : Gun
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
-        ammoQuantity = stats["ammoCapacity"];
+        ammoQuantity = baseStats["ammoCapacity"];
         buck = 8;
     }
 
 
-    public override void directionallyShootGun () {
+    public override void shootingGunCheck () {
         if(reloadTimer < 0 && shooting < 0) {
             if (Input.GetKey(KeyCode.UpArrow)) {
                 shootShotgun(new Vector2(transform.position.x, transform.position.y + 2), new Vector2(0, 1));
@@ -49,14 +49,14 @@ public class Shotgun : Gun
 
     private void shootShotgun(Vector2 spawnPoint, Vector2 force) {
         for(var i = 0; i < buck; i++) {
-            var spreadSection = (stats["spread"]/ buck) * (i + 1);
+            var spreadSection = (currentStats["spread"]/ buck) * (i + 1);
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
             var spread = rand.Next(0, (int)spreadSection);
-            float spreadFloat = ((float)spread - (stats["spread"]/2))/1000;
+            float spreadFloat = ((float)spread - (currentStats["spread"]/2))/1000;
             var forceWithSpread = force.x == 0 ? new Vector2(spreadFloat, force.y) : new Vector2(force.x, spreadFloat);
             GameObject bullet = Instantiate(bulletObject, spawnPoint, Quaternion.identity) as GameObject;
-            bullet.GetComponent<Bullet>().setLifetime(stats["lifetime"]);
-            bullet.GetComponent<Rigidbody2D>().AddForce(forceWithSpread * stats["bulletVelocity"]);
+            bullet.GetComponent<Bullet>().setLifetime(currentStats["lifetime"]);
+            bullet.GetComponent<Rigidbody2D>().AddForce(forceWithSpread * currentStats["bulletVelocity"]);
         }
     }
 }
