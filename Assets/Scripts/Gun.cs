@@ -114,13 +114,6 @@ public abstract class Gun : MonoBehaviour {
         ammoQuantity = currentStats["ammoCapacity"];
         // transform.localScale = new Vector3(0.001f, 0.1f, 0f);
         // transform.localScale = Vector3.MoveTowards (transform.localScale, new Vector3(1f, 0.1f, 0f), reloadSpeed * Time.deltaTime);
-        // 
-    }
-
-    public virtual void applyGunPerks() {
-        foreach(var perk in gunPerks) {
-
-        }
     }
 
     public virtual float getStat(string key) {
