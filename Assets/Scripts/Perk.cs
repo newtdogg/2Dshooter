@@ -27,7 +27,7 @@ public class Perk : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Player" || col.gameObject.name == "Bullet(Clone)"){
-            playerController.getGun().setStat(stat, playerController.getGun().getStat(stat) + increase);
+            // playerController.getGun().setStat(stat, playerController.getGun().getStat(stat) + increase);
             Debug.Log($"{stat} stat increased by {increase}");
             Destroy(this.gameObject);
         }
