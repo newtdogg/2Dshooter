@@ -10,15 +10,14 @@ public class Pistol : Gun
     {
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json"); 
         var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
-        Debug.Log(weaponList.Pistol);
-        stats = weaponList.Pistol.stats;
+        baseStats = weaponList.Pistol.stats;
         bulletDisplay = transform.GetChild(0).gameObject;
         reloadBar = transform.GetChild(1).gameObject;
         bulletObject = GameObject.Find("Bullet");
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
-        ammoQuantity = stats.ammoCapacity;
+        ammoQuantity = baseStats.ammoCapacity;
     }
 
 }

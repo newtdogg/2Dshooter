@@ -60,7 +60,7 @@ public class PlayerController : CharacterController {
             sneak["attackDistance"] = sneakDefault["attackDistance"];
         }
         movementControls(movSpeed);
-        gun.directionallyShootGun();
+        gun.shootingGunCheck();
     }
 
     private void movementControls(float speed) {

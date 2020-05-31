@@ -130,7 +130,7 @@ public class ZombieController : CharacterController
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Bullet(Clone)") {
-           health -= playerController.getGun().stats.damage;
+           health -= playerController.getGun().currentStats.damage;
         }
         if(col.gameObject.name == "Player") {
             // playerController.updateHealth(damage);
