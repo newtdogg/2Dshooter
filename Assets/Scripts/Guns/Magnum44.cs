@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using System;
 
 public class Magnum44 : Gun
@@ -8,16 +9,9 @@ public class Magnum44 : Gun
     // Start is called before the first frame update
     void Start()
     {
-        baseStats = new Dictionary<string, float>() {
-            { "ammoCapacity", 6f },
-            { "reloadSpeed", 2.2f },
-            { "damage", 14f },
-            { "shotDelay", 0.8f },
-            { "spread", 90f },
-            { "bulletVelocity", 160f },
-            { "lifetime", 1.4f },
-            { "loudness", 7f }
-        };
+        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json"); 
+        var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
+        baseStats = weaponList.Pistol.stats;
         gunPerks = new List<Action<Gun>>();
         var perks = GameObject.Find("Perks").transform;
         foreach(Transform perk in perks) {
@@ -29,7 +23,7 @@ public class Magnum44 : Gun
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
-        ammoQuantity = baseStats["ammoCapacity"];
+        ammoQuantity = baseStats.ammoCapacity;
         currentStats = duplicateStats(baseStats);
     }
 }

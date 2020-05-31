@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class GunStatChange : Perk {
     public bool statsUpdated;
-    public Dictionary<string, float> statsToUpdate;
-    public Dictionary<string, Dictionary<string, float>> statUpdateTypes;
+    public WeaponStats statsToUpdate;
     void Start() {
         statsUpdated = false;
-        statUpdateTypes = new Dictionary<string, Dictionary<string, float>>();
-        statUpdateTypes.Add("")
 
     }
     public override void applyGunPerk(Gun gun) {
         if(!statsUpdated) {
-            foreach (var stat in statsToUpdate) {
-                gun.baseStats[stat.Key] += statsToUpdate;
-            }
+            // foreach (var stat in statsToUpdate) {
+                // var weaponStat = gun.baseStats.GetType().GetProperty(stat.Key).GetValue(gun.baseStats);
+                // weaponStat += statsToUpdate;
+            // }
             statsUpdated = true;
         }
     }

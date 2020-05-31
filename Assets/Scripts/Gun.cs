@@ -8,9 +8,9 @@ public abstract class Gun : MonoBehaviour {
     public float ammoQuantity;
 
     public float reloadTimer;
-    public Dictionary<string, float> baseStats;
-    public Dictionary<string, float> currentStatsBaseState;
-    public Dictionary<string, float> currentStats;
+    public WeaponStats baseStats;
+    public WeaponStats currentStatsBaseState;
+    public WeaponStats currentStats;
     public GameObject bulletDisplay;
     public List<Action<Gun>> gunPerks;
     private GameObject reloadBulletObject;
@@ -24,13 +24,18 @@ public abstract class Gun : MonoBehaviour {
     public Vector2 bulletPosition;
     public Vector2 bulletDirection;
 
+    
     void Start() {
         reloadTimer = -1f;
         shooting = -1f;
+        ammoQuantity = baseStats.ammoCapacity;
     }
 
     void Update() {
         currentStatsBaseState = duplicateStats(currentStats);
+        if(playerController == null) {
+            playerController = transform.parent.GetComponent<PlayerController>();
+        }
         if(reloadTimer > 0f) {
             reloadTimer -= Time.deltaTime;
             if(reloadTimer <= 0f) {
@@ -47,7 +52,7 @@ public abstract class Gun : MonoBehaviour {
         }
     }
     public virtual void reloadMagazine () {
-        for (int i = 0; i < currentStats["ammoCapacity"]; i++) { 
+        for (int i = 0; i < currentStats.ammoCapacity; i++) {
             var ammoBullet = Instantiate(ammoClone, new Vector2(2, 0), Quaternion.identity);
             ammoBullet.transform.SetParent(bulletDisplay.transform);
             ammoBullet.transform.position = new Vector3(bulletDisplay.transform.position.x + 0.7f, bulletDisplay.transform.position.y + i/7f, 0);
@@ -58,8 +63,8 @@ public abstract class Gun : MonoBehaviour {
     public virtual void shootingGunCheck () {
         if(reloadTimer < 0 && shooting < 0) {
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
-            var spread = rand.Next(0, (int)currentStats["spread"]);
-            float spreadFloat = ((float)spread - currentStats["spread"]/2)/1000;
+            var spread = rand.Next(0, (int)currentStats.spread);
+            float spreadFloat = ((float)spread - currentStats.spread/2)/1000;
             
             if (Input.GetKey(KeyCode.UpArrow)) {
                 directionallyShootGun(new Vector2(transform.position.x, transform.position.y + 2), new Vector2(spreadFloat, 1));
@@ -89,9 +94,9 @@ public abstract class Gun : MonoBehaviour {
 
     public virtual void shootGun () {
         playerController.resetSneakStats();
-        playerController.setSneakStat("detectionDistance", playerController.getSneakStat("detectionDistance") + (currentStats["loudness"] * 2));
-        playerController.setSneakStat("attackDistance", playerController.getSneakStat("attackDistance") + currentStats["loudness"]);
-        shooting = currentStats["shotDelay"];
+        playerController.setSneakStat("detectionDistance", playerController.getSneakStat("detectionDistance") + (currentStats.loudness * 2));
+        playerController.setSneakStat("attackDistance", playerController.getSneakStat("attackDistance") + currentStats.loudness);
+        shooting = currentStats.shotDelay;
         ammoQuantity -= 1;
         Destroy(bulletDisplay.transform.GetChild(bulletDisplay.transform.childCount - 1).gameObject);
         if(ammoQuantity == 0) {
@@ -104,36 +109,33 @@ public abstract class Gun : MonoBehaviour {
         GameObject bullet = Instantiate(bulletObject, bulletPosition, Quaternion.identity) as GameObject;
         bullet.GetComponent<Bullet>().properties = bulletProperties;
         Debug.Log(bullet.GetComponent<Bullet>().properties["poison"]);
-        bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats["bulletVelocity"]);
-        bullet.GetComponent<Bullet>().setLifetime(currentStats["lifetime"]);
+        bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity);
+        bullet.GetComponent<Bullet>().setLifetime(currentStats.lifetime);
     }
 
     public virtual void reload () {
         transform.GetChild(1).gameObject.SetActive(true);
-        reloadTimer = currentStats["reloadSpeed"];
-        ammoQuantity = currentStats["ammoCapacity"];
+        reloadTimer = currentStats.reloadSpeed;
+        ammoQuantity = currentStats.ammoCapacity;
         // transform.localScale = new Vector3(0.001f, 0.1f, 0f);
         // transform.localScale = Vector3.MoveTowards (transform.localScale, new Vector3(1f, 0.1f, 0f), reloadSpeed * Time.deltaTime);
-    }
-
-    public virtual float getStat(string key) {
-        return currentStats[key];
-    }
-
-    public virtual void setStat(string key, float value) {
-        currentStats[key] = value;
     }
 
     public void setPlayerController(PlayerController pc) {
         playerController = pc;
     }
 
-    public Dictionary<string, float> duplicateStats(Dictionary<string, float> stats){
-        var newDictionary = new Dictionary<string, float>();
-        foreach (var stat in stats) {
-            newDictionary.Add(stat.Key, stat.Value);
-        }
-        return newDictionary;
+    public WeaponStats duplicateStats(WeaponStats stats){
+        var newStats = new WeaponStats();
+        newStats.ammoCapacity = stats.ammoCapacity;
+        newStats.reloadSpeed = stats.reloadSpeed;
+        newStats.damage = stats.damage;
+        newStats.shotDelay = stats.shotDelay;
+        newStats.spread = stats.spread;
+        newStats.bulletVelocity = stats.bulletVelocity;
+        newStats.lifetime = stats.lifetime;
+        newStats.loudness = stats.loudness;
+        return newStats;
     }
 
     // public void getBulletTypes() {

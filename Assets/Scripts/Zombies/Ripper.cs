@@ -13,6 +13,7 @@ public class Ripper : ZombieController
         damage = 15;
         status = "idle";
         detectionTimer = -1f;
+        scrapObject = GameObject.Find("Scrap");
         rbody = gameObject.GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
@@ -21,6 +22,7 @@ public class Ripper : ZombieController
         tilemap = GameObject.Find("DebuggingMap").GetComponent<Tilemap>();
         // healthBar = gameObject.transform.GetChild(0).gameObject;
         intents = transform.GetChild(1);
+        scrap = 15;
     }
 
     void Update() {
@@ -37,6 +39,7 @@ public class Ripper : ZombieController
         }
         if(health <= 0) {
             Destroy(gameObject);
+            dropScrap();
         }
     }
 }
