@@ -102,8 +102,7 @@ public abstract class Gun : MonoBehaviour {
         if(ammoQuantity == 0) {
             reload();
         }
-        Debug.Log($"{statsBaseState.ammoCapacity}, {statsBaseState.reloadSpeed}, {statsBaseState.damage}, {statsBaseState.shotDelay}, {statsBaseState.spread}, {statsBaseState.bulletVelocity}, {statsBaseState.lifetime}, {statsBaseState.loudness}");
-        // currentStats = statsBaseState.duplicateStats();
+        currentStats = statsBaseState.duplicateStats();
     }
 
     public void fireBullet () {
