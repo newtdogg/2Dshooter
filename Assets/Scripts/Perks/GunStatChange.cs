@@ -1,20 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class GunStatChange : Perk {
     public bool statsUpdated;
     public WeaponStats statsToUpdate;
     void Start() {
         statsUpdated = false;
-
+        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json");
+        var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
+        statsToUpdate = weaponList.Pistol.attachments[0].stats;
     }
+
     public override void applyGunPerk(Gun gun) {
         if(!statsUpdated) {
-            // foreach (var stat in statsToUpdate) {
-                // var weaponStat = gun.baseStats.GetType().GetProperty(stat.Key).GetValue(gun.baseStats);
-                // weaponStat += statsToUpdate;
-            // }
+            Debug.Log("applyStatChange");
+            gun.statsBaseState.ammoCapacity += statsToUpdate.ammoCapacity;
+            gun.statsBaseState.reloadSpeed += statsToUpdate.reloadSpeed;
+            gun.statsBaseState.damage += statsToUpdate.damage;
+            gun.statsBaseState.shotDelay += statsToUpdate.shotDelay;
+            gun.statsBaseState.spread += statsToUpdate.spread;
+            gun.statsBaseState.bulletVelocity += statsToUpdate.bulletVelocity;
+            gun.statsBaseState.lifetime += statsToUpdate.lifetime;
+            gun.statsBaseState.loudness += statsToUpdate.loudness;
             statsUpdated = true;
         }
     }

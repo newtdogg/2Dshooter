@@ -4,12 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Gun : MonoBehaviour {
+
+    public string title;
+	public string description;
+	public bool unlocked;
+	public List<Attachment> attachments;
+	public int cost;
+	public string type;
     public float shooting;
     public float ammoQuantity;
 
     public float reloadTimer;
     public WeaponStats baseStats;
-    public WeaponStats currentStatsBaseState;
+    public WeaponStats statsBaseState;
     public WeaponStats currentStats;
     public GameObject bulletDisplay;
     public List<Action<Gun>> gunPerks;
@@ -24,15 +31,7 @@ public abstract class Gun : MonoBehaviour {
     public Vector2 bulletPosition;
     public Vector2 bulletDirection;
 
-    
-    void Start() {
-        reloadTimer = -1f;
-        shooting = -1f;
-        ammoQuantity = baseStats.ammoCapacity;
-    }
-
     void Update() {
-        currentStatsBaseState = duplicateStats(currentStats);
         if(playerController == null) {
             playerController = transform.parent.GetComponent<PlayerController>();
         }
@@ -52,6 +51,7 @@ public abstract class Gun : MonoBehaviour {
         }
     }
     public virtual void reloadMagazine () {
+        Debug.Log("reload");
         for (int i = 0; i < currentStats.ammoCapacity; i++) {
             var ammoBullet = Instantiate(ammoClone, new Vector2(2, 0), Quaternion.identity);
             ammoBullet.transform.SetParent(bulletDisplay.transform);
@@ -102,13 +102,13 @@ public abstract class Gun : MonoBehaviour {
         if(ammoQuantity == 0) {
             reload();
         }
-        currentStats = duplicateStats(currentStatsBaseState);
+        currentStats = statsBaseState.duplicateStats();
     }
 
     public void fireBullet () {
         GameObject bullet = Instantiate(bulletObject, bulletPosition, Quaternion.identity) as GameObject;
         bullet.GetComponent<Bullet>().properties = bulletProperties;
-        Debug.Log(bullet.GetComponent<Bullet>().properties["poison"]);
+        // Debug.Log(bullet.GetComponent<Bullet>().properties["poison"]);
         bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity);
         bullet.GetComponent<Bullet>().setLifetime(currentStats.lifetime);
     }
@@ -124,22 +124,4 @@ public abstract class Gun : MonoBehaviour {
     public void setPlayerController(PlayerController pc) {
         playerController = pc;
     }
-
-    public WeaponStats duplicateStats(WeaponStats stats){
-        var newStats = new WeaponStats();
-        newStats.ammoCapacity = stats.ammoCapacity;
-        newStats.reloadSpeed = stats.reloadSpeed;
-        newStats.damage = stats.damage;
-        newStats.shotDelay = stats.shotDelay;
-        newStats.spread = stats.spread;
-        newStats.bulletVelocity = stats.bulletVelocity;
-        newStats.lifetime = stats.lifetime;
-        newStats.loudness = stats.loudness;
-        return newStats;
-    }
-
-    // public void getBulletTypes() {
-    //     var bullets = GameObject.Find("Bullets");
-    //     bulletTypes
-    // }
 }

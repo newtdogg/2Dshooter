@@ -8,7 +8,7 @@ public class DoubleShot : Perk {
     }
 
     private IEnumerator delayedShot(Gun gun) {
-        Debug.Log("delayed Shot");
+        // Debug.Log("delayed Shot");
         yield return new WaitForSeconds(0.2f);
         gun.fireBullet();
     }

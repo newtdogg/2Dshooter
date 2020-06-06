@@ -1,66 +1,562 @@
 {
-    "pistol": {
-        "title": "Pistol",
-        "type": "Pistol",
-        "cost": 45,
-        "stats": {
-            "ammoCapacity": 8,
-            "reloadSpeed": 1.2,
-            "damage": 7,
-            "shotDelay": 0.6,
-            "spread": 110,
-            "bulletVelocity": 130,
-            "lifetime": 1.1,
-            "loudness": 5
-        },
-        "unlocked": true
+    "pistol":{
+       "stats":{
+          "ammoCapacity":8,
+          "reloadSpeed":1.2,
+          "damage":7,
+          "shotDelay":0.6,
+          "spread":110,
+          "bulletVelocity":130,
+          "lifetime":1.1,
+          "loudness":1
+       },
+       "title":"Pistol",
+       "description":"wah",
+       "datatype":"Handgun",
+       "cost":30,
+       "unlocked":true,
+       "parent":"Handgun",
+       "attachments":[
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":100,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"silencer",
+             "unlocked":true,
+             "cost":20
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"heavyRounds",
+             "unlocked":true,
+             "cost":30
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"grip",
+             "unlocked":true,
+             "cost":40
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"longBarrel",
+             "unlocked":true,
+             "cost":50
+          }
+       ]
     },
-    "magnum44": {
-        "title": "Magnum .44",
-        "type": "Magnum44",
-        "cost": 45,
-        "stats": {
-            "ammoCapacity": 6,
-            "reloadSpeed": 2.2,
-            "damage": 14,
-            "shotDelay": 0.8,
-            "spread": 90,
-            "bulletVelocity": 160,
-            "lifetime": 1.4,
-            "loudness": 7
-        },
-        "unlocked": true
+    "revolver44":{
+       "stats":{
+          "ammoCapacity":6,
+          "reloadSpeed":2.2,
+          "damage":14,
+          "shotDelay":0.8,
+          "spread":90,
+          "bulletVelocity":160,
+          "lifetime":1.4,
+          "loudness":2
+       },
+       "title":".44 Revolver",
+       "description":"wah",
+       "datatype":"Handgun",
+       "cost":45,
+       "unlocked":true,
+       "parent":"Handgun",
+       "attachments":[
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"silencer",
+             "unlocked":true,
+             "cost":20
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"heavyRounds",
+             "unlocked":true,
+             "cost":30
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"grip",
+             "unlocked":true,
+             "cost":40
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"longBarrel",
+             "unlocked":true,
+             "cost":50
+          }
+       ]
     },
-    "shotgun": {
-        "title": "Shotgun",
-        "type": "Shotgun",
-        "cost": 45,
-        "stats": {
-            "ammoCapacity": 5,
-            "reloadSpeed": 3,
-            "damage": 3,
-            "shotDelay": 1.4,
-            "spread": 300,
-            "bulletVelocity": 70,
-            "lifetime": 0.6,
-            "loudness": 4
-        },
-        "unlocked": true
+    "autopistol":{
+       "stats":{
+          "ammoCapacity":8,
+          "reloadSpeed":1.2,
+          "damage":7,
+          "shotDelay":0.6,
+          "spread":110,
+          "bulletVelocity":130,
+          "lifetime":1.1,
+          "loudness":3
+       },
+       "title":"Auto-Pistol",
+       "description":"wah",
+       "datatype":"Handgun",
+       "cost":60,
+       "unlocked":true,
+       "parent":"Handgun",
+       "attachments":[
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"silencer",
+             "unlocked":true,
+             "cost":20
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"heavyRounds",
+             "unlocked":true,
+             "cost":30
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"grip",
+             "unlocked":true,
+             "cost":40
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"longBarrel",
+             "unlocked":true,
+             "cost":50
+          }
+       ]
     },
-    "autopistol": {
-        "title": "Auto Pistol",
-        "type": "AutoPistol",
-        "cost": 45,
-        "stats": {
-            "ammoCapacity": 17,
-            "reloadSpeed": 1.5,
-            "damage": 5.8,
-            "shotDelay": 0.15,
-            "spread": 110,
-            "bulletVelocity": 110,
-            "lifetime": 1.2,
-            "loudness": 5
-        },
-        "unlocked": true
+    "desertEagle":{
+       "stats":{
+          "ammoCapacity":6,
+          "reloadSpeed":2.2,
+          "damage":14,
+          "shotDelay":0.8,
+          "spread":90,
+          "bulletVelocity":160,
+          "lifetime":1.4,
+          "loudness":4
+       },
+       "title":"Desert Eagle",
+       "description":"wah",
+       "datatype":"Handgun",
+       "cost":75,
+       "unlocked":true,
+       "parent":"Handgun",
+       "attachments":[
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"silencer",
+             "unlocked":true,
+             "cost":20
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"heavyRounds",
+             "unlocked":true,
+             "cost":30
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"grip",
+             "unlocked":true,
+             "cost":40
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"longBarrel",
+             "unlocked":true,
+             "cost":50
+          }
+       ]
+    },
+    "uzi":{
+       "stats":{
+          "ammoCapacity":8,
+          "reloadSpeed":1.2,
+          "damage":7,
+          "shotDelay":0.6,
+          "spread":110,
+          "bulletVelocity":130,
+          "lifetime":1.1,
+          "loudness":5
+       },
+       "title":"Uzi",
+       "description":"wah",
+       "datatype":"SMG",
+       "cost":90,
+       "unlocked":true,
+       "parent":"SMG",
+       "attachments":[
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"silencer",
+             "unlocked":true,
+             "cost":20
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"heavyRounds",
+             "unlocked":true,
+             "cost":30
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"grip",
+             "unlocked":true,
+             "cost":40
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"longBarrel",
+             "unlocked":true,
+             "cost":50
+          }
+       ]
+    },
+    "compactSmg":{
+       "stats":{
+          "ammoCapacity":6,
+          "reloadSpeed":2.2,
+          "damage":14,
+          "shotDelay":0.8,
+          "spread":90,
+          "bulletVelocity":160,
+          "lifetime":1.4,
+          "loudness":6
+       },
+       "title":"Compact SMG",
+       "description":"wah",
+       "datatype":"SMG",
+       "cost":105,
+       "unlocked":true,
+       "parent":"SMG",
+       "attachments":[
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"silencer",
+             "unlocked":true,
+             "cost":20
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"heavyRounds",
+             "unlocked":true,
+             "cost":30
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"grip",
+             "unlocked":true,
+             "cost":40
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"longBarrel",
+             "unlocked":true,
+             "cost":50
+          }
+       ]
+    },
+    "heavySmg":{
+       "stats":{
+          "ammoCapacity":4,
+          "reloadSpeed":3.2,
+          "damage":21,
+          "shotDelay":1,
+          "spread":70,
+          "bulletVelocity":190,
+          "lifetime":1.7,
+          "loudness":7
+       },
+       "title":"Heavy SMG",
+       "description":"wah",
+       "datatype":"SMG",
+       "cost":120,
+       "unlocked":true,
+       "parent":"SMG",
+       "attachments":[
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"silencer",
+             "unlocked":true,
+             "cost":20
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"heavyRounds",
+             "unlocked":true,
+             "cost":30
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"grip",
+             "unlocked":true,
+             "cost":40
+          },
+          {
+             "stats":{
+                "ammoCapacity":0,
+                "reloadSpeed":0,
+                "damage":0,
+                "shotDelay":0,
+                "spread":0,
+                "bulletVelocity":0,
+                "lifetime":0,
+                "loudness":0
+             },
+             "name":"longBarrel",
+             "unlocked":true,
+             "cost":50
+          }
+       ]
     }
-}
+ }
