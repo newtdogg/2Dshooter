@@ -61,8 +61,6 @@ public abstract class Gun : MonoBehaviour {
     }
 
     public virtual void shootingGunCheck () {
-        // Debug.Log(reloadTimer);
-        // Debug.Log(shooting);
         if(reloadTimer < 0 && shooting < 0) {
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
             var spread = rand.Next(0, (int)currentStats.spread);
@@ -81,8 +79,6 @@ public abstract class Gun : MonoBehaviour {
     }
 
     private void directionallyShootGun(Vector2 bPos, Vector2 bDir) {
-        // Debug.Log($"{currentStats.ammoCapacity}, {currentStats.reloadSpeed}, {currentStats.damage}, {currentStats.shotDelay}, {currentStats.spread}, {currentStats.bulletVelocity}, {currentStats.lifetime}, {currentStats.loudness}");
-        // Debug.Log($"{statsBaseState.ammoCapacity}, {statsBaseState.reloadSpeed}, {statsBaseState.damage}, {statsBaseState.shotDelay}, {statsBaseState.spread}, {statsBaseState.bulletVelocity}, {statsBaseState.lifetime}, {statsBaseState.loudness}");
         bulletProperties = new Dictionary<string, bool>();
         foreach(var property in bulletObject.GetComponent<Bullet>().defaultProperties) {
             bulletProperties.Add(property.Key, property.Value);
@@ -129,9 +125,4 @@ public abstract class Gun : MonoBehaviour {
     public void setPlayerController(PlayerController pc) {
         playerController = pc;
     }
-
-    // public void getBulletTypes() {
-    //     var bullets = GameObject.Find("Bullets");
-    //     bulletTypes
-    // }
 }
