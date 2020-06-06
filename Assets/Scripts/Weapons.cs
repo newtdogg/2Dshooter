@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class Weapons {
@@ -10,7 +11,7 @@ public class Weapons {
 	public Weapon Pistol { get { return pistol; } }
 	public Weapon Magnum44 { get { return magnum44; } }
 	public Weapon Shotgun { get { return shotgun; } }
-	public Weapon Autopistol { get { return autopistol; } }
+	public Weapon AutoPistol { get { return autopistol; } }
 }
 
 [System.Serializable]
@@ -23,13 +24,36 @@ public class WeaponStats {
 	public float bulletVelocity;
 	public float lifetime;
 	public float loudness;
+
+	public WeaponStats duplicateStats() {
+		var newStats = new WeaponStats();
+		newStats.ammoCapacity = this.ammoCapacity;
+		newStats.reloadSpeed = this.reloadSpeed;
+		newStats.damage = this.damage;
+		newStats.shotDelay = this.shotDelay;
+		newStats.spread = this.spread;
+		newStats.bulletVelocity = this.bulletVelocity;
+		newStats.lifetime = this.lifetime;
+		newStats.loudness = this.loudness;
+		return newStats;
+	}
 }
 
 [System.Serializable]
 public class Weapon {
 	public string title;
+	public string description;
 	public bool unlocked;
+	public List<Attachment> attachments;
 	public int cost;
 	public WeaponStats stats;
 	public string type;
+}
+
+[System.Serializable]
+public class Attachment {
+	public string name;
+	public bool unlocked;
+	public WeaponStats stats;
+	public int cost;
 }

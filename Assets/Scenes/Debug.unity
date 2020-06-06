@@ -376,7 +376,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46262004
 GameObject:
@@ -476,7 +476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &54719782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34782,6 +34782,7 @@ Transform:
   - {fileID: 1217425941}
   - {fileID: 1365804077}
   - {fileID: 1360264742}
+  - {fileID: 1954941810}
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -35673,7 +35674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &578000237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35686,6 +35687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f04d73c25fe4b09ae343c952385bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 0
 --- !u!61 &578000238
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -35759,7 +35761,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &578000240
@@ -35774,7 +35776,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &578582212
 GameObject:
@@ -47418,7 +47420,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1217425939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5da39ed1849348968251bd6b4fff64f, type: 3}
+  m_Script: {fileID: 11500000, guid: 92696dfb09363463aa11b37f4f452899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1217425941
@@ -47948,7 +47950,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1360264741}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c162a381b22244ceb9df73a87c14c748, type: 3}
+  m_Script: {fileID: 11500000, guid: cff9bd5097acb42cb9dc27ee82857665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chance: 0
@@ -47978,7 +47980,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1365804075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73da290c3241647458f5f4e655dbc500, type: 3}
+  m_Script: {fileID: 11500000, guid: 58f8d00e08160444288b1430de3cb14d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1365804077
@@ -49904,72 +49906,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1899010226
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1899010229}
-  - component: {fileID: 1899010228}
-  - component: {fileID: 1899010227}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1899010227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1899010226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &1899010228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1899010226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &1899010229
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1899010226}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1908490085
@@ -50095,13 +50031,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 1917801757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34cb79949aaabb943bb569952241c015, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ec475191b6cd4b13a42f02a30c9edd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: 
+  description: 
+  unlocked: 0
+  attachments: []
+  cost: 0
+  type: 
   shooting: 0
   ammoQuantity: 0
   reloadTimer: 0
-  stats:
+  baseStats:
+    ammoCapacity: 0
+    reloadSpeed: 0
+    damage: 0
+    shotDelay: 0
+    spread: 0
+    bulletVelocity: 0
+    lifetime: 0
+    loudness: 0
+  currentStatsBaseState:
+    ammoCapacity: 0
+    reloadSpeed: 0
+    damage: 0
+    shotDelay: 0
+    spread: 0
+    bulletVelocity: 0
+    lifetime: 0
+    loudness: 0
+  currentStats:
     ammoCapacity: 0
     reloadSpeed: 0
     damage: 0
@@ -50280,6 +50240,59 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1954941809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1954941810}
+  - component: {fileID: 1954941811}
+  m_Layer: 0
+  m_Name: GunStatChange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1954941810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954941809}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 380332391}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1954941811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954941809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16bcb2c4cdfe9475b8ff6d893471404d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsUpdated: 0
+  statsToUpdate:
+    ammoCapacity: 0
+    reloadSpeed: 0
+    damage: 0
+    shotDelay: 0
+    spread: 0
+    bulletVelocity: 0
+    lifetime: 0
+    loudness: 0
 --- !u!1 &1983920602
 GameObject:
   m_ObjectHideFlags: 0
