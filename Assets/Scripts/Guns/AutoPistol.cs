@@ -14,7 +14,6 @@ public class AutoPistol : Gun
         title = weaponList.AutoPistol.title;
         description = weaponList.AutoPistol.description;
         unlocked = weaponList.AutoPistol.unlocked;
-        attachments = weaponList.AutoPistol.attachments;
         cost = weaponList.AutoPistol.cost;
         type = weaponList.AutoPistol.type;
         ammoQuantity = baseStats.ammoCapacity;

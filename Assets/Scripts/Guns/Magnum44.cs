@@ -15,7 +15,6 @@ public class Magnum44 : Gun
         title = weaponList.Magnum44.title;
         description = weaponList.Magnum44.description;
         unlocked = weaponList.Magnum44.unlocked;
-        attachments = weaponList.Magnum44.attachments;
         cost = weaponList.Magnum44.cost;
         type = weaponList.Magnum44.type;
         ammoQuantity = baseStats.ammoCapacity;
@@ -25,10 +24,10 @@ public class Magnum44 : Gun
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
-        gunPerks = new List<Action<Gun>>();
+        perkList = new List<Action<Gun>>();
         var perks = GameObject.Find("Perks").transform;
         foreach(Transform perk in perks) {
-            gunPerks.Add(perk.gameObject.GetComponent<Perk>().applyGunPerk);
+            perkList.Add(perk.gameObject.GetComponent<Perk>().applyGunPerk);
         };
     }
 }

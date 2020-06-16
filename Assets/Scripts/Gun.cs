@@ -8,7 +8,6 @@ public abstract class Gun : MonoBehaviour {
     public string title;
 	public string description;
 	public bool unlocked;
-	public List<Attachment> attachments;
 	public int cost;
 	public string type;
     public float shooting;
@@ -19,7 +18,7 @@ public abstract class Gun : MonoBehaviour {
     public WeaponStats statsBaseState;
     public WeaponStats currentStats;
     public GameObject bulletDisplay;
-    public List<Action<Gun>> gunPerks;
+    public List<Action<Gun>> perkList;
     private GameObject reloadBulletObject;
     public string ammoType;
     public GameObject ammoClone;
@@ -51,7 +50,7 @@ public abstract class Gun : MonoBehaviour {
         }
     }
     public virtual void reloadMagazine () {
-        Debug.Log("reload");
+        // Debug.Log("reload");
         for (int i = 0; i < currentStats.ammoCapacity; i++) {
             var ammoBullet = Instantiate(ammoClone, new Vector2(2, 0), Quaternion.identity);
             ammoBullet.transform.SetParent(bulletDisplay.transform);
@@ -85,7 +84,7 @@ public abstract class Gun : MonoBehaviour {
         }
         bulletPosition = bPos;
         bulletDirection = bDir;
-        foreach(var perk in gunPerks) {
+        foreach(var perk in perkList) {
             perk(this);
         }
         fireBullet();

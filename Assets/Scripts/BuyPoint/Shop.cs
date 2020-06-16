@@ -5,19 +5,18 @@ using UnityEngine.UI;
 using System.IO;
 using System.Reflection;
 
-public class Shop : MonoBehaviour
+public class Shop : BuyPoint
 {
     // Start is called before the first frame update
     private Weapons weapons;
     private GameObject gunButton;
-    private GameObject player;
     void Start()
     {
         player = GameObject.Find("Player");
         gunButton = transform.GetChild(0).gameObject;
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json"); 
-        weapons = JsonUtility.FromJson<Weapons>(jsonString);    
-        displayGuns();    
+        weapons = JsonUtility.FromJson<Weapons>(jsonString);
+        displayGuns();
     }
 
     // Update is called once per frame
@@ -41,7 +40,9 @@ public class Shop : MonoBehaviour
         button.transform.localPosition = new Vector3(0, 164 - (index * 96));
         button.transform.GetChild(0).gameObject.GetComponent<Text>().text = weapon.title;
         button.transform.GetChild(1).gameObject.GetComponent<Text>().text = weapon.cost.ToString();
-        button.GetComponent<Button>().onClick.AddListener(() => updateGun(weapon.type));
+        var buttonScript = button.GetComponent<Button>();
+        buttonScript.onClick.RemoveAllListeners();
+        buttonScript.GetComponent<Button>().onClick.AddListener(() => updateGun(weapon.script));
     }
 
     public void updateGun(string gun) {
@@ -49,6 +50,4 @@ public class Shop : MonoBehaviour
         Destroy(gunObject.GetComponent<Gun>());
         gunObject.AddComponent(System.Type.GetType(gun));
     }
-
-
 }

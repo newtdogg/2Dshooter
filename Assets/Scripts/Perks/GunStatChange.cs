@@ -10,7 +10,7 @@ public class GunStatChange : Perk {
         statsUpdated = false;
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json");
         var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
-        statsToUpdate = weaponList.Pistol.attachments[0].stats;
+        // statsToUpdate = weaponList.Pistol.attachments[0].stats;
     }
 
     public override void applyGunPerk(Gun gun) {

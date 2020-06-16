@@ -7,7 +7,7 @@ using System;
 public class Pistol : Gun
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json"); 
         var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
@@ -15,7 +15,6 @@ public class Pistol : Gun
         title = weaponList.Pistol.title;
         description = weaponList.Pistol.description;
         unlocked = weaponList.Pistol.unlocked;
-        attachments = weaponList.Pistol.attachments;
         cost = weaponList.Pistol.cost;
         type = weaponList.Pistol.type;
         ammoQuantity = baseStats.ammoCapacity;
@@ -25,11 +24,7 @@ public class Pistol : Gun
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
-        gunPerks = new List<Action<Gun>>();
-        var perks = GameObject.Find("Perks").transform;
-        foreach(Transform perk in perks) {
-            gunPerks.Add(perk.gameObject.GetComponent<Perk>().applyGunPerk);
-        };
+        perkList = new List<Action<Gun>>();
         statsBaseState = baseStats.duplicateStats();
         currentStats = baseStats.duplicateStats();
         reloadMagazine();
