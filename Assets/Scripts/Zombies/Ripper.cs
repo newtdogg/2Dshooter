@@ -14,6 +14,7 @@ public class Ripper : ZombieController
         status = "idle";
         detectionTimer = -1f;
         scrapObject = GameObject.Find("Scrap");
+        recipeObject = GameObject.Find("RecipeObject");
         rbody = gameObject.GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         gameController = GameObject.Find("GameController").GetComponent<GameController>();

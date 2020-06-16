@@ -22,13 +22,12 @@ public class ZombieController : CharacterController
     public Vector2 currentWaypoint;
     public GameObject zombieObj;
     public GameObject scrapObject;
+    public GameObject recipeObject;
 	private Vector2[] path;
 	private int targetIndex;
     public float distance;
     public Tilemap tilemap;
     public int scrap;
-
-
     private float minPathUpdateTime = 0.15f;
 	private float pathUpdateMoveThreshold = 1.1f;
 
@@ -102,6 +101,11 @@ public class ZombieController : CharacterController
     public void dropScrap() {
         var newScrapObj = Instantiate(scrapObject, transform.position, Quaternion.identity) as GameObject;
         newScrapObj.GetComponent<Scrap>().value = scrap;
+    }
+
+    public void dropRecipe() {
+        var newRecipeObj = Instantiate(recipeObject, transform.position, Quaternion.identity) as GameObject;
+        // newRecipeObj.GetComponent<Re>().value = scrap;
     }
 
     public void idleBehaviour() {

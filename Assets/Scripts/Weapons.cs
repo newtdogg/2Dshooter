@@ -44,16 +44,8 @@ public class Weapon {
 	public string title;
 	public string description;
 	public bool unlocked;
-	public List<Attachment> attachments;
 	public int cost;
 	public WeaponStats stats;
 	public string type;
-}
-
-[System.Serializable]
-public class Attachment {
-	public string name;
-	public bool unlocked;
-	public WeaponStats stats;
-	public int cost;
+	public string script;
 }
