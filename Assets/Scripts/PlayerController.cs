@@ -25,18 +25,18 @@ public class PlayerController : CharacterController {
         healthBar = gameObject.transform.GetChild(1).gameObject;
         maxHealth = 100;
         canMove = true;
-        speed = 6;
+        speed = 7.5f;
         scrap = 20;
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
-            { "timeUntilDetection", 6f },
-            { "detectionDistance", 12f },
-            { "attackDistance", 9f }
+            { "timeUntilDetection", 9f },
+            { "detectionDistance", 15f },
+            { "attackDistance", 12f }
         };
         sneakDefault = new Dictionary<string, float>() {
-            { "timeUntilDetection", 6f },
-            { "detectionDistance", 12f },
-            { "attackDistance", 9f }
+            { "timeUntilDetection", 9f },
+            { "detectionDistance", 15f },
+            { "attackDistance", 12f }
         };
     }
 

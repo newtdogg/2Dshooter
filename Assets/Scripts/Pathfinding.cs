@@ -21,6 +21,7 @@ public class Pathfinding : MonoBehaviour
         tilemap = GameObject.Find("DebuggingMap").GetComponent<Tilemap>();
         mapGenerator = debug ? GameObject.Find("DbTm").GetComponent<DebugMap>() : GameObject.Find("Map").GetComponent<MapGenerator>();
         map = mapGenerator.map;
+        Debug.Log(map[20, 20].walkable);
     }
 
     // Update is called once per frame
@@ -28,6 +29,7 @@ public class Pathfinding : MonoBehaviour
         if(!debug) {
             if(mapGenerator.mapGenerated) {
                 map = mapGenerator.map;
+                Debug.Log(map);
             }
         }
     }
@@ -45,9 +47,10 @@ public class Pathfinding : MonoBehaviour
         startingTile.parent = startingTile;
 
         // Debugging
-        // var tPos = new Vector3Int((int)targetPosition.x, (int)targetPosition.y, 0);
-        // tilemap.SetTileFlags(tPos, TileFlags.None);
-        // tilemap.SetColor(tPos, new Color(0.74f, 0.23f, 0.1f, 1f));
+        var tPos = new Vector3Int((int)targetPosition.x, (int)targetPosition.y, 0);
+        tilemap.SetTileFlags(tPos, TileFlags.None);
+        tilemap.SetColor(tPos, new Color(0.74f, 0.23f, 0.1f, 1f));
+        Debug.Log(endTile.walkable);
 
         if(startingTile.walkable && endTile.walkable) {
             Heap<WorldTile> openSet = new Heap<WorldTile>(mapGenerator.width * mapGenerator.height);
@@ -61,7 +64,7 @@ public class Pathfinding : MonoBehaviour
 
             //     // NOTE Debugging
             //     // Debug.Log(currentWorldTile.worldPosition);
-            //     // setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
+                setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
 
                 if ((Mathf.Floor(currentWorldTile.worldPosition.x) == Mathf.Floor(targetPosition.x)) &&
                     (Mathf.Floor(currentWorldTile.worldPosition.y) == Mathf.Floor(targetPosition.y))) {
@@ -92,6 +95,7 @@ public class Pathfinding : MonoBehaviour
         }
         yield return null;
         if(pathSuccess) {
+            Debug.Log(pathSuccess);
             waypoints = retracePath(startingTile, endTile);
         }
         requestManager.FinishedProcessingPath(waypoints, pathSuccess); 

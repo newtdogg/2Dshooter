@@ -46,9 +46,77 @@ public class MapGenerator : MonoBehaviour {
 	private TileBase[,] primaryGrassEdges;
 	private TileBase[,] secondaryGrassEdges;
 	private TileBase[,] treeGrassEdges;
+	public GameObject shop;
+	public GameObject craftingStation;
 	private List<GameObject> trees;
 	public bool mapGenerated;
+
 	// private List<GameObject> shrubs;
+
+
+
+	public void generateSpawner(int spawnerInt, int posX, int posY) {
+		var spawnerClone = Instantiate(GameObject.Find("Spawner"), new Vector2(posX, posY), Quaternion.identity) as GameObject;
+		var spawnerScript = spawnerClone.GetComponent<Spawner>();
+		var spawnerIntStr = spawnerInt.ToString();
+		spawnerScript.width = Int16.Parse(spawnerIntStr.Substring(0,2));
+		spawnerScript.height = Int16.Parse(spawnerIntStr.Substring(2,2));
+		spawnerScript.initialZombieSpawn = Int16.Parse(spawnerIntStr.Substring(4,1));
+		spawnerScript.zombieType = Int16.Parse(spawnerIntStr.Substring(5,1));
+		var col = spawnerClone.GetComponent<BoxCollider2D>();
+		col.size = new Vector2(spawnerScript.width, spawnerScript.height);
+		col.offset = new Vector2(spawnerScript.width/2, spawnerScript.height/2);
+		spawnerScript.spawnInitialZombies();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	///////////////////////
+	// WHAT IS THIS SHIT //
+	///////////////////////
+
 	void Start() {
 		// useRandomSeed = true;
 		width = 101;
@@ -122,16 +190,6 @@ public class MapGenerator : MonoBehaviour {
 		GenerateMap();
 		mapGenerated = true;
 	}
-
-	void Update() {
-		// var mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // Debug.Log(new Vector3Int(Mathf.FloorToInt(mousePoint.x), Mathf.FloorToInt(mousePoint.y), 0));
-		// if (Input.GetMouseButtonDown(0)) {
-		// 	seed += 1;
-		// 	GenerateMap();
-		// }
-	}
-
 	void GenerateMap() {
 		map = new WorldTile[width,height];
 		RandomFillMap();

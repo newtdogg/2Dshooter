@@ -1425,7 +1425,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218963397}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -14}
+  m_LocalPosition: {x: 0, y: -0.0000009536743, z: -14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1983920607}
@@ -1500,7 +1500,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 14
+  orthographic size: 16
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1751,6 +1751,33 @@ Tilemap:
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       m_AllTileFlags: 1073741825
+  - first: {x: 163, y: 169, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      m_AllTileFlags: 1073741825
+  - first: {x: 264, y: 287, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      m_AllTileFlags: 1073741825
+  - first: {x: 264, y: 288, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
@@ -1759,6 +1786,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: bdd06c711cb1b44d0845a837d44b313f, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: f1e29e95d1a22430abc08998df9dd9df, type: 2}
+  - m_RefCount: 3
+    m_Data: {fileID: 11400000, guid: 5c0827343cd134e809cd42343a8e5a84, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: 21300370, guid: a0777e18b643d483bad5b0a50cc8500f, type: 3}
@@ -1766,8 +1795,10 @@ Tilemap:
     m_Data: {fileID: 21300084, guid: a0777e18b643d483bad5b0a50cc8500f, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300166, guid: a0777e18b643d483bad5b0a50cc8500f, type: 3}
-  m_TileMatrixArray:
   - m_RefCount: 3
+    m_Data: {fileID: 21300358, guid: a0777e18b643d483bad5b0a50cc8500f, type: 3}
+  m_TileMatrixArray:
+  - m_RefCount: 6
     m_Data:
       e00: 1
       e01: 0
@@ -1786,13 +1817,13 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 3
+  - m_RefCount: 6
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -4, y: -30, z: 0}
-  m_Size: {x: 105, y: 131, z: 1}
+  m_Size: {x: 269, y: 319, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -47899,12 +47930,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.010603428, y: 59.995205}
-      - {x: -0.0252586, y: -0.02925536}
-      - {x: -0.00025981665, y: -0.025649905}
-      - {x: 0.17829716, y: -0.025649786}
-      - {x: 60.002052, y: -0.015922904}
-      - {x: 60.035564, y: 60.054672}
+    - - {x: -0.0038279295, y: 1.002945}
+      - {x: -0.0036183, y: 0.88684607}
+      - {x: -0.00025981665, y: 0.065460026}
+      - {x: -0.0004172325, y: 0.0048959255}
+      - {x: 0.9910414, y: -0.0013648272}
+      - {x: 0.99554694, y: 1.001893}
 --- !u!4 &1156717556
 Transform:
   m_ObjectHideFlags: 0
@@ -50211,7 +50242,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1983920607}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 14
+    OrthographicSize: 16
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -50232,7 +50263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692069347}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.5, y: 22.9, z: -14}
+  m_LocalPosition: {x: 22, y: 13.199999, z: -14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1146058886}
@@ -50255,7 +50286,7 @@ MonoBehaviour:
   m_BoundingVolume: {fileID: 0}
   m_BoundingShape2D: {fileID: 0}
   m_ConfineScreenEdges: 1
-  m_Damping: 0.51
+  m_Damping: 0
 --- !u!1 &1692543914
 GameObject:
   m_ObjectHideFlags: 0
@@ -51861,7 +51892,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983920602}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.5, y: 22.9, z: 0}
+  m_LocalPosition: {x: 22, y: 13.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1917801758}
