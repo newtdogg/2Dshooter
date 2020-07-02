@@ -16,13 +16,13 @@ public class MapGenerator : MonoBehaviour {
 	public GameObject craftingStation;
 	private Dictionary<string, TileBase> bedrockTypes;
 	public bool mapGenerated;
-
-	// private List<GameObject> shrubs;
+	private GameObject player;
 
 	void Start() {
 		shop = GameObject.Find("Shop");
         craftingStation = GameObject.Find("CraftingStation");
-		mapToCreate = IntroMap.map;
+		player = GameObject.Find("Player");
+		mapToCreate = DebugMap.map;
 		if(generateRandomMap) {
 			// CODE GOES HERE
 		} else {
@@ -123,6 +123,11 @@ public class MapGenerator : MonoBehaviour {
                     case 4:
                         var cS = Instantiate(craftingStation, new Vector2(x, y), Quaternion.identity) as GameObject;
                         break;
+					case 5:
+						gTilemap.SetTile(new Vector3Int(x, y, 0), grass);
+                        worldTileMap[x, y].walkable = true;
+						player.transform.position = new Vector2(x, y);
+						break;
                     default:
                         worldTileMap[x, y] = new WorldTile(1, 0);
                         gTilemap.SetTile(new Vector3Int(x, y, 0), grass);

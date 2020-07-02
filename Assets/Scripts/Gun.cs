@@ -61,6 +61,7 @@ public abstract class Gun : MonoBehaviour {
 
     public virtual void shootingGunCheck () {
         if(reloadTimer < 0 && shooting < 0) {
+            Debug.Log(currentStats);
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
             var spread = rand.Next(0, (int)currentStats.spread);
             float spreadFloat = ((float)spread - currentStats.spread/2)/1000;
