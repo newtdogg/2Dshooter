@@ -19,7 +19,7 @@ public class Lubber : ZombieController
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         health = maxHealth;
-        tilemap = GameObject.Find("DebuggingMap").GetComponent<Tilemap>();
+        tilemap = GameObject.Find("Map").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         // healthBar = gameObject.transform.GetChild(0).gameObject;
         intents = transform.GetChild(1);
         // StartCoroutine(UpdatePath());

@@ -8,7 +8,7 @@
          "spread":110,
          "bulletVelocity":130,
          "lifetime":1.1,
-         "loudness":1
+         "loudness":3
       },
       "title":"Pistol",
       "script": "Pistol",

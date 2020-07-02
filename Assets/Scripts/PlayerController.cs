@@ -11,7 +11,7 @@ public class PlayerController : CharacterController {
     private Gun gun;
     public int scrap;
     private Text scrapText;
-    private float speed;
+    public float speed;
     private GameObject detection;
     public bool canMove;
     
@@ -25,17 +25,17 @@ public class PlayerController : CharacterController {
         healthBar = gameObject.transform.GetChild(1).gameObject;
         maxHealth = 100;
         canMove = true;
-        speed = 7.5f;
+        speed = 22f;
         scrap = 20;
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
             { "timeUntilDetection", 9f },
-            { "detectionDistance", 15f },
+            { "detectionDistance", 18f },
             { "attackDistance", 12f }
         };
         sneakDefault = new Dictionary<string, float>() {
             { "timeUntilDetection", 9f },
-            { "detectionDistance", 15f },
+            { "detectionDistance", 18f },
             { "attackDistance", 12f }
         };
     }
@@ -77,7 +77,7 @@ public class PlayerController : CharacterController {
             if (Input.GetKey(KeyCode.S)) {
                 movementVector += Vector3.down;
             }
-            transform.position = Vector2.MoveTowards(transform.position, transform.position + movementVector, Time.deltaTime * speed);
+            rbody.AddForce(movementVector * speed);
         }
     }
 
@@ -100,9 +100,9 @@ public class PlayerController : CharacterController {
 
     public void resetSneakStats() {
         sneak = new Dictionary<string, float>() {
-            { "timeUntilDetection", 4f },
-            { "detectionDistance", 12f },
-            { "attackDistance", 8f }
+            { "timeUntilDetection", 9f },
+            { "detectionDistance", 18f },
+            { "attackDistance", 12f }
         };
     }
 }

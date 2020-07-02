@@ -8,7 +8,7 @@ public class Ripper : ZombieController
     // Start is called before the first frame update
     void Start()
     {
-        speed = 34;
+        speed = 30;
         maxHealth = 26;
         damage = 15;
         status = "idle";
@@ -20,7 +20,7 @@ public class Ripper : ZombieController
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         health = maxHealth;
-        tilemap = GameObject.Find("DebuggingMap").GetComponent<Tilemap>();
+        tilemap = GameObject.Find("Map").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         // healthBar = gameObject.transform.GetChild(0).gameObject;
         intents = transform.GetChild(1);
         scrap = 15;

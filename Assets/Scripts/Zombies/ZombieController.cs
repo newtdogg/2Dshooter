@@ -67,8 +67,8 @@ public class ZombieController : CharacterController
                     }
                 }
             }
-            tilemap.SetTileFlags(currentWaypointInt, TileFlags.None);
-            tilemap.SetColor(currentWaypointInt, Color.black);
+            // tilemap.SetTileFlags(currentWaypointInt, TileFlags.None);
+            // tilemap.SetColor(currentWaypointInt, Color.black);
             transform.position = Vector3.MoveTowards(transform.position, (Vector3)currentWaypoint, Time.deltaTime * speed/5);
 			yield return null;
 		}
@@ -88,7 +88,6 @@ public class ZombieController : CharacterController
 		while (true) {
 			yield return new WaitForSeconds (minPathUpdateTime);
 			if ((player.transform.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
-                // Debug.Log("new path");
 				PathRequestManager.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
 				targetPosOld = player.transform.position;
 			}
@@ -109,7 +108,6 @@ public class ZombieController : CharacterController
     }
 
     public void idleBehaviour() {
-        // float dist = Vector3.Distance(playerController.transform.position, transform.position);
         if(distance < playerController.getSneakStat("attackDistance")) {
             setAttacking();
         }
@@ -119,7 +117,8 @@ public class ZombieController : CharacterController
         }
         if(detectionTimer > 0) {
             detectionTimer -= Time.deltaTime;
-            if(detectionTimer < playerController.getSneakStat("timeUntilDetection")/2f) {
+            // if(detectionTimer < playerController.getSneakStat("timeUntilDetection")/2f) {
+            if(detectionTimer < (playerController.getSneakStat("timeUntilDetection") - 1)) {
                 transform.position = Vector3.MoveTowards(transform.position, playersLastKnownPosition, Time.deltaTime * 2f);
             }
             if(detectionTimer <= 0) {
@@ -129,6 +128,10 @@ public class ZombieController : CharacterController
                 //     setIdle();
                 }
             }
+        }
+        if(detectionTimer <= 0 && status == "alert") {
+            Debug.Log("alert here");
+            setIdle();
         }
     }
 
@@ -144,16 +147,19 @@ public class ZombieController : CharacterController
         }
     }
     public void setAttacking() {
+        Debug.Log("attacking");
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(true);
         status = "attackNow";
     }
     public void setAlert() {
+        Debug.Log("alert");
         intents.GetChild(0).gameObject.SetActive(true);
         detectionTimer = playerController.getSneakStat("timeUntilDetection");
     }
 
     public void setIdle() {
+        Debug.Log("idle");
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(false);
         status = "idle";
