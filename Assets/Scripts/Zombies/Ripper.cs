@@ -17,10 +17,10 @@ public class Ripper : ZombieController
         recipeObject = GameObject.Find("RecipeObject");
         rbody = gameObject.GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
-        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         health = maxHealth;
-        tilemap = GameObject.Find("Map").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
+        // remove when not needed for debugging
+        tilemap = GameObject.Find("MapGridObject").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         // healthBar = gameObject.transform.GetChild(0).gameObject;
         intents = transform.GetChild(1);
         scrap = 15;
