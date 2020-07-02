@@ -18,7 +18,7 @@ public class Pathfinding : MonoBehaviour
     void Start()
     {
         requestManager = GetComponent<PathRequestManager>();
-        var mapObject = GameObject.Find("Map");
+        var mapObject = GameObject.Find("MapGridObject");
         tilemap = mapObject.transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         mapGenerator = mapObject.GetComponent<MapGenerator>();
         // Debug.Log(map[20, 20].walkable);

@@ -13,7 +13,6 @@ public class ZombieController : CharacterController
     public string status;
     public float detectionTimer;
     public Transform intents;
-    public GameController gameController;
     public bool clone;
     public PlayerController playerController;
     private Vector3 playersLastKnownPosition;

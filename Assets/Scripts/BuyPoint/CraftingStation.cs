@@ -12,7 +12,7 @@ public class CraftingStation : BuyPoint
 
     void Start() {
         player = GameObject.Find("Player");
-        attachmentObject = GameObject.Find("AttachmentObject");
+        attachmentObject = GameObject.Find("Attachment");
         attachmentButton = transform.GetChild(0).gameObject;
     }
 
