@@ -25,9 +25,5 @@ public class Magnum44 : Gun
         reloadTimer = -1;
         shooting = -1f;
         perkList = new List<Action<Gun>>();
-        var perks = GameObject.Find("Perks").transform;
-        foreach(Transform perk in perks) {
-            perkList.Add(perk.gameObject.GetComponent<Perk>().applyGunPerk);
-        };
     }
 }
