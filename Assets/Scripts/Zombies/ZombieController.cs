@@ -149,6 +149,11 @@ public class ZombieController : CharacterController
         Debug.Log("attacking");
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(true);
+        var spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
+        if(!spawner.battleStarted && spawner.walls.Count > 0) {
+            spawner.startBattle();
+        }
+        // startArenaFightCheck();
         status = "attackNow";
     }
     public void setAlert() {

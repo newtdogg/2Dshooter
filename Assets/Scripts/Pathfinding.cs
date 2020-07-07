@@ -8,7 +8,9 @@ public class Pathfinding : MonoBehaviour
 {
     // Start is called before the first frame update
     private MapGenerator mapGenerator;
-    private WorldTile[,] map;
+    private TileTools tileTools;
+    private WorldTile[,] worldTileMap;
+    private Map map;
     private Tilemap tilemap;
     public bool debug;
     private PathRequestManager requestManager;
@@ -21,13 +23,15 @@ public class Pathfinding : MonoBehaviour
         var mapObject = GameObject.Find("MapGridObject");
         tilemap = mapObject.transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         mapGenerator = mapObject.GetComponent<MapGenerator>();
+        map = mapObject.GetComponent<Map>();
+        tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
         // Debug.Log(map[20, 20].walkable);
     }
 
     // Update is called once per frame
     void Update() {
-        if(mapGenerator.mapGenerated && map == null) {
-            map = mapGenerator.map;
+        if(mapGenerator.mapGenerated && worldTileMap == null) {
+            worldTileMap = map.worldTiles;
             // for(var y = 0; y < map.GetLength(0) -1; y++) {
             //     for(var x = 0; x < map.GetLength(1) -1; x++) {
             //         if(map[y,x].walkable) {
@@ -47,8 +51,8 @@ public class Pathfinding : MonoBehaviour
         Vector2[] waypoints = new Vector2[0];
         bool pathSuccess = false;
        
-        var startingTile = map[(int)startingPosition.x, (int)startingPosition.y];
-        var endTile = map[(int)targetPosition.x, (int)targetPosition.y];
+        var startingTile = worldTileMap[(int)startingPosition.x, (int)startingPosition.y];
+        var endTile = worldTileMap[(int)targetPosition.x, (int)targetPosition.y];
         startingTile.parent = startingTile;
 
         // Debugging
@@ -68,7 +72,7 @@ public class Pathfinding : MonoBehaviour
 
                 // NOTE Debugging
                 // Debug.Log(currentWorldTile.worldPosition);
-                // setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
+                // tileTools.setTileColor(tilemap, currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
 
                 if ((Mathf.Floor(currentWorldTile.worldPosition.x) == Mathf.Floor(targetPosition.x)) &&
                     (Mathf.Floor(currentWorldTile.worldPosition.y) == Mathf.Floor(targetPosition.y))) {
@@ -83,7 +87,7 @@ public class Pathfinding : MonoBehaviour
                     int newMovementCostToNeighbour = currentWorldTile.gCost + getDistance(currentWorldTile, neighbour);
                     if(newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)) {
                         neighbour.gCost = newMovementCostToNeighbour;
-                        neighbour.hCost = getDistance(neighbour, map[(int)targetPosition.x, (int)targetPosition.y]);
+                        neighbour.hCost = getDistance(neighbour, worldTileMap[(int)targetPosition.x, (int)targetPosition.y]);
                         neighbour.parent = currentWorldTile;
                         if(!openSet.Contains(neighbour)) {
                             openSet.Add(neighbour);
@@ -163,15 +167,8 @@ public class Pathfinding : MonoBehaviour
     public void resetAllTiles() {
         for(var x = 0; x < 60; x++) {
             for(var y = 0; y < 60; y++) {
-                setTileColor(x, y, new Color(0, 0, 0, 0));
+                tileTools.setTileColor(tilemap, x, y, new Color(0, 0, 0, 0));
             }
         }
     }
-
-    public void setTileColor(float x, float y, Color color) {
-        var pos = new Vector3Int((int)x, (int)y, 0);
-        tilemap.SetTileFlags(pos, TileFlags.None);
-        tilemap.SetColor(pos, color);
-    }
-
 }

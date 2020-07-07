@@ -39,6 +39,5 @@ public class Lubber : ZombieController
         if(health <= 0) {
             Destroy(gameObject);
         }
-        // test
     }
 }
