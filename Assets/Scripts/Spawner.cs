@@ -16,6 +16,7 @@ public class Spawner : MonoBehaviour {
     public bool battleStarted;
     public bool battleCompleted;
     public List<List<Vector2Int>> walls;
+    public LootManager lootManager;
 
     void Awake () {
         walls = new List<List<Vector2Int>>();
@@ -24,6 +25,7 @@ public class Spawner : MonoBehaviour {
             GameObject.Find("Lubber"),
             GameObject.Find("Ripper")
         };
+        lootManager = GameObject.Find("LootManager"). GetComponent<LootManager>();
         zombiesList = transform.GetChild(0);
         tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
     }
@@ -53,6 +55,7 @@ public class Spawner : MonoBehaviour {
 
     public void completeBattle() {
         battleCompleted = true;
+        lootManager.spawnArenaLoot(new Vector3(transform.position.x + width/2, transform.position.y + height/2, 0));
         foreach (var wall in walls) {
             foreach (var block in wall) {
                 tileTools.removeWallTile(block.x, block.y);

@@ -11,6 +11,8 @@ public class Lubber : ZombieController
         speed = 18;
         maxHealth = 80;
         damage = 25;
+        scrapDropMin = 1;
+        scrapDropMax = 4;
         status = "idle";
         detectionTimer = -1f;
         zombieObj = transform.GetChild(0).gameObject;

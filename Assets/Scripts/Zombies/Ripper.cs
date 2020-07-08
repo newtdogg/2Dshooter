@@ -12,6 +12,8 @@ public class Ripper : ZombieController
         maxHealth = 26;
         damage = 15;
         status = "idle";
+        scrapDropMin = 1;
+        scrapDropMax = 3;
         detectionTimer = -1f;
         scrapObject = GameObject.Find("Scrap");
         recipeObject = GameObject.Find("RecipeObject");

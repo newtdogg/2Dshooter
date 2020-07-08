@@ -12,6 +12,8 @@ public class ZombieController : CharacterController
     public float damage;
     public string status;
     public float detectionTimer;
+    public int scrapDropMin;
+    public int scrapDropMax;
     public Transform intents;
     public bool clone;
     public PlayerController playerController;
