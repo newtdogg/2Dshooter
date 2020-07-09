@@ -6,8 +6,9 @@ using UnityEngine.Tilemaps;
 public class ZombieController : CharacterController
 {
     // Start is called before the first frame update
-
+    
     public Rigidbody2D rbody;
+    public string title;
     public GameObject player;
     public float damage;
     public string status;
@@ -28,6 +29,7 @@ public class ZombieController : CharacterController
 	private int targetIndex;
     public float distance;
     public Tilemap tilemap;
+    public LootManager lootManager;
     public int scrap;
     private float minPathUpdateTime = 0.15f;
 	private float pathUpdateMoveThreshold = 1.1f;
@@ -98,10 +100,6 @@ public class ZombieController : CharacterController
             }
 		}
 	}
-    public void dropScrap() {
-        var newScrapObj = Instantiate(scrapObject, transform.position, Quaternion.identity) as GameObject;
-        newScrapObj.GetComponent<Scrap>().value = scrap;
-    }
 
     public void dropRecipe() {
         var newRecipeObj = Instantiate(recipeObject, transform.position, Quaternion.identity) as GameObject;

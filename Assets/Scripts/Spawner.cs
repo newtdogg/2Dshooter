@@ -55,7 +55,7 @@ public class Spawner : MonoBehaviour {
 
     public void completeBattle() {
         battleCompleted = true;
-        lootManager.spawnArenaLoot(new Vector3(transform.position.x + width/2, transform.position.y + height/2, 0));
+        lootManager.dropArenaLoot(new Vector3(transform.position.x + width/2, transform.position.y + height/2, 0));
         foreach (var wall in walls) {
             foreach (var block in wall) {
                 tileTools.removeWallTile(block.x, block.y);
