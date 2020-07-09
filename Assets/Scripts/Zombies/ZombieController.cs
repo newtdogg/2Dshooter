@@ -6,12 +6,15 @@ using UnityEngine.Tilemaps;
 public class ZombieController : CharacterController
 {
     // Start is called before the first frame update
-
+    
     public Rigidbody2D rbody;
+    public string title;
     public GameObject player;
     public float damage;
     public string status;
     public float detectionTimer;
+    public int scrapDropMin;
+    public int scrapDropMax;
     public Transform intents;
     public bool clone;
     public PlayerController playerController;
@@ -26,6 +29,7 @@ public class ZombieController : CharacterController
 	private int targetIndex;
     public float distance;
     public Tilemap tilemap;
+    public LootManager lootManager;
     public int scrap;
     private float minPathUpdateTime = 0.15f;
 	private float pathUpdateMoveThreshold = 1.1f;
@@ -96,10 +100,6 @@ public class ZombieController : CharacterController
             }
 		}
 	}
-    public void dropScrap() {
-        var newScrapObj = Instantiate(scrapObject, transform.position, Quaternion.identity) as GameObject;
-        newScrapObj.GetComponent<Scrap>().value = scrap;
-    }
 
     public void dropRecipe() {
         var newRecipeObj = Instantiate(recipeObject, transform.position, Quaternion.identity) as GameObject;
@@ -149,6 +149,11 @@ public class ZombieController : CharacterController
         Debug.Log("attacking");
         intents.GetChild(0).gameObject.SetActive(false);
         intents.GetChild(1).gameObject.SetActive(true);
+        var spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
+        if(!spawner.battleStarted && spawner.walls.Count > 0) {
+            spawner.startBattle();
+        }
+        // startArenaFightCheck();
         status = "attackNow";
     }
     public void setAlert() {

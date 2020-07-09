@@ -13,7 +13,7 @@ public class BuffObject : Pickup {
 
     public override void pickupItem(GameObject player) {
         foreach (Transform child in player.transform) {
-            if (child.name == type) {
+            if (child.name.Contains(type)) {
                 transform.SetParent(child);
                 player.transform.GetChild(0).gameObject.GetComponent<Gun>().perkList.Add(gameObject.GetComponent<Perk>().applyGunPerk);
                 gameObject.GetComponent<BoxCollider2D>().enabled = false;
