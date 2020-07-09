@@ -29,7 +29,7 @@ public class ZombieController : CharacterController
 	private int targetIndex;
     public float distance;
     public Tilemap tilemap;
-    public LootManager lootManager;
+    public LootController lootController;
     public int scrap;
     private float minPathUpdateTime = 0.15f;
 	private float pathUpdateMoveThreshold = 1.1f;
@@ -83,7 +83,7 @@ public class ZombieController : CharacterController
 			yield return new WaitForSeconds (0.3f);
 		}
 
-		PathRequestManager.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
+		PathRequestController.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
 
 		float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
 		Vector3 targetPosOld = player.transform.position;
@@ -91,7 +91,7 @@ public class ZombieController : CharacterController
 		while (true) {
 			yield return new WaitForSeconds (minPathUpdateTime);
 			if ((player.transform.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
-				PathRequestManager.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
+				PathRequestController.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
 				targetPosOld = player.transform.position;
 			}
             if(distance < 5) {

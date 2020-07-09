@@ -9,7 +9,7 @@ public class Ripper : ZombieController
     void Start()
     {
         title = "Ripper";
-        speed = 30;
+        speed = 20;
         maxHealth = 26;
         damage = 15;
         status = "idle";
@@ -21,7 +21,7 @@ public class Ripper : ZombieController
         rbody = gameObject.GetComponent<Rigidbody2D>();
         if(gameObject.name == $"{title}(Clone)") {
             Debug.Log(transform.parent.parent.gameObject);
-            lootManager = transform.parent.parent.gameObject.GetComponent<Spawner>().lootManager;
+            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
         }
         player = GameObject.Find("Player");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -47,7 +47,7 @@ public class Ripper : ZombieController
         }
         if(health <= 0) {
             Destroy(gameObject);
-            lootManager.dropZombieLoot(transform.position);
+            lootController.dropZombieLoot(transform.position);
         }
     }
 }

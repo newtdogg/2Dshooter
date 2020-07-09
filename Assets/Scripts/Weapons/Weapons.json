@@ -1,0 +1,59 @@
+{
+   "pistol":{
+      "stats":{
+         "ammoCapacity":8,
+         "reloadSpeed":1.2,
+         "damage":7,
+         "shotDelay":0.6,
+         "spread":110,
+         "bulletVelocity":130,
+         "lifetime":1.1,
+         "loudness":3
+      },
+      "title":"Pistol",
+      "script": "Pistol",
+      "description":"wah",
+      "type":"Handgun",
+      "cost":30,
+      "unlocked":true,
+      "parent":"Handgun"
+   },
+   "revolver44":{
+      "stats":{
+         "ammoCapacity":6,
+         "reloadSpeed":2.2,
+         "damage":14,
+         "shotDelay":0.8,
+         "spread":90,
+         "bulletVelocity":160,
+         "lifetime":1.4,
+         "loudness":2
+      },
+      "title":".44 Revolver",
+      "script": "Magnum44",
+      "description":"wah",
+      "type":"Handgun",
+      "cost":45,
+      "unlocked":true,
+      "parent":"Handgun"
+   },
+   "autopistol":{
+      "stats":{
+         "ammoCapacity":16,
+         "reloadSpeed":1.2,
+         "damage":5,
+         "shotDelay":0.2,
+         "spread":110,
+         "bulletVelocity":130,
+         "lifetime":1.1,
+         "loudness":3
+      },
+      "title":"Auto-Pistol",
+      "script": "AutoPistol",
+      "description":"wah",
+      "type":"Handgun",
+      "cost":60,
+      "unlocked":true,
+      "parent":"Handgun"
+   }
+}
