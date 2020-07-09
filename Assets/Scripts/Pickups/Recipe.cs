@@ -11,7 +11,7 @@ public class Recipe : Pickup {
     void Start()
     {
         type = "Recipe";
-        var jsonString = File.ReadAllText("./Assets/Scripts/Attachments.json");
+        var jsonString = File.ReadAllText("./Assets/Scripts/Attachments/Attachments.json");
         var attachmentJson = JsonUtility.FromJson<Attachments>(jsonString);
         gunType = GameObject.Find("Gun").GetComponent<Gun>().type;
         attachmentsAvailable = generateAvailableAttachments(attachmentJson);

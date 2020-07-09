@@ -8,7 +8,7 @@ public class GunStatChange : Perk {
     public WeaponStats statsToUpdate;
     void Start() {
         statsUpdated = false;
-        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json");
+        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json");
         var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
         // statsToUpdate = weaponList.Pistol.attachments[0].stats;
     }

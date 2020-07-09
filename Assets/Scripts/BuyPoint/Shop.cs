@@ -14,7 +14,7 @@ public class Shop : BuyPoint
     {
         player = GameObject.Find("Player");
         gunButton = transform.GetChild(0).gameObject;
-        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons.json"); 
+        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json"); 
         weapons = JsonUtility.FromJson<Weapons>(jsonString);
         displayGuns();
     }
