@@ -8,7 +8,7 @@ public class Ripper : ZombieController
     // Start is called before the first frame update
     void Start()
     {
-        title = "Ripper";
+        title = "MobRipper";
         speed = 20;
         maxHealth = 26;
         damage = 15;
@@ -16,11 +16,12 @@ public class Ripper : ZombieController
         scrapDropMin = 1;
         scrapDropMax = 3;
         detectionTimer = -1f;
+        canMove = true;
         scrapObject = GameObject.Find("Scrap");
         recipeObject = GameObject.Find("RecipeObject");
         rbody = gameObject.GetComponent<Rigidbody2D>();
         if(gameObject.name == $"{title}(Clone)") {
-            Debug.Log(transform.parent.parent.gameObject);
+            spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
             lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
         }
         player = GameObject.Find("Player");
@@ -37,6 +38,7 @@ public class Ripper : ZombieController
         distance = Vector3.Distance(transform.position, player.transform.position);
         switch (status) {
             case "attackNow":
+                Debug.Log("here");
                 StopCoroutine("UpdatePath");
                 StartCoroutine("UpdatePath");
                 status = "attacking";

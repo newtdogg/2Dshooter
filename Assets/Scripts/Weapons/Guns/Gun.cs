@@ -106,10 +106,12 @@ public abstract class Gun : MonoBehaviour {
 
     public void fireBullet () {
         GameObject bullet = Instantiate(bulletObject, bulletPosition, Quaternion.identity) as GameObject;
-        bullet.GetComponent<Bullet>().properties = bulletProperties;
-        // Debug.Log(bullet.GetComponent<Bullet>().properties["poison"]);
+        var bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.properties = bulletProperties;
+        // Debug.Log(bulletScript.properties["poison"]);
         bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity);
-        bullet.GetComponent<Bullet>().setLifetime(currentStats.lifetime);
+        bulletScript.setLifetime(currentStats.lifetime);
+        bulletScript.parent = gameObject.name;
     }
 
     public virtual void reload () {
