@@ -5,12 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class Weapons {
 	public Weapon pistol;
-	public Weapon magnum44;
-	public Weapon shotgun;
+	public Weapon revolver44;
+	// public Weapon shotgun;
 	public Weapon autopistol;
 	public Weapon Pistol { get { return pistol; } }
-	public Weapon Magnum44 { get { return magnum44; } }
-	public Weapon Shotgun { get { return shotgun; } }
+	public Weapon Revolver44 { get { return revolver44; } }
+	// public Weapon Shotgun { get { return shotgun; } }
 	public Weapon AutoPistol { get { return autopistol; } }
 }
 

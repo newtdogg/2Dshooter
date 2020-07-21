@@ -33,14 +33,17 @@ public class LootController : MonoBehaviour {
         };
     }
 
-    public void generateLoot(string lootType, Vector3 position, int quantity = 1, int spawnArea = 1) {
+    public void generateLoot(string lootType, Vector3 position, int quantity = 1, int spawnArea = 1, int value = 0) {
         for(var i = 0; i < quantity; i++) {
             var areaRadius = spawnArea * 50;
             var randX = new System.Random((int)System.DateTime.Now.Ticks + i);
             var randY = new System.Random((int)System.DateTime.Now.Ticks - i);
             var spawnX = randX.Next((int)(position.x * 100 - areaRadius), (int)(position.x * 100 + areaRadius));
             var spawnY = randY.Next(((int)position.y * 100 - areaRadius), ((int)position.y * 100 + areaRadius));
-            Instantiate(lootTypes[lootType], new Vector3((float)spawnX/100, (float)spawnY/100, 0), Quaternion.identity);
+            var lootItem = Instantiate(lootTypes[lootType], new Vector3((float)spawnX/100, (float)spawnY/100, 0), Quaternion.identity);
+            if(lootType == "scrap") {
+                lootItem.GetComponent<Scrap>().value = value;
+            }
         }
     }
 
@@ -57,7 +60,7 @@ public class LootController : MonoBehaviour {
     public void generateScrapPile(string type, Vector3 position) {
         var rand = new System.Random((int)System.DateTime.Now.Ticks);
         var scrapQuantity = rand.Next(stats[type]["scrapMin"], stats[type]["scrapMax"]);
-        generateLoot("scrap", new Vector3(position.x, position.y - 0.8f, 0), scrapQuantity);
+        generateLoot("scrap", new Vector3(position.x, position.y - 0.8f, 0), scrapQuantity, 1, stats[type]["scrapValue"]);
     }
 
     public void generateLootFromDropchance(string type, Vector3 position, string loot) {

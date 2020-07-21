@@ -29,13 +29,11 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name != parent) {
             if(gameObject.name == "DoCBullet(Clone)" && col.gameObject.name != "DoCBullet(Clone)") {
-                Debug.Log(col.gameObject.name);
                 Destroy (gameObject);
             }
             if(col.gameObject.name.Contains("Mob")) {
                 var colliderScript = col.gameObject.GetComponent<AIController>();
                 colliderScript.health -= colliderScript.playerController.getGun().currentStats.damage;
-                Debug.Log(colliderScript.health);
             }
             if(col.gameObject.name.Contains("Player")){
                 var colliderScript = col.gameObject.GetComponent<PlayerController>();

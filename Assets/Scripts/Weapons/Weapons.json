@@ -30,7 +30,7 @@
          "loudness":2
       },
       "title":".44 Revolver",
-      "script": "Magnum44",
+      "script": "Revolver44",
       "description":"wah",
       "type":"Handgun",
       "cost":45,

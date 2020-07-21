@@ -14,9 +14,11 @@ public class Shop : BuyPoint
     {
         player = GameObject.Find("Player");
         gunButton = transform.GetChild(0).gameObject;
-        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json"); 
+        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/Weapons.json"); 
         weapons = JsonUtility.FromJson<Weapons>(jsonString);
-        displayGuns();
+        if(gameObject.name.Contains("(Clone)")) {
+            displayGuns();
+        }
     }
 
     // Update is called once per frame
@@ -28,16 +30,18 @@ public class Shop : BuyPoint
     public void displayGuns() {
         var index = 0;
         foreach (var weapon in weapons.GetType().GetProperties()) {
-            generateGunButtonInShop(weapon.GetValue(weapons) as Weapon, index);
+            var weaponScript = weapon.GetValue(weapons) as Weapon;
+            generateGunButtonInShop(weaponScript, index);
             index += 1;
         }
+        Debug.Log(index);
     }
 
     public void generateGunButtonInShop(Weapon weapon, int index) {
         var button = Instantiate(gunButton, new Vector2(2, 0), Quaternion.identity);
         button.transform.SetParent(transform.GetChild(1));
         button.transform.localScale = new Vector3(1, 1, 1);
-        button.transform.localPosition = new Vector3(0, 164 - (index * 96));
+        button.transform.localPosition = new Vector3(0, 164 - (index * 120));
         button.transform.GetChild(0).gameObject.GetComponent<Text>().text = weapon.title;
         button.transform.GetChild(1).gameObject.GetComponent<Text>().text = weapon.cost.ToString();
         var buttonScript = button.GetComponent<Button>();

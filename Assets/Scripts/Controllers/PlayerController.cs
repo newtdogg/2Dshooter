@@ -95,6 +95,7 @@ public class PlayerController : CharacterController {
 
     public void updateScrap(int amount) {
         scrap += amount;
+        Debug.Log(scrap);
         scrapText.text = scrap.ToString();
     }
 
