@@ -9,10 +9,12 @@ public class Shop : BuyPoint
 {
     // Start is called before the first frame update
     private Weapons weapons;
+    private PlayerController playerController;
     private GameObject gunButton;
     void Start()
     {
         player = GameObject.Find("Player");
+        playerController = player.GetComponent<PlayerController>();
         gunButton = transform.GetChild(0).gameObject;
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/Weapons.json"); 
         weapons = JsonUtility.FromJson<Weapons>(jsonString);
@@ -46,12 +48,16 @@ public class Shop : BuyPoint
         button.transform.GetChild(1).gameObject.GetComponent<Text>().text = weapon.cost.ToString();
         var buttonScript = button.GetComponent<Button>();
         buttonScript.onClick.RemoveAllListeners();
-        buttonScript.GetComponent<Button>().onClick.AddListener(() => updateGun(weapon.script));
+        buttonScript.GetComponent<Button>().onClick.AddListener(() => updateGun(weapon.script, weapon.cost));
     }
 
-    public void updateGun(string gun) {
-        var gunObject = player.transform.GetChild(0).gameObject;
-        Destroy(gunObject.GetComponent<Gun>());
-        gunObject.AddComponent(System.Type.GetType(gun));
+    public void updateGun(string gun, int cost) {
+        if(playerController.scrap > cost) {
+            var gunObject = player.transform.GetChild(0).gameObject;
+            Destroy(gunObject.GetComponent<Gun>());
+            gunObject.AddComponent(System.Type.GetType(gun));
+            playerController.updateScrap(-cost);
+        }
+        
     }
 }

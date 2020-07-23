@@ -8,6 +8,7 @@ public class PlayerController : CharacterController {
     private Rigidbody2D rbody;
     private Dictionary<string,float> sneak;
     private Dictionary<string,float> sneakDefault;
+
     private Gun gun;
     public int scrap;
     private Text scrapText;
@@ -18,11 +19,11 @@ public class PlayerController : CharacterController {
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();
         gun = transform.GetChild(0).gameObject.GetComponent<Gun>();
-        detection = transform.GetChild(3).gameObject;
+        detection = transform.GetChild(2).gameObject;
         gun.reloadMagazine();
         gun.setPlayerController(this);
-        scrapText = transform.GetChild(4).GetChild(1).gameObject.GetComponent<Text>();
-        healthBar = gameObject.transform.GetChild(1).gameObject;
+        scrapText = transform.GetChild(3).GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
+        healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         maxHealth = 100;
         canMove = true;
         speed = 22f;
@@ -95,8 +96,18 @@ public class PlayerController : CharacterController {
 
     public void updateScrap(int amount) {
         scrap += amount;
-        Debug.Log(scrap);
         scrapText.text = scrap.ToString();
+    }
+
+    public void updateHealth(float amount) {
+        health = health + amount > maxHealth ? maxHealth : health += amount;
+        Debug.Log(health);
+        var healthPercentage = health/maxHealth * 100f;
+        Debug.Log(healthPercentage);
+        var maxWidth = 260f;
+        float percentageWidth = (maxWidth/100f) * healthPercentage;
+        healthBar.GetComponent<RectTransform>().localPosition = new Vector3(-((maxWidth - percentageWidth)/ 2f), 0, 0);
+        healthBar.GetComponent<RectTransform>().sizeDelta = new Vector3(percentageWidth, 42, 0);
     }
 
     public void resetSneakStats() {
