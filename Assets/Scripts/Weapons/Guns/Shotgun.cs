@@ -8,12 +8,12 @@ public class Shotgun : Gun
     // Start is called before the first frame update
     private int buck;
     void Start() {
-        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json"); 
-        var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
-        baseStats = weaponList.Shotgun.stats;
+        // var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json"); 
+        // var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
+        // baseStats = weaponList.Shotgun.stats;
         bulletDisplay = transform.GetChild(0).gameObject;
         reloadBar = transform.GetChild(1).gameObject;
-        bulletObject = GameObject.Find("Bullet");
+        bulletObject = GameObject.Find("DoCBullet");
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;

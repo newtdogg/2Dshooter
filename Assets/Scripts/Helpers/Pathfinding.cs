@@ -119,7 +119,7 @@ public class Pathfinding : MonoBehaviour
             path.Add(currentWorldTile);
 
             // DEBUGGING
-            // setTileColor(currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.34f, 0.43f, 0.47f, 1f));
+            // tileTools.setTileColor(tilemap, currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.34f, 0.43f, 0.47f, 1f));
 
             currentWorldTile = currentWorldTile.parent;
         }

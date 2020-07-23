@@ -20,7 +20,7 @@ public class AutoPistol : Gun
         ammoQuantity = baseStats.ammoCapacity;
         bulletDisplay = transform.GetChild(0).gameObject;
         reloadBar = transform.GetChild(1).gameObject;
-        bulletObject = GameObject.Find("Bullet");
+        bulletObject = GameObject.Find("DoCBullet");
         ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
