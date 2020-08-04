@@ -26,6 +26,7 @@ public class Ripper : ZombieController
         }
         player = GameObject.Find("Player");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        contactController = playerController.transform.GetChild(3).GetChild(2).gameObject.GetComponent<ContactController>();
         health = maxHealth;
         // remove when not needed for debugging
         tilemap = GameObject.Find("MapGridObject").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
@@ -38,7 +39,6 @@ public class Ripper : ZombieController
         distance = Vector3.Distance(transform.position, player.transform.position);
         switch (status) {
             case "attackNow":
-                Debug.Log("here");
                 StopCoroutine("UpdatePath");
                 StartCoroutine("UpdatePath");
                 status = "attacking";
