@@ -17,6 +17,8 @@ public class ZombieController : AIController
     public GameObject recipeObject;
     public Tilemap tilemap;
     public int scrap;
+    public ContactController contactController;
+
 
 
     public void idleBehaviour() {
@@ -49,8 +51,8 @@ public class ZombieController : AIController
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Player") {
-            Debug.Log("kill");
             playerController.canMove = false;
+            contactController.updateBrawlStatus(gameObject);
             StopCoroutine("FollowPath");
         }
     }

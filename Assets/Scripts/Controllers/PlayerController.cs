@@ -22,7 +22,7 @@ public class PlayerController : CharacterController {
         detection = transform.GetChild(2).gameObject;
         gun.reloadMagazine();
         gun.setPlayerController(this);
-        scrapText = transform.GetChild(3).GetChild(0).GetChild(0).gameObject.GetComponent<Text>();
+        scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         maxHealth = 100;
         canMove = true;
@@ -78,7 +78,7 @@ public class PlayerController : CharacterController {
             if (Input.GetKey(KeyCode.S)) {
                 movementVector += Vector3.down;
             }
-            rbody.AddForce(movementVector * speed);
+            rbody.AddForce(movementVector.normalized * speed);
         }
     }
 
@@ -117,4 +117,6 @@ public class PlayerController : CharacterController {
             { "attackDistance", 12f }
         };
     }
+
+
 }

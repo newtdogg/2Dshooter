@@ -116,7 +116,7 @@ public class AIController : MonoBehaviour
 				targetPosOld = player.transform.position;
 			}
             if(distance < 5) {
-                Debug.Log("chasing");
+                // Debug.Log("chasing");
                 currentWaypoint = player.transform.position;
             }
 		}
