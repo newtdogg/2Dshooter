@@ -21,6 +21,7 @@ public class AIController : MonoBehaviour
 	private int targetIndex;
     public float distance;
     public Spawner spawner;
+    public GameObject bullet;
     public GameObject player;
     public PlayerController playerController;
     public Rigidbody2D rbody;

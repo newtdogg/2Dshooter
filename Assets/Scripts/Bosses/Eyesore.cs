@@ -6,7 +6,6 @@ using System;
 
 public class Eyesore : MiniBoss {
     private int sprayCount;
-    private GameObject bullet;
 
     void Start() {
         attacks = new List<Action>() { attackShockwave, attackDash, attackSprayBullets };

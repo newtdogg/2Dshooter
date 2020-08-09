@@ -9,9 +9,11 @@ public class ZombieController : AIController
     
     public float damage;
     public int scrapDropMin;
+    public bool hookAttached;
     public int scrapDropMax;
     public Transform intents;
     public bool clone;
+    public bool inContactWithPlayer;
     public GameObject zombieObj;
     public GameObject scrapObject;
     public GameObject recipeObject;
@@ -51,6 +53,8 @@ public class ZombieController : AIController
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Player") {
+            inContactWithPlayer = true;
+            hookAttached = false;
             playerController.canMove = false;
             contactController.updateBrawlStatus(gameObject);
             StopCoroutine("FollowPath");
