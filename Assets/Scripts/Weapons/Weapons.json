@@ -1,20 +1,19 @@
 {
    "pistol":{
       "stats":{
-         "ammoCapacity":8,
+         "ammoCapacity":10,
          "reloadSpeed":1.2,
          "damage":7,
-         "shotDelay":0.6,
+         "shotDelay":0.7,
          "spread":110,
-         "bulletVelocity":130,
+         "bulletVelocity":120,
          "lifetime":1.1,
-         "loudness":3
+         "loudness":5
       },
       "title":"Pistol",
-      "script": "Pistol",
       "description":"wah",
       "type":"Handgun",
-      "cost":30,
+      "cost":20,
       "unlocked":true,
       "parent":"Handgun"
    },
@@ -22,15 +21,14 @@
       "stats":{
          "ammoCapacity":6,
          "reloadSpeed":2.2,
-         "damage":14,
-         "shotDelay":0.8,
+         "damage":16,
+         "shotDelay":0.9,
          "spread":90,
-         "bulletVelocity":160,
+         "bulletVelocity":170,
          "lifetime":1.4,
-         "loudness":2
+         "loudness":7
       },
       "title":".44 Revolver",
-      "script": "Revolver44",
       "description":"wah",
       "type":"Handgun",
       "cost":45,
@@ -39,21 +37,92 @@
    },
    "autopistol":{
       "stats":{
-         "ammoCapacity":16,
-         "reloadSpeed":1.2,
-         "damage":5,
-         "shotDelay":0.2,
-         "spread":110,
-         "bulletVelocity":130,
+         "ammoCapacity":19,
+         "reloadSpeed":1.4,
+         "damage":4,
+         "shotDelay":0.25,
+         "spread":130,
+         "bulletVelocity":105,
          "lifetime":1.1,
-         "loudness":3
+         "loudness":4.5
       },
       "title":"Auto-Pistol",
-      "script": "AutoPistol",
       "description":"wah",
       "type":"Handgun",
       "cost":60,
       "unlocked":true,
       "parent":"Handgun"
+   },
+   "desertEagle":{
+      "stats":{
+         "ammoCapacity":9,
+         "reloadSpeed":2.2,
+         "damage":26,
+         "shotDelay":1.1,
+         "spread":75,
+         "bulletVelocity":200,
+         "lifetime":1.4,
+         "loudness":8
+      },
+      "title":"Desert Eagle",
+      "description":"wah",
+      "type":"Handgun",
+      "cost":75,
+      "unlocked":true,
+      "parent":"Handgun"
+   },
+   "uzi":{
+      "stats":{
+         "ammoCapacity":32,
+         "reloadSpeed":1.5,
+         "damage":6,
+         "shotDelay":0.37,
+         "spread":125,
+         "bulletVelocity":110,
+         "lifetime":1.1,
+         "loudness":5
+      },
+      "title":"Uzi",
+      "description":"wah",
+      "type":"SMG",
+      "cost":90,
+      "unlocked":true,
+      "parent":"SMG"
+   },
+   "compactSmg":{
+      "stats":{
+         "ammoCapacity":50,
+         "reloadSpeed":3.2,
+         "damage":5,
+         "shotDelay":0.28,
+         "spread":130,
+         "bulletVelocity":102,
+         "lifetime":1.4,
+         "loudness":6
+      },
+      "title":"Compact SMG",
+      "description":"wah",
+      "type":"SMG",
+      "cost":105,
+      "unlocked":true,
+      "parent":"SMG"
+   },
+   "heavySmg":{
+      "stats":{
+         "ammoCapacity":25,
+         "reloadSpeed":1.9,
+         "damage":9,
+         "shotDelay":0.37,
+         "spread":118,
+         "bulletVelocity":140,
+         "lifetime":1.7,
+         "loudness":6.5
+      },
+      "title":"Heavy SMG",
+      "description":"wah",
+      "type":"SMG",
+      "cost":120,
+      "unlocked":true,
+      "parent":"SMG"
    }
 }

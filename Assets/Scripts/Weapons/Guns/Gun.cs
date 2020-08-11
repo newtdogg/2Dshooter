@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public abstract class Gun : MonoBehaviour {
 
@@ -29,6 +30,29 @@ public abstract class Gun : MonoBehaviour {
     private PlayerController playerController;
     public Vector2 bulletPosition;
     public Vector2 bulletDirection;
+
+    public void defaultGunAwake(string weaponName) {
+        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json"); 
+        var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
+        var weaponJsonObject = weaponList.GetType().GetProperty(weaponName).GetValue(weaponList, null) as Weapon;
+        baseStats = weaponJsonObject.stats;
+        title = weaponJsonObject.title;
+        description = weaponJsonObject.description;
+        unlocked = weaponJsonObject.unlocked;
+        cost = weaponJsonObject.cost;
+        type = weaponJsonObject.type;
+        ammoQuantity = baseStats.ammoCapacity;
+        bulletDisplay = transform.GetChild(0).gameObject;
+        reloadBar = transform.GetChild(1).gameObject;
+        bulletObject = GameObject.Find("DoCBullet");
+        ammoClone = GameObject.Find("Ammo");
+        reloadTimer = -1;
+        shooting = -1f;
+        perkList = new List<Action<Gun>>();
+        statsBaseState = baseStats.duplicateStats();
+        currentStats = baseStats.duplicateStats();
+        reloadMagazine();
+    }
 
     void Update() {
         if(playerController == null) {
