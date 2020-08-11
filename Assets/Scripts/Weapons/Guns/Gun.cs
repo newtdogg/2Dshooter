@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public abstract class Gun : MonoBehaviour {
 
@@ -18,11 +19,8 @@ public abstract class Gun : MonoBehaviour {
     public WeaponStats baseStats;
     public WeaponStats statsBaseState;
     public WeaponStats currentStats;
-    public GameObject bulletDisplay;
     public List<Action<Gun>> perkList;
-    private GameObject reloadBulletObject;
     public string ammoType;
-    public GameObject ammoClone;
     public GameObject reloadBar;
     public GameObject bulletObject;
     public Dictionary<string, bool> bulletProperties;
@@ -30,6 +28,10 @@ public abstract class Gun : MonoBehaviour {
     private PlayerController playerController;
     public Vector2 bulletPosition;
     public Vector2 bulletDirection;
+    private Transform gunUI;
+    private Text ammoCountUI;
+    private Text clipSizeUI;
+    private Text gunNameUI;
 
     public void defaultGunAwake(string weaponName) {
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json"); 
@@ -42,16 +44,22 @@ public abstract class Gun : MonoBehaviour {
         cost = weaponJsonObject.cost;
         type = weaponJsonObject.type;
         ammoQuantity = baseStats.ammoCapacity;
-        bulletDisplay = transform.GetChild(0).gameObject;
         reloadBar = transform.GetChild(1).gameObject;
         bulletObject = GameObject.Find("DoCBullet");
-        ammoClone = GameObject.Find("Ammo");
         reloadTimer = -1;
         shooting = -1f;
         perkList = new List<Action<Gun>>();
         statsBaseState = baseStats.duplicateStats();
         currentStats = baseStats.duplicateStats();
+        gunUI = transform.GetChild(3);
+        ammoCountUI = gunUI.GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
+        clipSizeUI = gunUI.GetChild(0).GetChild(2).gameObject.GetComponent<Text>();
+        gunNameUI = gunUI.GetChild(1).GetChild(0).gameObject.GetComponent<Text>();
+        ammoCountUI.text = baseStats.ammoCapacity.ToString();
+        clipSizeUI.text = baseStats.ammoCapacity.ToString();
+        gunNameUI.text = title;
         reloadMagazine();
+
     }
 
     void Update() {
@@ -74,13 +82,8 @@ public abstract class Gun : MonoBehaviour {
         }
     }
     public virtual void reloadMagazine () {
-        // Debug.Log("reload");
-        for (int i = 0; i < currentStats.ammoCapacity; i++) {
-            var ammoBullet = Instantiate(ammoClone, new Vector2(2, 0), Quaternion.identity);
-            ammoBullet.transform.SetParent(bulletDisplay.transform);
-            ammoBullet.transform.position = new Vector3(bulletDisplay.transform.position.x + 0.7f, bulletDisplay.transform.position.y + i/7f, 0);
-        }
         transform.GetChild(1).gameObject.SetActive(false);
+        ammoCountUI.text = ammoQuantity.ToString();
     }
 
     public virtual void shootingGunCheck () {
@@ -121,7 +124,7 @@ public abstract class Gun : MonoBehaviour {
         playerController.setSneakStat("attackDistance", playerController.getSneakStat("attackDistance") + currentStats.loudness);
         shooting = currentStats.shotDelay;
         ammoQuantity -= 1;
-        Destroy(bulletDisplay.transform.GetChild(bulletDisplay.transform.childCount - 1).gameObject);
+        ammoCountUI.text = ammoQuantity.ToString();
         if(ammoQuantity == 0) {
             reload();
         }
@@ -142,8 +145,6 @@ public abstract class Gun : MonoBehaviour {
         transform.GetChild(1).gameObject.SetActive(true);
         reloadTimer = currentStats.reloadSpeed;
         ammoQuantity = currentStats.ammoCapacity;
-        // transform.localScale = new Vector3(0.001f, 0.1f, 0f);
-        // transform.localScale = Vector3.MoveTowards (transform.localScale, new Vector3(1f, 0.1f, 0f), reloadSpeed * Time.deltaTime);
     }
 
     public void setPlayerController(PlayerController pc) {
