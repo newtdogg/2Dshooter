@@ -59,7 +59,6 @@ public abstract class Gun : MonoBehaviour {
         clipSizeUI.text = baseStats.ammoCapacity.ToString();
         gunNameUI.text = title;
         reloadMagazine();
-
     }
 
     void Update() {
