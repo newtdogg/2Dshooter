@@ -27,7 +27,7 @@ public class PlayerController : CharacterController {
         maxHealth = 100;
         canMove = true;
         speed = 22f;
-        scrap = 20;
+        scrap = 80;
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
             { "timeUntilDetection", 9f },
@@ -101,7 +101,6 @@ public class PlayerController : CharacterController {
 
     public void updateHealth(float amount) {
         health = health + amount > maxHealth ? maxHealth : health += amount;
-        Debug.Log(health);
         var healthPercentage = health/maxHealth * 100f;
         Debug.Log(healthPercentage);
         var maxWidth = 260f;

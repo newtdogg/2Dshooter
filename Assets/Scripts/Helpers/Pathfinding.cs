@@ -30,7 +30,7 @@ public class Pathfinding : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if(mapGenerator.mapGenerated && worldTileMap == null) {
+        if(mapGenerator.mapGenerated) {
             worldTileMap = map.worldTiles;
             // for(var y = 0; y < map.GetLength(0) -1; y++) {
             //     for(var x = 0; x < map.GetLength(1) -1; x++) {

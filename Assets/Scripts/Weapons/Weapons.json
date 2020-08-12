@@ -10,6 +10,7 @@
          "lifetime":1.1,
          "loudness":5
       },
+      "script":"Pistol",
       "title":"Pistol",
       "description":"wah",
       "type":"Handgun",
@@ -28,6 +29,7 @@
          "lifetime":1.4,
          "loudness":7
       },
+      "script":"Revolver44",
       "title":".44 Revolver",
       "description":"wah",
       "type":"Handgun",
@@ -35,7 +37,7 @@
       "unlocked":true,
       "parent":"Handgun"
    },
-   "autopistol":{
+   "autoPistol":{
       "stats":{
          "ammoCapacity":19,
          "reloadSpeed":1.4,
@@ -46,6 +48,7 @@
          "lifetime":1.1,
          "loudness":4.5
       },
+      "script":"AutoPistol",
       "title":"Auto-Pistol",
       "description":"wah",
       "type":"Handgun",
@@ -64,6 +67,7 @@
          "lifetime":1.4,
          "loudness":8
       },
+      "script":"DesertEagle",
       "title":"Desert Eagle",
       "description":"wah",
       "type":"Handgun",
@@ -82,6 +86,7 @@
          "lifetime":1.1,
          "loudness":5
       },
+      "script":"Uzi",
       "title":"Uzi",
       "description":"wah",
       "type":"SMG",
@@ -100,6 +105,7 @@
          "lifetime":1.4,
          "loudness":6
       },
+      "script":"CompactSmg",
       "title":"Compact SMG",
       "description":"wah",
       "type":"SMG",
@@ -118,6 +124,7 @@
          "lifetime":1.7,
          "loudness":6.5
       },
+      "script":"HeavySmg",
       "title":"Heavy SMG",
       "description":"wah",
       "type":"SMG",

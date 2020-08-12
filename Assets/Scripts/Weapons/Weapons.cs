@@ -6,14 +6,14 @@ using UnityEngine;
 public class Weapons {
 	public Weapon pistol;
 	public Weapon revolver44;
-	public Weapon autopistol;
+	public Weapon autoPistol;
 	public Weapon desertEagle;
 	public Weapon uzi;
 	public Weapon compactSmg;
 	public Weapon heavySmg;
 	public Weapon Pistol { get { return pistol; } }
 	public Weapon Revolver44 { get { return revolver44; } }
-	public Weapon AutoPistol { get { return autopistol; } }
+	public Weapon AutoPistol { get { return autoPistol; } }
 	public Weapon DesertEagle { get { return desertEagle; } }
 	public Weapon Uzi { get { return uzi; } }
 	public Weapon CompactSmg { get { return compactSmg; } }
