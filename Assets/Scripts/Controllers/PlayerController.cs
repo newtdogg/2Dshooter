@@ -9,6 +9,11 @@ public class PlayerController : CharacterController {
     private Dictionary<string,float> sneak;
     private Dictionary<string,float> sneakDefault;
 
+    public Transform armorParent;
+    // public GameObject armorHead;
+    // public GameObject armorBody;
+    // public GameObject armorBoots;
+
     private Gun gun;
     public int scrap;
     private Text scrapText;
@@ -39,6 +44,11 @@ public class PlayerController : CharacterController {
             { "detectionDistance", 18f },
             { "attackDistance", 12f }
         };
+
+        armorParent = transform.GetChild(6);
+        // armorHead = armorParent.GetChild(0).gameObject;
+        // armorBody = armorParent.GetChild(1).gameObject;
+        // armorBoots = armorParent.GetChild(2).gameObject;
     }
 
     // Update is called once per frame
@@ -100,9 +110,13 @@ public class PlayerController : CharacterController {
     }
 
     public void updateHealth(float amount) {
-        health = health + amount > maxHealth ? maxHealth : health += amount;
+        var healthWithArmor = amount;
+        if(amount < 0) {
+            healthWithArmor = calculateDamageThroughArmor(amount);
+        }
+        health = health + amount > maxHealth ? maxHealth : health += healthWithArmor;
         var healthPercentage = health/maxHealth * 100f;
-        Debug.Log(healthPercentage);
+        Debug.Log(health);
         var maxWidth = 260f;
         float percentageWidth = (maxWidth/100f) * healthPercentage;
         healthBar.GetComponent<RectTransform>().localPosition = new Vector3(-((maxWidth - percentageWidth)/ 2f), 0, 0);
@@ -117,5 +131,18 @@ public class PlayerController : CharacterController {
         };
     }
 
+    private int getArmorRating() {
+        var armorRating = 0;
+        foreach(Transform armorTransform in armorParent) {
+            armorRating += armorTransform.gameObject.GetComponent<Armor>().value;
+        }
+        return armorRating;
+    }
+
+    private float calculateDamageThroughArmor(float damage) {
+        var armorRating = getArmorRating();
+        var correctedDamage = damage + (armorRating/2);
+        return correctedDamage = correctedDamage > 0 ? 0.1f : correctedDamage;
+    }
 
 }
