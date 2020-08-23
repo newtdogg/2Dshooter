@@ -36,7 +36,6 @@ public class Shop : BuyPoint
             generateGunButtonInShop(weaponScript, index);
             index += 1;
         }
-        Debug.Log(index);
     }
 
     public void generateGunButtonInShop(Weapon weapon, int index) {
@@ -48,7 +47,6 @@ public class Shop : BuyPoint
         button.transform.GetChild(1).gameObject.GetComponent<Text>().text = weapon.cost.ToString();
         var buttonScript = button.GetComponent<Button>();
         buttonScript.onClick.RemoveAllListeners();
-        Debug.Log(weapon.script);
         buttonScript.GetComponent<Button>().onClick.AddListener(() => updateGun(weapon.script, weapon.cost));
     }
 

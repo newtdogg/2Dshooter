@@ -26,7 +26,7 @@ public class MapGenerator : MonoBehaviour {
 		map = gameObject.GetComponent<Map>();
         craftingStation = GameObject.Find("CraftingStation");
 		player = GameObject.Find("Player");
-		mapToCreate = DebugMap.map;
+		mapToCreate = IntroMap.map;
 		tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
 		spawners = new Dictionary<int, Spawner>();
 		arenaWalls = new Dictionary<int, List<List<Vector2Int>>>();
@@ -94,18 +94,18 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	private void simpleMapGeneration(int[,] intMap) {
-        height = intMap.GetLength(0);
-        width = intMap.GetLength(1);
+        width = intMap.GetLength(0);
+        height = intMap.GetLength(1);
         // setCameraBoundary(w, h);
-		map.worldTiles = new WorldTile[height, width];
+		map.worldTiles = new WorldTile[width, height];
         tileTools.worldTileArray = map.worldTiles;
         var mapObj = gameObject;
     	tileTools.groundTilemap = mapObj.transform.GetChild(3).gameObject.GetComponent<Tilemap>();
         tileTools.wallTilemap = mapObj.transform.GetChild(1).gameObject.GetComponent<Tilemap>();
         tileTools.groundTile = tileTools.wallTilemap.GetTile(new Vector3Int(1, 0, 0));
         tileTools.wallTile = tileTools.wallTilemap.GetTile(new Vector3Int(0, 0, 0));
-        for(var x = 0; x < height - 1; x++) {
-            for(var y = 0; y < width - 1; y++) {
+        for(var x = 0; x < width - 1; x++) {
+            for(var y = 0; y < height - 1; y++) {
                 switch (intMap[x, y]) {
                     case 0:
                         tileTools.setWallTile(x, y);

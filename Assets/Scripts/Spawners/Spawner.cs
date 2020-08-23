@@ -101,6 +101,7 @@ public class Spawner : MonoBehaviour {
     }
 
     public void spawnMiniboss() {
+        Debug.Log("mini boss spawned");
         var bossClone = Instantiate(minibossTypes[zombieType - 10], centreOfObject, Quaternion.identity) as GameObject;
         bossClone.transform.SetParent(zombiesList);
     }

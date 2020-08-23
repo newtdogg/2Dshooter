@@ -144,5 +144,4 @@ public class PlayerController : CharacterController {
         var correctedDamage = damage + (armorRating/2);
         return correctedDamage = correctedDamage > 0 ? 0.1f : correctedDamage;
     }
-
 }

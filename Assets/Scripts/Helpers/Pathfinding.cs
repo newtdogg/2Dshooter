@@ -25,7 +25,6 @@ public class Pathfinding : MonoBehaviour
         mapGenerator = mapObject.GetComponent<MapGenerator>();
         map = mapObject.GetComponent<Map>();
         tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
-        // Debug.Log(map[20, 20].walkable);
     }
 
     // Update is called once per frame
@@ -71,16 +70,15 @@ public class Pathfinding : MonoBehaviour
                 closedSet.Add(currentWorldTile);
 
                 // NOTE Debugging
-                // Debug.Log(currentWorldTile.worldPosition);
-                // tileTools.setTileColor(tilemap, currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 1f));
-
+                tileTools.setTileColor(tilemap, currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 0.1f));
                 if ((Mathf.Floor(currentWorldTile.worldPosition.x) == Mathf.Floor(targetPosition.x)) &&
                     (Mathf.Floor(currentWorldTile.worldPosition.y) == Mathf.Floor(targetPosition.y))) {
                     pathSuccess = true;
                     break;
                 }
 
-                foreach (var neighbour in mapGenerator.getNeighbourTiles(currentWorldTile.worldPosition)) {
+                var neighbourTiles = mapGenerator.getNeighbourTiles(currentWorldTile.worldPosition);
+                foreach (var neighbour in neighbourTiles) {
                     if(!neighbour.walkable || closedSet.Contains(neighbour)) {
                         continue;
                     }
@@ -98,7 +96,6 @@ public class Pathfinding : MonoBehaviour
                 }
             }
             // pathSuccess = true;
-            // Debug.Log("nice");
             // waypoints = new Vector2[0];
         }
         yield return null;

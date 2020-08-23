@@ -8,22 +8,31 @@ public class Lubber : ZombieController
     // Start is called before the first frame update
     void Start()
     {
-        speed = 18;
-        maxHealth = 80;
-        damage = 25;
-        scrapDropMin = 1;
-        scrapDropMax = 4;
+        title = "MobLubber";
+        speed = 20;
+        maxHealth = 26;
+        damage = 15;
         status = "idle";
+        scrapDropMin = 1;
+        scrapDropMax = 3;
         detectionTimer = -1f;
-        zombieObj = transform.GetChild(0).gameObject;
+        canMove = true;
+        scrapObject = GameObject.Find("Scrap");
+        recipeObject = GameObject.Find("RecipeObject");
         rbody = gameObject.GetComponent<Rigidbody2D>();
+        if(gameObject.name == $"{title}(Clone)") {
+            spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
+            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
+        }
         player = GameObject.Find("Player");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        contactController = playerController.transform.GetChild(3).GetChild(2).gameObject.GetComponent<ContactController>();
         health = maxHealth;
+        // remove when not needed for debugging
         tilemap = GameObject.Find("MapGridObject").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         // healthBar = gameObject.transform.GetChild(0).gameObject;
         intents = transform.GetChild(1);
-        // StartCoroutine(UpdatePath());
+        scrap = 15;
     }
 
     void Update() {

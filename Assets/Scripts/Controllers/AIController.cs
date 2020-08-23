@@ -25,8 +25,8 @@ public class AIController : MonoBehaviour
     public GameObject player;
     public PlayerController playerController;
     public Rigidbody2D rbody;
-    private float minPathUpdateTime = 0.15f;
-	private float pathUpdateMoveThreshold = 1.1f;
+    private float minPathUpdateTime = 0.2f;
+	private float pathUpdateMoveThreshold = 0.6f;
     public bool canMove;
     public List<Action> attacks;
 
@@ -71,8 +71,6 @@ public class AIController : MonoBehaviour
             var target = path[path.Length - 1];
             var currentWaypointInt = new Vector3Int((int)Mathf.Floor(currentWaypoint.x), (int)Mathf.Floor(currentWaypoint.y), 0);
             var zombiePosInt = new Vector3Int((int)Mathf.Floor(zomPos.x), (int)Mathf.Floor(zomPos.y), 0);
-            // Debug.Log(currentWaypointInt);
-            // Debug.Log(zombiePosInt);
             if(distance > playerController.getSneakStat("detectionDistance") * 2f && type != "boss") {
                 setIdle();
                 yield break;
@@ -102,22 +100,23 @@ public class AIController : MonoBehaviour
     public IEnumerator UpdatePath() {
 
 		if (Time.timeSinceLevelLoad < 0.3f) {
+            Debug.Log("Waiting for level load");
 			yield return new WaitForSeconds (0.3f);
 		}
 
 		PathRequestController.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
 
 		float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
-		Vector3 targetPosOld = player.transform.position;
 
 		while (true) {
+		    Vector3 targetPosOld = player.transform.position;
 			yield return new WaitForSeconds (minPathUpdateTime);
 			if ((player.transform.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
 				PathRequestController.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
 				targetPosOld = player.transform.position;
-			}
+            }
             if(distance < 5) {
-                // Debug.Log("chasing");
+                Debug.Log("chasing");
                 currentWaypoint = player.transform.position;
             }
 		}
