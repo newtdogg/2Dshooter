@@ -15,10 +15,7 @@ public class Pathfinding : MonoBehaviour
     public bool debug;
     private PathRequestController requestManager;
 
-
-
-    void Start()
-    {
+    void Start() {
         requestManager = GetComponent<PathRequestController>();
         var mapObject = GameObject.Find("MapGridObject");
         tilemap = mapObject.transform.GetChild(0).gameObject.GetComponent<Tilemap>();

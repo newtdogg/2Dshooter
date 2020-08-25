@@ -6,6 +6,7 @@ using System;
 
 public class Eyesore : MiniBoss {
     private int sprayCount;
+    private bool inBattle;
 
     void Start() {
         attacks = new List<Action>() { attackShockwave, attackDash, attackSprayBullets };
@@ -15,19 +16,18 @@ public class Eyesore : MiniBoss {
         maxHealth = 100;
         health = maxHealth;
         canMove = true;
+        inBattle = false;
         title = "MobEyeSore";
         type = "boss";
         rbody = gameObject.GetComponent<Rigidbody2D>();
         bullet = transform.GetChild(1).gameObject;
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
-        // if(gameObject.name == $"{title}(Clone)") {
-            // Debug.Log("here");
+        if(gameObject.name == $"{title}(Clone)") {
             // Debug.Log(transform.parent.parent.gameObject);
-            // spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
-            // lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
-        // }
-        startFight();
+            spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
+            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
+        }
     }
 
     public override void startFight() {
@@ -38,8 +38,9 @@ public class Eyesore : MiniBoss {
     void Update() {
         if(gameObject.name == $"{title}(Clone)") {
             distance = Vector3.Distance(transform.position, player.transform.position);
-            if(distance < spawner.height - 4) {
-                setAttacking();
+            if(distance < spawner.height - 4 && !inBattle) {
+                startFight();
+                inBattle = true;
             }
         }
         if(health <= 0) {

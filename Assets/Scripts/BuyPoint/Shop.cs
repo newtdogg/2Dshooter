@@ -11,6 +11,7 @@ public class Shop : BuyPoint
     private Weapons weapons;
     private PlayerController playerController;
     private GameObject gunButton;
+
     void Start()
     {
         player = GameObject.Find("Player");
