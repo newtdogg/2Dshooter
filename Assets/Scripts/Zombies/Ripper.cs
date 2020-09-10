@@ -46,6 +46,8 @@ public class Ripper : ZombieController
             case "idle":
                 idleBehaviour();
                 break;
+            case "dormant":
+                break;
         }
         if(health <= 0) {
             Destroy(gameObject);

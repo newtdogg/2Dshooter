@@ -67,7 +67,7 @@ public class Pathfinding : MonoBehaviour
                 closedSet.Add(currentWorldTile);
 
                 // NOTE Debugging
-                tileTools.setTileColor(tilemap, currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 0.1f));
+                // tileTools.setTileColor(tilemap, currentWorldTile.worldPosition.x, currentWorldTile.worldPosition.y, new Color(0.74f, 0.23f, 0.1f, 0.1f));
                 if ((Mathf.Floor(currentWorldTile.worldPosition.x) == Mathf.Floor(targetPosition.x)) &&
                     (Mathf.Floor(currentWorldTile.worldPosition.y) == Mathf.Floor(targetPosition.y))) {
                     pathSuccess = true;

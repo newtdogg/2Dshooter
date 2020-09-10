@@ -14,10 +14,11 @@ public class Spawner : MonoBehaviour {
     public int height;
     public string type;
     public int initialZombieSpawn;
-    public Vector3 centreOfObject;
+    public Vector3 centerOfObject;
     public int zombieType;
     public bool battleStarted;
     public bool battleCompleted;
+    public GameObject wallClone;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
 
@@ -26,6 +27,7 @@ public class Spawner : MonoBehaviour {
         battleStarted = false;
         zombieTypes = getSpawnerObjectsOfType("Zombies");
         minibossTypes = getSpawnerObjectsOfType("MiniBosses");
+        wallClone = GameObject.Find("Wall");
         lootController = GameObject.Find("LootController").GetComponent<LootController>();
         zombiesList = transform.GetChild(0);
         tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
@@ -70,17 +72,12 @@ public class Spawner : MonoBehaviour {
 
     public void completeBattle() {
         battleCompleted = true;
-        lootController.dropArenaLoot(centreOfObject);
+        lootController.dropArenaLoot(centerOfObject);
         foreach (var wall in walls) {
             foreach (var block in wall) {
                 tileTools.removeWallTile(block.x, block.y);
             }
         }
-        generateLoot();
-    }
-
-    public void generateLoot() {
-
     }
 
     public void positionZombies() {
@@ -102,7 +99,7 @@ public class Spawner : MonoBehaviour {
 
     public void spawnMiniboss() {
         Debug.Log("mini boss spawned");
-        var bossClone = Instantiate(minibossTypes[zombieType - 10], centreOfObject, Quaternion.identity) as GameObject;
+        var bossClone = Instantiate(minibossTypes[zombieType - 10], centerOfObject, Quaternion.identity) as GameObject;
         bossClone.transform.SetParent(zombiesList);
     }
 
@@ -110,6 +107,7 @@ public class Spawner : MonoBehaviour {
         GameObject zombieTypeObject = zombieTypes[zombieType];
         var zombieClone = Instantiate(zombieTypeObject, new Vector2(transform.position.x + x, transform.position.y + y), Quaternion.identity) as GameObject;
         zombieClone.transform.SetParent(zombiesList);
+        zombieClone.GetComponent<ZombieController>().setDormant();
     }
 
 
@@ -126,6 +124,29 @@ public class Spawner : MonoBehaviour {
         } else {
             type = "miniboss";
         }
-        centreOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
+        centerOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
     }
+
+    public void setWallTriggers() {
+        foreach (var wall in walls) {
+            var wallCenterVector2 = wall[(int)(Mathf.Round(wall.Count/2))];
+            var wallCenterVector3 = new Vector3(wallCenterVector2.x, wallCenterVector2.y, 0);
+            var wallDirectionFromCenter = (wallCenterVector3 - centerOfObject).normalized;
+            var primaryDirection = wall[0].x == wall[1].x ? "y" : "x";
+            var wallCenter = primaryDirection == "y" ? wall[0].y + wall.Count/2 : wall[0].x + wall.Count/2;
+            if(primaryDirection == "y") {
+                createWallTrigger(wall, new Vector3(wall[0].x - (Mathf.Round(wallDirectionFromCenter.x) - 1.5f), wallCenter, 0), primaryDirection);
+            } else {
+                createWallTrigger(wall, new Vector3(wallCenter, wall[0].y - (Mathf.Round(wallDirectionFromCenter.y) - 1.5f), 0), primaryDirection);
+            }
+        }
+    }
+
+    public void createWallTrigger(List<Vector2Int> wall, Vector2 wallCenter, string primaryDirection) {
+
+        var newWall = Instantiate(wallClone, wallCenter, Quaternion.identity) as GameObject;
+        newWall.GetComponent<BoxCollider2D>().size = primaryDirection == "y" ? new Vector2(1, wall.Count) : new Vector2(wall.Count, 1);
+        newWall.transform.SetParent(transform);
+    }
+    
 }

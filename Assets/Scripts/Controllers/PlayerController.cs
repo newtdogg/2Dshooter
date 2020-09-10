@@ -45,7 +45,7 @@ public class PlayerController : CharacterController {
             { "attackDistance", 12f }
         };
 
-        armorParent = transform.GetChild(6);
+        // armorParent = transform.GetChild(6);
         // armorHead = armorParent.GetChild(0).gameObject;
         // armorBody = armorParent.GetChild(1).gameObject;
         // armorBoots = armorParent.GetChild(2).gameObject;

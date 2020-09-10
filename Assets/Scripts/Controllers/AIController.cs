@@ -41,27 +41,23 @@ public class AIController : MonoBehaviour
 	}
 
     public void setAttacking() {
-        Debug.Log("attacking");
-        // intents.GetChild(0).gameObject.SetActive(false);
-        // intents.GetChild(1).gameObject.SetActive(true);
-        if(!spawner.battleStarted && spawner.walls.Count > 0) {
-            spawner.startBattle();
-        }
+        // Debug.Log("attacking");
         // startArenaFightCheck();
         status = "attackNow";
     }
     public void setAlert() {
-        Debug.Log("alert");
-        // intents.GetChild(0).gameObject.SetActive(true);
+        // Debug.Log("alert");
         detectionTimer = playerController.getSneakStat("timeUntilDetection");
     }
 
     public void setIdle() {
-        Debug.Log("idle");
-        // intents.GetChild(0).gameObject.SetActive(false);
-        // intents.GetChild(1).gameObject.SetActive(false);
+        // Debug.Log("idle");
         status = "idle";
         detectionTimer = -1f;
+    }
+
+    public void setDormant() {
+        status = "dormant";
     }
 
     public IEnumerator FollowPath() {
@@ -111,10 +107,10 @@ public class AIController : MonoBehaviour
 		while (true) {
 		    Vector3 targetPosOld = player.transform.position;
 			yield return new WaitForSeconds (minPathUpdateTime);
-			if ((player.transform.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
+			// if ((player.transform.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
 				PathRequestController.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
 				targetPosOld = player.transform.position;
-            }
+            // }
             if(distance < 5) {
                 Debug.Log("chasing");
                 currentWaypoint = player.transform.position;

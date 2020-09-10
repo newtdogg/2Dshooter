@@ -26,7 +26,8 @@ public class MapGenerator : MonoBehaviour {
 		map = gameObject.GetComponent<Map>();
         craftingStation = GameObject.Find("CraftingStation");
 		player = GameObject.Find("Player");
-		mapToCreate = IntroMap.map;
+		// mapToCreate = GameObject.Find("GameController").GetComponent<GameController>().activeMap;
+		mapToCreate = new IntroMap().map;
 		tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
 		spawners = new Dictionary<int, Spawner>();
 		arenaWalls = new Dictionary<int, List<List<Vector2Int>>>();
@@ -142,6 +143,7 @@ public class MapGenerator : MonoBehaviour {
         }
 		foreach (var wall in arenaWalls) {
 			spawners[wall.Key].walls = wall.Value;
+			spawners[wall.Key].setWallTriggers();
 		}
 
         // map.worldTiles = tileTools.worldTileArray;
