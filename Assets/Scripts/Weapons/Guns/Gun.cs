@@ -92,13 +92,13 @@ public abstract class Gun : MonoBehaviour {
             float spreadFloat = ((float)spread - currentStats.spread/2)/1000;
             
             if (Input.GetKey(KeyCode.UpArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x, transform.position.y + 2), new Vector2(spreadFloat, 1));
+                directionallyShootGun(new Vector2(transform.position.x, transform.position.y + 0.6f), new Vector2(spreadFloat, 1));
             } else if (Input.GetKey(KeyCode.DownArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x, transform.position.y - 2), new Vector2(spreadFloat, -1));
+                directionallyShootGun(new Vector2(transform.position.x, transform.position.y - 0.6f), new Vector2(spreadFloat, -1));
             } else if (Input.GetKey(KeyCode.LeftArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x - 2, transform.position.y), new Vector2(-1, spreadFloat));
+                directionallyShootGun(new Vector2(transform.position.x - 0.6f, transform.position.y), new Vector2(-1, spreadFloat));
             } else if (Input.GetKey(KeyCode.RightArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x + 2, transform.position.y), new Vector2(1, spreadFloat));
+                directionallyShootGun(new Vector2(transform.position.x + 0.6f, transform.position.y), new Vector2(1, spreadFloat));
             }
         }
     }
