@@ -130,14 +130,15 @@ public class Spawner : MonoBehaviour {
     public void setWallTriggers() {
         foreach (var wall in walls) {
             var wallCenterVector2 = wall[(int)(Mathf.Round(wall.Count/2))];
-            var wallCenterVector3 = new Vector3(wallCenterVector2.x, wallCenterVector2.y, 0);
-            var wallDirectionFromCenter = (wallCenterVector3 - centerOfObject).normalized;
             var primaryDirection = wall[0].x == wall[1].x ? "y" : "x";
             var wallCenter = primaryDirection == "y" ? wall[0].y + wall.Count/2 : wall[0].x + wall.Count/2;
+            var wallCenterVector3 = primaryDirection == "y" ? new Vector3(wall[0].x, wallCenter, 0) : new Vector3(wallCenter, wall[0].y, 0);
+            var wallDirectionFromCenter = (wallCenterVector3 - centerOfObject).normalized;
+            var offset = primaryDirection == "y" ? Mathf.Round(wallDirectionFromCenter.x) : Mathf.Round(wallDirectionFromCenter.y);
             if(primaryDirection == "y") {
-                createWallTrigger(wall, new Vector3(wall[0].x - (Mathf.Round(wallDirectionFromCenter.x) - 1.5f), wallCenter, 0), primaryDirection);
+                createWallTrigger(wall, new Vector3(wall[0].x - (offset * 2), wallCenter, 0), primaryDirection);
             } else {
-                createWallTrigger(wall, new Vector3(wallCenter, wall[0].y - (Mathf.Round(wallDirectionFromCenter.y) - 1.5f), 0), primaryDirection);
+                createWallTrigger(wall, new Vector3(wallCenter, wall[0].y - (offset * 2), 0), primaryDirection);
             }
         }
     }

@@ -36,13 +36,6 @@ public class Eyesore : MiniBoss {
     }
 
     void Update() {
-        if(gameObject.name == $"{title}(Clone)") {
-            distance = Vector3.Distance(transform.position, player.transform.position);
-            if(distance < spawner.height - 4 && !inBattle) {
-                startFight();
-                inBattle = true;
-            }
-        }
         if(health <= 0) {
             Destroy(gameObject);
             lootController.dropZombieLoot(transform.position);
@@ -117,5 +110,4 @@ public class Eyesore : MiniBoss {
     public void attackDash() {
         StartCoroutine(attackDashCoroutine());
     }
-
 }
