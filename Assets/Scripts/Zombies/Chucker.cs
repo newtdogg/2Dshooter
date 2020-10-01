@@ -53,8 +53,7 @@ public class Chucker : ZombieController
                 break;
         }
         if(health <= 0) {
-            Destroy(gameObject);
-            lootController.dropZombieLoot(transform.position);
+            onDeath();
         }
     }
 

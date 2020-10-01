@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Production.unity
     guid: 0cc34012ce09e4c59a47fb6d14570e3a
+  - enabled: 1
+    path: Assets/Scenes/IntroArea.unity
+    guid: 03c002ad34a034eb7bf0f4cf530a0f5d
+  - enabled: 1
+    path: Assets/Scenes/IntroShop.unity
+    guid: 6a868cff0d2434c8a8466e9a5c14be2e
   m_configObjects: {}

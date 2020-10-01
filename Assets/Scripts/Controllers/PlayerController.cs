@@ -20,7 +20,10 @@ public class PlayerController : CharacterController {
     public float speed;
     private GameObject detection;
     public bool canMove;
-    
+    public float experience;
+    public float experienceForNextLevel;
+    public int experienceLevel;
+    public float[] experienceLevelUpRequirement;
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();
         gun = transform.GetChild(0).gameObject.GetComponent<Gun>();
@@ -30,6 +33,11 @@ public class PlayerController : CharacterController {
         scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         maxHealth = 100;
+        experienceLevelUpRequirement = new float[] { 0f, 1000f, 2000f, 5000f, 10000f };
+        experience = 0f;
+        experienceLevel = 0;
+        experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
+        updateXP(0f);
         canMove = true;
         speed = 22f;
         scrap = 80;
@@ -116,7 +124,6 @@ public class PlayerController : CharacterController {
         }
         health = health + amount > maxHealth ? maxHealth : health += healthWithArmor;
         var healthPercentage = health/maxHealth * 100f;
-        Debug.Log(health);
         var maxWidth = 260f;
         float percentageWidth = (maxWidth/100f) * healthPercentage;
         healthBar.GetComponent<RectTransform>().localPosition = new Vector3(-((maxWidth - percentageWidth)/ 2f), 0, 0);
@@ -143,5 +150,25 @@ public class PlayerController : CharacterController {
         var armorRating = getArmorRating();
         var correctedDamage = damage + (armorRating/2);
         return correctedDamage = correctedDamage > 0 ? 0.1f : correctedDamage;
+    }
+
+    public void updateXP(float xpValue) {
+        experience += xpValue;
+        var experiencePercentage = (experience - experienceLevelUpRequirement[experienceLevel])/(experienceForNextLevel - experienceLevelUpRequirement[experienceLevel]);
+        var experienceBarWidth = experiencePercentage * 300;
+        Debug.Log(experienceBarWidth);
+        if(experiencePercentage >= 1) {
+            experiencePercentage -= 1;
+            levelUp();
+        }
+        var xp = transform.GetChild(3).GetChild(3).GetChild(1).gameObject.GetComponent<RectTransform>();
+        xp.sizeDelta = new Vector3(experienceBarWidth, 6.66f, 0);
+        xp.localPosition = new Vector3(-150f + ((experienceBarWidth)/2), xp.localPosition.y, 0);
+    }
+
+    public void levelUp() {
+        experienceLevel += 1;
+        experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
+        transform.GetChild(3).GetChild(3).GetChild(3).gameObject.GetComponent<Text>().text = experienceLevel.ToString();
     }
 }

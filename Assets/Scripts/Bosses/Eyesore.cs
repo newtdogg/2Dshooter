@@ -6,7 +6,6 @@ using System;
 
 public class Eyesore : MiniBoss {
     private int sprayCount;
-    private bool inBattle;
 
     void Start() {
         attacks = new List<Action>() { attackShockwave, attackDash, attackSprayBullets };
@@ -16,12 +15,13 @@ public class Eyesore : MiniBoss {
         maxHealth = 100;
         health = maxHealth;
         canMove = true;
-        inBattle = false;
         title = "MobEyeSore";
         type = "boss";
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         rbody = gameObject.GetComponent<Rigidbody2D>();
         bullet = transform.GetChild(1).gameObject;
         player = GameObject.Find("Player");
+        spawnPosition = transform.position;
         playerController = player.GetComponent<PlayerController>();
         if(gameObject.name == $"{title}(Clone)") {
             // Debug.Log(transform.parent.parent.gameObject);
@@ -33,13 +33,6 @@ public class Eyesore : MiniBoss {
     public override void startFight() {
         StartCoroutine("UpdatePath");
         StartCoroutine("CycleRandomAttacks");
-    }
-
-    void Update() {
-        if(health <= 0) {
-            Destroy(gameObject);
-            lootController.dropZombieLoot(transform.position);
-        }
     }
 
     public IEnumerator attackShockwaveCoroutine() {

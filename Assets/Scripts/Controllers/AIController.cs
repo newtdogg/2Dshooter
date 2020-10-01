@@ -24,11 +24,13 @@ public class AIController : MonoBehaviour
     public GameObject bullet;
     public GameObject player;
     public PlayerController playerController;
+    public GameController gameController;
     public Rigidbody2D rbody;
     private float minPathUpdateTime = 0.2f;
 	private float pathUpdateMoveThreshold = 0.6f;
     public bool canMove;
     public List<Action> attacks;
+    public Vector3 spawnPosition;
 
     public void OnPathFound(Vector2[] newPath, bool pathSuccessful) {
 		if (pathSuccessful && newPath.Length > 1) {
@@ -112,7 +114,7 @@ public class AIController : MonoBehaviour
 				targetPosOld = player.transform.position;
             // }
             if(distance < 5) {
-                Debug.Log("chasing");
+                // Debug.Log("chasing");
                 currentWaypoint = player.transform.position;
             }
 		}

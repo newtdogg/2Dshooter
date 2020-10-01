@@ -53,8 +53,7 @@ public class Slinger : ZombieController
                 break;
         }
         if(health <= 0) {
-            Destroy(gameObject);
-            lootController.dropZombieLoot(transform.position);
+            onDeath();
         }
         if(hookAttached) {
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 0.1f);

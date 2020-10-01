@@ -50,8 +50,7 @@ public class Ripper : ZombieController
                 break;
         }
         if(health <= 0) {
-            Destroy(gameObject);
-            lootController.dropZombieLoot(transform.position);
+            onDeath();
         }
     }
 }

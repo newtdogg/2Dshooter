@@ -20,7 +20,7 @@ public class ZombieController : AIController
     public Tilemap tilemap;
     public int scrap;
     public ContactController contactController;
-
+    public float xpValue;
 
 
     public void idleBehaviour() {
@@ -59,6 +59,12 @@ public class ZombieController : AIController
             contactController.updateBrawlStatus(gameObject);
             StopCoroutine("FollowPath");
         }
+    }
+
+    public void onDeath() {
+        Destroy(gameObject);
+        lootController.dropZombieLoot(transform.position, title);
+        playerController.updateXP(xpValue);
     }
 
 }
