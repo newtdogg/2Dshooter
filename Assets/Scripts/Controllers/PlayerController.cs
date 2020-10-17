@@ -156,7 +156,6 @@ public class PlayerController : CharacterController {
         experience += xpValue;
         var experiencePercentage = (experience - experienceLevelUpRequirement[experienceLevel])/(experienceForNextLevel - experienceLevelUpRequirement[experienceLevel]);
         var experienceBarWidth = experiencePercentage * 300;
-        Debug.Log(experienceBarWidth);
         if(experiencePercentage >= 1) {
             experiencePercentage -= 1;
             levelUp();

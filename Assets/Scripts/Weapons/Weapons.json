@@ -1,5 +1,5 @@
 {
-   "pistol":{
+   "pistol9mm":{
       "stats":{
          "ammoCapacity":10,
          "reloadSpeed":1.2,
@@ -10,32 +10,74 @@
          "lifetime":1.1,
          "loudness":5
       },
-      "script":"Pistol",
-      "title":"Pistol",
+      "script":"Pistol9mm",
+      "title":"9mm Pistol",
       "description":"wah",
-      "type":"Handgun",
       "cost":20,
       "unlocked":true,
-      "parent":"Handgun"
+      "tier":1,
+      "requiredUnlocks":"",
+      "group":"Handgun"
    },
-   "revolver44":{
+   "tec9":{
       "stats":{
-         "ammoCapacity":6,
-         "reloadSpeed":2.2,
-         "damage":16,
-         "shotDelay":0.9,
-         "spread":90,
-         "bulletVelocity":170,
-         "lifetime":1.4,
-         "loudness":7
+         "ammoCapacity":10,
+         "reloadSpeed":1.2,
+         "damage":7,
+         "shotDelay":0.7,
+         "spread":110,
+         "bulletVelocity":120,
+         "lifetime":1.1,
+         "loudness":5
       },
-      "script":"Revolver44",
-      "title":".44 Revolver",
-      "description":"wah",
-      "type":"Handgun",
-      "cost":45,
+      "script":"Tec9",
+      "title":"Tec 9",
+      "description":"sdhiasd",
+      "cost":20,
       "unlocked":true,
-      "parent":"Handgun"
+      "tier":1,
+      "requiredUnlocks":"",
+      "group":"Handgun"
+   },
+   "pistol45":{
+      "stats":{
+         "ammoCapacity":10,
+         "reloadSpeed":1.2,
+         "damage":7,
+         "shotDelay":0.7,
+         "spread":110,
+         "bulletVelocity":120,
+         "lifetime":1.1,
+         "loudness":5
+      },
+      "script":"Pistol45",
+      "title":".45 Pistol",
+      "description":"asdasdas",
+      "cost":20,
+      "unlocked":false,
+      "tier":2,
+      "requiredUnlocks":"pistol9mm",
+      "group":"Handgun"
+   },
+   "revolver357":{
+      "stats":{
+         "ammoCapacity":10,
+         "reloadSpeed":1.2,
+         "damage":7,
+         "shotDelay":0.7,
+         "spread":110,
+         "bulletVelocity":120,
+         "lifetime":1.1,
+         "loudness":5
+      },
+      "script":"Revolver357",
+      "title":".357 Revolver",
+      "description":"das",
+      "cost":20,
+      "unlocked":false,
+      "tier":2,
+      "requiredUnlocks":"pistol9mm",
+      "group":"Handgun"
    },
    "autoPistol":{
       "stats":{
@@ -51,10 +93,51 @@
       "script":"AutoPistol",
       "title":"Auto-Pistol",
       "description":"wah",
-      "type":"Handgun",
       "cost":60,
-      "unlocked":true,
-      "parent":"Handgun"
+      "unlocked":false,
+      "tier":2,
+      "requiredUnlocks":"pistol9mm,tec9",
+      "group":"Handgun"
+   },
+   "revolver44":{
+      "stats":{
+         "ammoCapacity":6,
+         "reloadSpeed":2.2,
+         "damage":16,
+         "shotDelay":0.9,
+         "spread":90,
+         "bulletVelocity":170,
+         "lifetime":1.4,
+         "loudness":7
+      },
+      "script":"Revolver44",
+      "title":".44 Revolver",
+      "description":"wah",
+      "cost":45,
+      "unlocked":false,
+      "tier":3,
+      "requiredUnlocks":"pistol45,revolver357",
+      "group":"Handgun"
+   },
+   "akimboAutoPistols":{
+      "stats":{
+         "ammoCapacity":6,
+         "reloadSpeed":2.2,
+         "damage":16,
+         "shotDelay":0.9,
+         "spread":90,
+         "bulletVelocity":170,
+         "lifetime":1.4,
+         "loudness":7
+      },
+      "script":"AkimboAutoPistols",
+      "title":"Akimbo Auto-Pistols",
+      "description":"wah",
+      "cost":60,
+      "unlocked":false,
+      "tier":4,
+      "requiredUnlocks":"autoPistol,uzi",
+      "group":"Handgun"
    },
    "desertEagle":{
       "stats":{
@@ -70,15 +153,36 @@
       "script":"DesertEagle",
       "title":"Desert Eagle",
       "description":"wah",
-      "type":"Handgun",
       "cost":75,
+      "unlocked":false,
+      "tier":5,
+      "requiredUnlocks":"revolver44",
+      "group":"Handgun"
+   },
+   "smg22":{
+      "stats":{
+         "ammoCapacity":25,
+         "reloadSpeed":3.2,
+         "damage":6,
+         "shotDelay":0.37,
+         "spread":125,
+         "bulletVelocity":102,
+         "lifetime":1.1,
+         "loudness":5
+      },
+      "script":"Smg22",
+      "title":".22 SMG",
+      "description":"asdasdas",
+      "cost":90,
       "unlocked":true,
-      "parent":"Handgun"
+      "tier":1,
+      "requiredUnlocks":"",
+      "group":"SMG"
    },
    "uzi":{
       "stats":{
          "ammoCapacity":32,
-         "reloadSpeed":1.5,
+         "reloadSpeed":3.2,
          "damage":6,
          "shotDelay":0.37,
          "spread":125,
@@ -88,17 +192,18 @@
       },
       "script":"Uzi",
       "title":"Uzi",
-      "description":"wah",
-      "type":"SMG",
+      "description":"asdasdas",
       "cost":90,
-      "unlocked":true,
-      "parent":"SMG"
+      "unlocked":false,
+      "tier":3,
+      "requiredUnlocks":"autoPistol,uzi,smg22",
+      "group":"SMG"
    },
    "compactSmg":{
       "stats":{
          "ammoCapacity":50,
          "reloadSpeed":3.2,
-         "damage":5,
+         "damage":6,
          "shotDelay":0.28,
          "spread":130,
          "bulletVelocity":102,
@@ -107,17 +212,38 @@
       },
       "script":"CompactSmg",
       "title":"Compact SMG",
-      "description":"wah",
-      "type":"SMG",
-      "cost":105,
-      "unlocked":true,
-      "parent":"SMG"
+      "description":"asdasdas",
+      "cost":90,
+      "unlocked":false,
+      "tier":3,
+      "requiredUnlocks":"tec9,smg22",
+      "group":"SMG"
+   },
+   "akimboUzis":{
+      "stats":{
+         "ammoCapacity":25,
+         "reloadSpeed":3.2,
+         "damage":6,
+         "shotDelay":0.37,
+         "spread":125,
+         "bulletVelocity":102,
+         "lifetime":1.1,
+         "loudness":5
+      },
+      "script":"AkimboUzis",
+      "title":"Akimbo Uzis",
+      "description":"asdasdas",
+      "cost":90,
+      "unlocked":false,
+      "tier":5,
+      "requiredUnlocks":"akimboAutoPistols,uzi",
+      "group":"SMG"
    },
    "heavySmg":{
       "stats":{
          "ammoCapacity":25,
-         "reloadSpeed":1.9,
-         "damage":9,
+         "reloadSpeed":3.2,
+         "damage":6,
          "shotDelay":0.37,
          "spread":118,
          "bulletVelocity":140,
@@ -126,10 +252,11 @@
       },
       "script":"HeavySmg",
       "title":"Heavy SMG",
-      "description":"wah",
-      "type":"SMG",
+      "description":"asdasdas",
       "cost":120,
-      "unlocked":true,
-      "parent":"SMG"
+      "unlocked":false,
+      "tier":5,
+      "requiredUnlocks":"compactSmg,uzi",
+      "group":"SMG"
    }
 }

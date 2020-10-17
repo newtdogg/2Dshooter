@@ -24,4 +24,9 @@ public class DropChance {
     public int scrapMax;
     public int scrapValue;
     public int recipeDropChance;
+
+    public int ScrapMin { get { return scrapMin; } }
+    public int ScrapMax { get { return scrapMax; } }
+    public int ScrapValue { get { return scrapValue; } }
+    public int RecipeDropChance  { get { return recipeDropChance; } }
 }

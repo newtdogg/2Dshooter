@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using UnityEngine.Tilemaps;
 
 public class ZombieController : AIController
@@ -8,9 +9,7 @@ public class ZombieController : AIController
     // Start is called before the first frame update
     
     public float damage;
-    public int scrapDropMin;
     public bool hookAttached;
-    public int scrapDropMax;
     public Transform intents;
     public bool clone;
     public bool inContactWithPlayer;
@@ -21,6 +20,36 @@ public class ZombieController : AIController
     public int scrap;
     public ContactController contactController;
     public float xpValue;
+
+    public void defaultZombieAwake(string zombieTitle) {
+        var jsonString = File.ReadAllText("./Assets/Scripts/Zombies.json"); 
+        var zombieList = JsonUtility.FromJson<Zombies>(jsonString);
+        var zombieJsonObject = zombieList.GetType().GetProperty(zombieTitle).GetValue(zombieList, null) as ZombieStats;
+        speed = zombieJsonObject.speed;
+        damage = zombieJsonObject.damage;
+        maxHealth = zombieJsonObject.maxHealth;
+        xpValue = zombieJsonObject.xpValue;
+        title = zombieTitle;
+        status = "idle";
+        detectionTimer = -1f;
+        canMove = true;
+        scrapObject = GameObject.Find("Scrap");
+        recipeObject = GameObject.Find("RecipeObject");
+        rbody = gameObject.GetComponent<Rigidbody2D>();
+        if(gameObject.name == $"{title}(Clone)") {
+            spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
+            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
+        }
+        player = GameObject.Find("Player");
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        contactController = playerController.transform.GetChild(3).GetChild(2).gameObject.GetComponent<ContactController>();
+        health = maxHealth;
+        // remove when not needed for debugging
+        // tilemap = GameObject.Find("MapGridObject").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
+        // healthBar = gameObject.transform.GetChild(0).gameObject;
+        intents = transform.GetChild(1);
+    }
+
 
 
     public void idleBehaviour() {

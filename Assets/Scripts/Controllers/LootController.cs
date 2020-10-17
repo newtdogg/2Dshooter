@@ -34,12 +34,12 @@ public class LootController : MonoBehaviour {
 
     public void dropArenaLoot(Vector3 position) {
         generateScrapPile("Arena", position);
-        generateLootFromDropchance("Arena", position, "recipe");
+        generateLootFromDropchance("Arena", position, "Recipe");
     }
 
     public void dropZombieLoot(Vector3 position, string title) {
         generateScrapPile(title, position);
-        generateLootFromDropchance(title, position, "recipe");
+        generateLootFromDropchance(title, position, "Recipe");
     }
 
     public void dropMiniBossLoot(Vector3 position) {
@@ -57,12 +57,7 @@ public class LootController : MonoBehaviour {
         var dropchanceKey = $"{loot}DropChance";
         var rand = new System.Random((int)System.DateTime.Now.Ticks);
         var lootType = stats.GetType().GetProperty(type).GetValue(stats, null) as DropChance;
-        var dropChanceValue = 0;
-        switch (dropchanceKey) {
-            case "recipeDropChance":
-            dropChanceValue = lootType.recipeDropChance;
-            break;
-        }
+        var dropChanceValue = (int)lootType.GetType().GetProperty(dropchanceKey).GetValue(lootType, null);
         var chance = rand.Next(0, dropChanceValue);
         if(chance == 1) {
             generateLoot(loot, position);

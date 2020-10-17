@@ -42,7 +42,6 @@ public abstract class Gun : MonoBehaviour {
         description = weaponJsonObject.description;
         unlocked = weaponJsonObject.unlocked;
         cost = weaponJsonObject.cost;
-        type = weaponJsonObject.type;
         ammoQuantity = baseStats.ammoCapacity;
         reloadBar = transform.GetChild(1).gameObject;
         bulletObject = GameObject.Find("DoCBullet");

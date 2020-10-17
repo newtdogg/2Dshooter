@@ -4,19 +4,32 @@ using UnityEngine;
 
 [System.Serializable]
 public class Weapons {
-	public Weapon pistol;
-	public Weapon revolver44;
+	public Weapon pistol9mm;
+	public Weapon tec9;
+	public Weapon pistol45;
+	public Weapon revolver357;
 	public Weapon autoPistol;
+	public Weapon revolver44;
+	public Weapon akimboAutoPistols;
 	public Weapon desertEagle;
+	public Weapon smg22;
 	public Weapon uzi;
 	public Weapon compactSmg;
+	public Weapon akimboUzis;
 	public Weapon heavySmg;
-	public Weapon Pistol { get { return pistol; } }
-	public Weapon Revolver44 { get { return revolver44; } }
+	
+	public Weapon Pistol9mm { get { return pistol9mm; } }
+	public Weapon Tec9 { get { return tec9; } }
+	public Weapon Pistol45 { get { return pistol45; } }
+	public Weapon Revolver357 { get { return revolver357; } }
 	public Weapon AutoPistol { get { return autoPistol; } }
+	public Weapon Revolver44 { get { return revolver44; } }
+	public Weapon AkimboAutoPistols { get { return akimboAutoPistols; } }
 	public Weapon DesertEagle { get { return desertEagle; } }
+	public Weapon Smg22 { get { return smg22; } }
 	public Weapon Uzi { get { return uzi; } }
 	public Weapon CompactSmg { get { return compactSmg; } }
+	public Weapon AkimboUzis { get { return akimboUzis; } }
 	public Weapon HeavySmg { get { return heavySmg; } }
 	// public Weapon shotgun;
 	// public Weapon Shotgun { get { return shotgun; } }
@@ -45,6 +58,14 @@ public class WeaponStats {
 		newStats.loudness = this.loudness;
 		return newStats;
 	}
+
+	public float getVelocity() {
+		return Mathf.Round((bulletVelocity/300f) * 100f);
+	}
+
+	public float getAccuracy() {
+		return Mathf.Round(100f - ((spread - 60f)/100f));
+	}
 }
 
 [System.Serializable]
@@ -54,6 +75,18 @@ public class Weapon {
 	public bool unlocked;
 	public int cost;
 	public WeaponStats stats;
-	public string type;
+	public string group;
 	public string script;
+	public int xpCost;
+	public string requiredUnlocks;
+	public int tier;
+	public List<Weapon> requiredUnlocksList;
+	public bool isUnlockable() {
+		foreach (var child in requiredUnlocksList) {
+			if(!child.unlocked) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
