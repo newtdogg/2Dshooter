@@ -42,6 +42,10 @@ public class UnlocksOverlay : MonoBehaviour,
     }
 
     public void OnPointerDown(PointerEventData eventData){
+        selectGunGroup();
+    }
+
+    public void selectGunGroup() {
         transform.parent.GetChild(2).gameObject.SetActive(false);
         foreach (Transform gunType in transform.parent.parent) {
             gunType.GetChild(1).gameObject.SetActive(true);

@@ -7,11 +7,21 @@ using UnityEngine.UI;
 public class UnlocksController : MonoBehaviour {
 
     private GameObject treeNodeParents;
-    private Weapons weaponList;
+    public PlayerController playerController;
+    public Weapons weaponList;
+    public Text xp;
+
     void Start() {
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         treeNodeParents = transform.GetChild(0).gameObject;
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json");
         weaponList = JsonUtility.FromJson<Weapons>(jsonString);
+        xp = transform.parent.parent.parent.GetChild(2).GetChild(1).gameObject.GetComponent<Text>();
+        xp.text = playerController.experienceSpendable.ToString();
+        initialiseWeaponNodes();
+    }
+
+    public void initialiseWeaponNodes(int selectGroup = 0) {
         var parentCount = 0;
         var count = 0;
         foreach (var weapon in typeof(Weapons).GetProperties()) {
@@ -20,12 +30,15 @@ public class UnlocksController : MonoBehaviour {
                 count = 0;
             }     
             var newWeapon = weapon.GetValue(weaponList) as Weapon;
-            Debug.Log($"{transform.GetChild(parentCount).GetChild(0).childCount}, {count}, {newWeapon.title}");
+            // Debug.Log($"{transform.GetChild(parentCount).GetChild(0).childCount}, {count}, {newWeapon.title}");
             if(newWeapon.requiredUnlocks != "") {
                 setWeaponChildren(newWeapon);
             }
-            transform.GetChild(parentCount).GetChild(0).GetChild(count).gameObject.GetComponent<WeaponNode>().setupNode(newWeapon);
+            transform.GetChild(parentCount).GetChild(0).GetChild(count).gameObject.GetComponent<WeaponNode>().setupNode(newWeapon, parentCount + 1);
             count += 1;
+        }
+        if(selectGroup != 0) {
+            transform.GetChild(selectGroup - 1).GetChild(1).gameObject.GetComponent<UnlocksOverlay>().selectGunGroup();
         }
     }
 
@@ -38,5 +51,4 @@ public class UnlocksController : MonoBehaviour {
             weapon.requiredUnlocksList.Add(gunObject);
         }
     }
-    
 }

@@ -20,6 +20,7 @@ public class PlayerController : CharacterController {
     public float speed;
     private GameObject detection;
     public bool canMove;
+    public float experienceSpendable;
     public float experience;
     public float experienceForNextLevel;
     public int experienceLevel;
@@ -34,6 +35,7 @@ public class PlayerController : CharacterController {
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         maxHealth = 100;
         experienceLevelUpRequirement = new float[] { 0f, 1000f, 2000f, 5000f, 10000f };
+        experienceSpendable = 200f;
         experience = 0f;
         experienceLevel = 0;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
@@ -154,6 +156,7 @@ public class PlayerController : CharacterController {
 
     public void updateXP(float xpValue) {
         experience += xpValue;
+        experienceSpendable += xpValue;
         var experiencePercentage = (experience - experienceLevelUpRequirement[experienceLevel])/(experienceForNextLevel - experienceLevelUpRequirement[experienceLevel]);
         var experienceBarWidth = experiencePercentage * 300;
         if(experiencePercentage >= 1) {
