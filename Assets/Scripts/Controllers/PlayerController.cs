@@ -25,6 +25,7 @@ public class PlayerController : CharacterController {
     public float experienceForNextLevel;
     public int experienceLevel;
     public float[] experienceLevelUpRequirement;
+
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();
         gun = transform.GetChild(0).gameObject.GetComponent<Gun>();
@@ -172,5 +173,12 @@ public class PlayerController : CharacterController {
         experienceLevel += 1;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
         transform.GetChild(3).GetChild(3).GetChild(3).gameObject.GetComponent<Text>().text = experienceLevel.ToString();
+    }
+
+    public void loadData(SaveData saveData) {
+        experienceSpendable = saveData.experienceSpendable;
+        experience = saveData.experience;
+        experienceForNextLevel = saveData.experienceForNextLevel;
+        experienceLevel = saveData.experienceLevel;
     }
 }

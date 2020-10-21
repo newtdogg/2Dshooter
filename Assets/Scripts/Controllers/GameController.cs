@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
@@ -9,6 +10,7 @@ public class GameController : MonoBehaviour {
     private string[] maps;
     private PlayerController playerController;
     private GameObject door;
+    private PersistenceController persistenceController;
 
     public static GameController controller;
 
@@ -20,14 +22,16 @@ public class GameController : MonoBehaviour {
         else if (controller != this){
             Destroy(gameObject);
         }
-
+        persistenceController = new PersistenceController();
         maps = new string[] { "IntroMap", "DebugMap" };
     }
 
     void Start() {
         if (SceneManager.GetActiveScene().name != "MainMenu") {
             playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+            playerController.loadData(persistenceController.saveData);
             door = GameObject.Find("Door");
+            transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(() => saveGame());
         }
     }
 
@@ -49,5 +53,11 @@ public class GameController : MonoBehaviour {
         newDoor.GetComponent<Door>().trigger = () => SceneManager.LoadScene("IntroArea");
     }
 
-
+    public void saveGame() {
+        persistenceController.saveData.experienceSpendable = playerController.experienceSpendable;
+        persistenceController.saveData.experience = playerController.experience;
+        persistenceController.saveData.experienceForNextLevel = playerController.experienceForNextLevel;
+        persistenceController.saveData.experienceLevel = playerController.experienceLevel;
+        persistenceController.saveGame();
+    }
 }
