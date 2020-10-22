@@ -16,7 +16,7 @@ public class PersistenceController {
     }
 
     public void loadGame() {
-        saveData = new SaveData();  
+        saveData = new SaveData();
         var saveJson = File.ReadAllText("./Assets/Scripts/SaveData.json"); 
         saveData = JsonUtility.FromJson<SaveData>(saveJson);
     }

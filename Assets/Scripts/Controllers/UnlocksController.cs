@@ -15,8 +15,6 @@ public class UnlocksController : MonoBehaviour {
     void Start() {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         treeNodeParents = transform.GetChild(0).gameObject;
-        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json");
-        weaponList = JsonUtility.FromJson<Weapons>(jsonString);
         xp = transform.parent.parent.parent.GetChild(2).GetChild(1).gameObject.GetComponent<Text>();
         xp.text = playerController.experienceSpendable.ToString();
         initialiseWeaponNodes();

@@ -1,294 +1,3250 @@
 {
-    "experienceSpendable": 0.0,
-    "experience": 0.0,
+    "experienceSpendable": 80.0,
+    "experience": 100.0,
     "experienceForNextLevel": 0.0,
     "experienceLevel": 0,
     "weapons": {
         "pistol9mm": {
-            "title": "",
-            "description": "",
-            "unlocked": false,
-            "cost": 0,
+            "title": "9mm Pistol",
+            "description": "wah",
+            "unlocked": true,
+            "cost": 20,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 10.0,
+                "reloadSpeed": 1.2000000476837159,
+                "damage": 7.0,
+                "shotDelay": 0.699999988079071,
+                "spread": 110.0,
+                "bulletVelocity": 120.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 5.0
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "Pistol9mm",
             "xpCost": 0,
             "requiredUnlocks": "",
-            "tier": 0,
+            "tier": 1,
             "requiredUnlocksList": []
         },
         "tec9": {
-            "title": "",
-            "description": "",
-            "unlocked": false,
-            "cost": 0,
+            "title": "Tec 9",
+            "description": "sdhiasd",
+            "unlocked": true,
+            "cost": 20,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 10.0,
+                "reloadSpeed": 1.2000000476837159,
+                "damage": 7.0,
+                "shotDelay": 0.699999988079071,
+                "spread": 110.0,
+                "bulletVelocity": 120.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 5.0
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "Tec9",
             "xpCost": 0,
             "requiredUnlocks": "",
-            "tier": 0,
+            "tier": 1,
             "requiredUnlocksList": []
         },
         "pistol45": {
-            "title": "",
-            "description": "",
-            "unlocked": false,
-            "cost": 0,
+            "title": ".45 Pistol",
+            "description": "asdasdas",
+            "unlocked": true,
+            "cost": 20,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 10.0,
+                "reloadSpeed": 1.2000000476837159,
+                "damage": 7.0,
+                "shotDelay": 0.699999988079071,
+                "spread": 110.0,
+                "bulletVelocity": 120.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 5.0
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "Pistol45",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "pistol9mm",
+            "tier": 2,
+            "requiredUnlocksList": [
+                {
+                    "title": "9mm Pistol",
+                    "description": "wah",
+                    "unlocked": true,
+                    "cost": 20,
+                    "stats": {
+                        "ammoCapacity": 10.0,
+                        "reloadSpeed": 1.2000000476837159,
+                        "damage": 7.0,
+                        "shotDelay": 0.699999988079071,
+                        "spread": 110.0,
+                        "bulletVelocity": 120.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "Handgun",
+                    "script": "Pistol9mm",
+                    "xpCost": 0,
+                    "requiredUnlocks": "",
+                    "tier": 1,
+                    "requiredUnlocksList": []
+                }
+            ]
         },
         "revolver357": {
-            "title": "",
-            "description": "",
+            "title": ".357 Revolver",
+            "description": "das",
             "unlocked": false,
-            "cost": 0,
+            "cost": 20,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 10.0,
+                "reloadSpeed": 1.2000000476837159,
+                "damage": 7.0,
+                "shotDelay": 0.699999988079071,
+                "spread": 110.0,
+                "bulletVelocity": 120.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 5.0
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "Revolver357",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "pistol9mm",
+            "tier": 2,
+            "requiredUnlocksList": [
+                {
+                    "title": "9mm Pistol",
+                    "description": "wah",
+                    "unlocked": true,
+                    "cost": 20,
+                    "stats": {
+                        "ammoCapacity": 10.0,
+                        "reloadSpeed": 1.2000000476837159,
+                        "damage": 7.0,
+                        "shotDelay": 0.699999988079071,
+                        "spread": 110.0,
+                        "bulletVelocity": 120.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "Handgun",
+                    "script": "Pistol9mm",
+                    "xpCost": 0,
+                    "requiredUnlocks": "",
+                    "tier": 1,
+                    "requiredUnlocksList": []
+                }
+            ]
         },
         "autoPistol": {
-            "title": "",
-            "description": "",
+            "title": "Auto-Pistol",
+            "description": "wah",
             "unlocked": false,
-            "cost": 0,
+            "cost": 60,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 19.0,
+                "reloadSpeed": 1.399999976158142,
+                "damage": 4.0,
+                "shotDelay": 0.25,
+                "spread": 130.0,
+                "bulletVelocity": 105.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 4.5
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "AutoPistol",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "pistol9mm,tec9",
+            "tier": 2,
+            "requiredUnlocksList": [
+                {
+                    "title": "9mm Pistol",
+                    "description": "wah",
+                    "unlocked": true,
+                    "cost": 20,
+                    "stats": {
+                        "ammoCapacity": 10.0,
+                        "reloadSpeed": 1.2000000476837159,
+                        "damage": 7.0,
+                        "shotDelay": 0.699999988079071,
+                        "spread": 110.0,
+                        "bulletVelocity": 120.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "Handgun",
+                    "script": "Pistol9mm",
+                    "xpCost": 0,
+                    "requiredUnlocks": "",
+                    "tier": 1,
+                    "requiredUnlocksList": []
+                },
+                {
+                    "title": "Tec 9",
+                    "description": "sdhiasd",
+                    "unlocked": true,
+                    "cost": 20,
+                    "stats": {
+                        "ammoCapacity": 10.0,
+                        "reloadSpeed": 1.2000000476837159,
+                        "damage": 7.0,
+                        "shotDelay": 0.699999988079071,
+                        "spread": 110.0,
+                        "bulletVelocity": 120.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "Handgun",
+                    "script": "Tec9",
+                    "xpCost": 0,
+                    "requiredUnlocks": "",
+                    "tier": 1,
+                    "requiredUnlocksList": []
+                }
+            ]
         },
         "revolver44": {
-            "title": "",
-            "description": "",
+            "title": ".44 Revolver",
+            "description": "wah",
             "unlocked": false,
-            "cost": 0,
+            "cost": 45,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 6.0,
+                "reloadSpeed": 2.200000047683716,
+                "damage": 16.0,
+                "shotDelay": 0.8999999761581421,
+                "spread": 90.0,
+                "bulletVelocity": 170.0,
+                "lifetime": 1.399999976158142,
+                "loudness": 7.0
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "Revolver44",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "pistol45,revolver357",
+            "tier": 3,
+            "requiredUnlocksList": [
+                {
+                    "title": ".45 Pistol",
+                    "description": "asdasdas",
+                    "unlocked": true,
+                    "cost": 20,
+                    "stats": {
+                        "ammoCapacity": 10.0,
+                        "reloadSpeed": 1.2000000476837159,
+                        "damage": 7.0,
+                        "shotDelay": 0.699999988079071,
+                        "spread": 110.0,
+                        "bulletVelocity": 120.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "Handgun",
+                    "script": "Pistol45",
+                    "xpCost": 0,
+                    "requiredUnlocks": "pistol9mm",
+                    "tier": 2,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "9mm Pistol",
+                            "description": "wah",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Pistol9mm",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                },
+                {
+                    "title": ".357 Revolver",
+                    "description": "das",
+                    "unlocked": false,
+                    "cost": 20,
+                    "stats": {
+                        "ammoCapacity": 10.0,
+                        "reloadSpeed": 1.2000000476837159,
+                        "damage": 7.0,
+                        "shotDelay": 0.699999988079071,
+                        "spread": 110.0,
+                        "bulletVelocity": 120.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "Handgun",
+                    "script": "Revolver357",
+                    "xpCost": 0,
+                    "requiredUnlocks": "pistol9mm",
+                    "tier": 2,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "9mm Pistol",
+                            "description": "wah",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Pistol9mm",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                }
+            ]
         },
         "akimboAutoPistols": {
-            "title": "",
-            "description": "",
+            "title": "Akimbo Auto-Pistols",
+            "description": "wah",
             "unlocked": false,
-            "cost": 0,
+            "cost": 60,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 6.0,
+                "reloadSpeed": 2.200000047683716,
+                "damage": 16.0,
+                "shotDelay": 0.8999999761581421,
+                "spread": 90.0,
+                "bulletVelocity": 170.0,
+                "lifetime": 1.399999976158142,
+                "loudness": 7.0
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "AkimboAutoPistols",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "autoPistol,uzi",
+            "tier": 4,
+            "requiredUnlocksList": [
+                {
+                    "title": "Auto-Pistol",
+                    "description": "wah",
+                    "unlocked": false,
+                    "cost": 60,
+                    "stats": {
+                        "ammoCapacity": 19.0,
+                        "reloadSpeed": 1.399999976158142,
+                        "damage": 4.0,
+                        "shotDelay": 0.25,
+                        "spread": 130.0,
+                        "bulletVelocity": 105.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 4.5
+                    },
+                    "group": "Handgun",
+                    "script": "AutoPistol",
+                    "xpCost": 0,
+                    "requiredUnlocks": "pistol9mm,tec9",
+                    "tier": 2,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "9mm Pistol",
+                            "description": "wah",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Pistol9mm",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        },
+                        {
+                            "title": "Tec 9",
+                            "description": "sdhiasd",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Tec9",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                },
+                {
+                    "title": "Uzi",
+                    "description": "asdasdas",
+                    "unlocked": false,
+                    "cost": 90,
+                    "stats": {
+                        "ammoCapacity": 32.0,
+                        "reloadSpeed": 3.200000047683716,
+                        "damage": 6.0,
+                        "shotDelay": 0.3700000047683716,
+                        "spread": 125.0,
+                        "bulletVelocity": 110.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "SMG",
+                    "script": "Uzi",
+                    "xpCost": 0,
+                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                    "tier": 3,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "Auto-Pistol",
+                            "description": "wah",
+                            "unlocked": false,
+                            "cost": 60,
+                            "stats": {
+                                "ammoCapacity": 19.0,
+                                "reloadSpeed": 1.399999976158142,
+                                "damage": 4.0,
+                                "shotDelay": 0.25,
+                                "spread": 130.0,
+                                "bulletVelocity": 105.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 4.5
+                            },
+                            "group": "Handgun",
+                            "script": "AutoPistol",
+                            "xpCost": 0,
+                            "requiredUnlocks": "pistol9mm,tec9",
+                            "tier": 2,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "9mm Pistol",
+                                    "description": "wah",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Pistol9mm",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                },
+                                {
+                                    "title": "Tec 9",
+                                    "description": "sdhiasd",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Tec9",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Uzi",
+                            "description": "asdasdas",
+                            "unlocked": false,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 32.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 110.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Uzi",
+                            "xpCost": 0,
+                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                            "tier": 3,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "Auto-Pistol",
+                                    "description": "wah",
+                                    "unlocked": false,
+                                    "cost": 60,
+                                    "stats": {
+                                        "ammoCapacity": 19.0,
+                                        "reloadSpeed": 1.399999976158142,
+                                        "damage": 4.0,
+                                        "shotDelay": 0.25,
+                                        "spread": 130.0,
+                                        "bulletVelocity": 105.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 4.5
+                                    },
+                                    "group": "Handgun",
+                                    "script": "AutoPistol",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "pistol9mm,tec9",
+                                    "tier": 2,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "9mm Pistol",
+                                            "description": "wah",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Pistol9mm",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        },
+                                        {
+                                            "title": "Tec 9",
+                                            "description": "sdhiasd",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Tec9",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "Uzi",
+                                    "description": "asdasdas",
+                                    "unlocked": false,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 32.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 110.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Uzi",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                    "tier": 3,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "Auto-Pistol",
+                                            "description": "wah",
+                                            "unlocked": false,
+                                            "cost": 60,
+                                            "stats": {
+                                                "ammoCapacity": 19.0,
+                                                "reloadSpeed": 1.399999976158142,
+                                                "damage": 4.0,
+                                                "shotDelay": 0.25,
+                                                "spread": 130.0,
+                                                "bulletVelocity": 105.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 4.5
+                                            },
+                                            "group": "Handgun",
+                                            "script": "AutoPistol",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "pistol9mm,tec9",
+                                            "tier": 2,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "9mm Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Pistol9mm",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                },
+                                                {
+                                                    "title": "Tec 9",
+                                                    "description": "sdhiasd",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Tec9",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": "Uzi",
+                                            "description": "asdasdas",
+                                            "unlocked": false,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 32.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 110.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Uzi",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                            "tier": 3,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "Auto-Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": false,
+                                                    "cost": 60,
+                                                    "stats": {
+                                                        "ammoCapacity": 19.0,
+                                                        "reloadSpeed": 1.399999976158142,
+                                                        "damage": 4.0,
+                                                        "shotDelay": 0.25,
+                                                        "spread": 130.0,
+                                                        "bulletVelocity": 105.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 4.5
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "AutoPistol",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "pistol9mm,tec9",
+                                                    "tier": 2,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "9mm Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Pistol9mm",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        },
+                                                        {
+                                                            "title": "Tec 9",
+                                                            "description": "sdhiasd",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Tec9",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": "Uzi",
+                                                    "description": "asdasdas",
+                                                    "unlocked": false,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 32.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 110.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Uzi",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                    "tier": 3,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "Auto-Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": false,
+                                                            "cost": 60,
+                                                            "group": "Handgun",
+                                                            "script": "AutoPistol",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "pistol9mm,tec9",
+                                                            "tier": 2
+                                                        },
+                                                        {
+                                                            "title": "Uzi",
+                                                            "description": "asdasdas",
+                                                            "unlocked": false,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Uzi",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                            "tier": 3
+                                                        },
+                                                        {
+                                                            "title": ".22 SMG",
+                                                            "description": "asdasdas",
+                                                            "unlocked": true,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Smg22",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": ".22 SMG",
+                                                    "description": "asdasdas",
+                                                    "unlocked": true,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 25.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 102.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Smg22",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": ".22 SMG",
+                                            "description": "asdasdas",
+                                            "unlocked": true,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 25.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 102.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Smg22",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": ".22 SMG",
+                                    "description": "asdasdas",
+                                    "unlocked": true,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 25.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 102.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Smg22",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": ".22 SMG",
+                            "description": "asdasdas",
+                            "unlocked": true,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 25.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 102.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Smg22",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                }
+            ]
         },
         "desertEagle": {
-            "title": "",
-            "description": "",
+            "title": "Desert Eagle",
+            "description": "wah",
             "unlocked": false,
-            "cost": 0,
+            "cost": 75,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 9.0,
+                "reloadSpeed": 2.200000047683716,
+                "damage": 26.0,
+                "shotDelay": 1.100000023841858,
+                "spread": 75.0,
+                "bulletVelocity": 200.0,
+                "lifetime": 1.399999976158142,
+                "loudness": 8.0
             },
-            "group": "",
-            "script": "",
+            "group": "Handgun",
+            "script": "DesertEagle",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "revolver44",
+            "tier": 5,
+            "requiredUnlocksList": [
+                {
+                    "title": ".44 Revolver",
+                    "description": "wah",
+                    "unlocked": false,
+                    "cost": 45,
+                    "stats": {
+                        "ammoCapacity": 6.0,
+                        "reloadSpeed": 2.200000047683716,
+                        "damage": 16.0,
+                        "shotDelay": 0.8999999761581421,
+                        "spread": 90.0,
+                        "bulletVelocity": 170.0,
+                        "lifetime": 1.399999976158142,
+                        "loudness": 7.0
+                    },
+                    "group": "Handgun",
+                    "script": "Revolver44",
+                    "xpCost": 0,
+                    "requiredUnlocks": "pistol45,revolver357",
+                    "tier": 3,
+                    "requiredUnlocksList": [
+                        {
+                            "title": ".45 Pistol",
+                            "description": "asdasdas",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Pistol45",
+                            "xpCost": 0,
+                            "requiredUnlocks": "pistol9mm",
+                            "tier": 2,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "9mm Pistol",
+                                    "description": "wah",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Pistol9mm",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": ".357 Revolver",
+                            "description": "das",
+                            "unlocked": false,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Revolver357",
+                            "xpCost": 0,
+                            "requiredUnlocks": "pistol9mm",
+                            "tier": 2,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "9mm Pistol",
+                                    "description": "wah",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Pistol9mm",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         "smg22": {
-            "title": "",
-            "description": "",
-            "unlocked": false,
-            "cost": 0,
+            "title": ".22 SMG",
+            "description": "asdasdas",
+            "unlocked": true,
+            "cost": 90,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 25.0,
+                "reloadSpeed": 3.200000047683716,
+                "damage": 6.0,
+                "shotDelay": 0.3700000047683716,
+                "spread": 125.0,
+                "bulletVelocity": 102.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 5.0
             },
-            "group": "",
-            "script": "",
+            "group": "SMG",
+            "script": "Smg22",
             "xpCost": 0,
             "requiredUnlocks": "",
-            "tier": 0,
+            "tier": 1,
             "requiredUnlocksList": []
         },
         "uzi": {
-            "title": "",
-            "description": "",
+            "title": "Uzi",
+            "description": "asdasdas",
             "unlocked": false,
-            "cost": 0,
+            "cost": 90,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 32.0,
+                "reloadSpeed": 3.200000047683716,
+                "damage": 6.0,
+                "shotDelay": 0.3700000047683716,
+                "spread": 125.0,
+                "bulletVelocity": 110.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 5.0
             },
-            "group": "",
-            "script": "",
+            "group": "SMG",
+            "script": "Uzi",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "autoPistol,uzi,smg22",
+            "tier": 3,
+            "requiredUnlocksList": [
+                {
+                    "title": "Auto-Pistol",
+                    "description": "wah",
+                    "unlocked": false,
+                    "cost": 60,
+                    "stats": {
+                        "ammoCapacity": 19.0,
+                        "reloadSpeed": 1.399999976158142,
+                        "damage": 4.0,
+                        "shotDelay": 0.25,
+                        "spread": 130.0,
+                        "bulletVelocity": 105.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 4.5
+                    },
+                    "group": "Handgun",
+                    "script": "AutoPistol",
+                    "xpCost": 0,
+                    "requiredUnlocks": "pistol9mm,tec9",
+                    "tier": 2,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "9mm Pistol",
+                            "description": "wah",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Pistol9mm",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        },
+                        {
+                            "title": "Tec 9",
+                            "description": "sdhiasd",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Tec9",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                },
+                {
+                    "title": "Uzi",
+                    "description": "asdasdas",
+                    "unlocked": false,
+                    "cost": 90,
+                    "stats": {
+                        "ammoCapacity": 32.0,
+                        "reloadSpeed": 3.200000047683716,
+                        "damage": 6.0,
+                        "shotDelay": 0.3700000047683716,
+                        "spread": 125.0,
+                        "bulletVelocity": 110.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "SMG",
+                    "script": "Uzi",
+                    "xpCost": 0,
+                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                    "tier": 3,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "Auto-Pistol",
+                            "description": "wah",
+                            "unlocked": false,
+                            "cost": 60,
+                            "stats": {
+                                "ammoCapacity": 19.0,
+                                "reloadSpeed": 1.399999976158142,
+                                "damage": 4.0,
+                                "shotDelay": 0.25,
+                                "spread": 130.0,
+                                "bulletVelocity": 105.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 4.5
+                            },
+                            "group": "Handgun",
+                            "script": "AutoPistol",
+                            "xpCost": 0,
+                            "requiredUnlocks": "pistol9mm,tec9",
+                            "tier": 2,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "9mm Pistol",
+                                    "description": "wah",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Pistol9mm",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                },
+                                {
+                                    "title": "Tec 9",
+                                    "description": "sdhiasd",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Tec9",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Uzi",
+                            "description": "asdasdas",
+                            "unlocked": false,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 32.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 110.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Uzi",
+                            "xpCost": 0,
+                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                            "tier": 3,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "Auto-Pistol",
+                                    "description": "wah",
+                                    "unlocked": false,
+                                    "cost": 60,
+                                    "stats": {
+                                        "ammoCapacity": 19.0,
+                                        "reloadSpeed": 1.399999976158142,
+                                        "damage": 4.0,
+                                        "shotDelay": 0.25,
+                                        "spread": 130.0,
+                                        "bulletVelocity": 105.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 4.5
+                                    },
+                                    "group": "Handgun",
+                                    "script": "AutoPistol",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "pistol9mm,tec9",
+                                    "tier": 2,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "9mm Pistol",
+                                            "description": "wah",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Pistol9mm",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        },
+                                        {
+                                            "title": "Tec 9",
+                                            "description": "sdhiasd",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Tec9",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "Uzi",
+                                    "description": "asdasdas",
+                                    "unlocked": false,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 32.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 110.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Uzi",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                    "tier": 3,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "Auto-Pistol",
+                                            "description": "wah",
+                                            "unlocked": false,
+                                            "cost": 60,
+                                            "stats": {
+                                                "ammoCapacity": 19.0,
+                                                "reloadSpeed": 1.399999976158142,
+                                                "damage": 4.0,
+                                                "shotDelay": 0.25,
+                                                "spread": 130.0,
+                                                "bulletVelocity": 105.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 4.5
+                                            },
+                                            "group": "Handgun",
+                                            "script": "AutoPistol",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "pistol9mm,tec9",
+                                            "tier": 2,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "9mm Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Pistol9mm",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                },
+                                                {
+                                                    "title": "Tec 9",
+                                                    "description": "sdhiasd",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Tec9",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": "Uzi",
+                                            "description": "asdasdas",
+                                            "unlocked": false,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 32.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 110.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Uzi",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                            "tier": 3,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "Auto-Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": false,
+                                                    "cost": 60,
+                                                    "stats": {
+                                                        "ammoCapacity": 19.0,
+                                                        "reloadSpeed": 1.399999976158142,
+                                                        "damage": 4.0,
+                                                        "shotDelay": 0.25,
+                                                        "spread": 130.0,
+                                                        "bulletVelocity": 105.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 4.5
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "AutoPistol",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "pistol9mm,tec9",
+                                                    "tier": 2,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "9mm Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Pistol9mm",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        },
+                                                        {
+                                                            "title": "Tec 9",
+                                                            "description": "sdhiasd",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Tec9",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": "Uzi",
+                                                    "description": "asdasdas",
+                                                    "unlocked": false,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 32.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 110.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Uzi",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                    "tier": 3,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "Auto-Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": false,
+                                                            "cost": 60,
+                                                            "group": "Handgun",
+                                                            "script": "AutoPistol",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "pistol9mm,tec9",
+                                                            "tier": 2
+                                                        },
+                                                        {
+                                                            "title": "Uzi",
+                                                            "description": "asdasdas",
+                                                            "unlocked": false,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Uzi",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                            "tier": 3
+                                                        },
+                                                        {
+                                                            "title": ".22 SMG",
+                                                            "description": "asdasdas",
+                                                            "unlocked": true,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Smg22",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": ".22 SMG",
+                                                    "description": "asdasdas",
+                                                    "unlocked": true,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 25.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 102.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Smg22",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": ".22 SMG",
+                                            "description": "asdasdas",
+                                            "unlocked": true,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 25.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 102.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Smg22",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": ".22 SMG",
+                                    "description": "asdasdas",
+                                    "unlocked": true,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 25.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 102.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Smg22",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": ".22 SMG",
+                            "description": "asdasdas",
+                            "unlocked": true,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 25.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 102.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Smg22",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                },
+                {
+                    "title": ".22 SMG",
+                    "description": "asdasdas",
+                    "unlocked": true,
+                    "cost": 90,
+                    "stats": {
+                        "ammoCapacity": 25.0,
+                        "reloadSpeed": 3.200000047683716,
+                        "damage": 6.0,
+                        "shotDelay": 0.3700000047683716,
+                        "spread": 125.0,
+                        "bulletVelocity": 102.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "SMG",
+                    "script": "Smg22",
+                    "xpCost": 0,
+                    "requiredUnlocks": "",
+                    "tier": 1,
+                    "requiredUnlocksList": []
+                }
+            ]
         },
         "compactSmg": {
-            "title": "",
-            "description": "",
+            "title": "Compact SMG",
+            "description": "asdasdas",
             "unlocked": false,
-            "cost": 0,
+            "cost": 90,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 50.0,
+                "reloadSpeed": 3.200000047683716,
+                "damage": 6.0,
+                "shotDelay": 0.2800000011920929,
+                "spread": 130.0,
+                "bulletVelocity": 102.0,
+                "lifetime": 1.399999976158142,
+                "loudness": 6.0
             },
-            "group": "",
-            "script": "",
+            "group": "SMG",
+            "script": "CompactSmg",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "tec9,smg22",
+            "tier": 3,
+            "requiredUnlocksList": [
+                {
+                    "title": "Tec 9",
+                    "description": "sdhiasd",
+                    "unlocked": true,
+                    "cost": 20,
+                    "stats": {
+                        "ammoCapacity": 10.0,
+                        "reloadSpeed": 1.2000000476837159,
+                        "damage": 7.0,
+                        "shotDelay": 0.699999988079071,
+                        "spread": 110.0,
+                        "bulletVelocity": 120.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "Handgun",
+                    "script": "Tec9",
+                    "xpCost": 0,
+                    "requiredUnlocks": "",
+                    "tier": 1,
+                    "requiredUnlocksList": []
+                },
+                {
+                    "title": ".22 SMG",
+                    "description": "asdasdas",
+                    "unlocked": true,
+                    "cost": 90,
+                    "stats": {
+                        "ammoCapacity": 25.0,
+                        "reloadSpeed": 3.200000047683716,
+                        "damage": 6.0,
+                        "shotDelay": 0.3700000047683716,
+                        "spread": 125.0,
+                        "bulletVelocity": 102.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "SMG",
+                    "script": "Smg22",
+                    "xpCost": 0,
+                    "requiredUnlocks": "",
+                    "tier": 1,
+                    "requiredUnlocksList": []
+                }
+            ]
         },
         "akimboUzis": {
-            "title": "",
-            "description": "",
+            "title": "Akimbo Uzis",
+            "description": "asdasdas",
             "unlocked": false,
-            "cost": 0,
+            "cost": 90,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 25.0,
+                "reloadSpeed": 3.200000047683716,
+                "damage": 6.0,
+                "shotDelay": 0.3700000047683716,
+                "spread": 125.0,
+                "bulletVelocity": 102.0,
+                "lifetime": 1.100000023841858,
+                "loudness": 5.0
             },
-            "group": "",
-            "script": "",
+            "group": "SMG",
+            "script": "AkimboUzis",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "akimboAutoPistols,uzi",
+            "tier": 5,
+            "requiredUnlocksList": [
+                {
+                    "title": "Akimbo Auto-Pistols",
+                    "description": "wah",
+                    "unlocked": false,
+                    "cost": 60,
+                    "stats": {
+                        "ammoCapacity": 6.0,
+                        "reloadSpeed": 2.200000047683716,
+                        "damage": 16.0,
+                        "shotDelay": 0.8999999761581421,
+                        "spread": 90.0,
+                        "bulletVelocity": 170.0,
+                        "lifetime": 1.399999976158142,
+                        "loudness": 7.0
+                    },
+                    "group": "Handgun",
+                    "script": "AkimboAutoPistols",
+                    "xpCost": 0,
+                    "requiredUnlocks": "autoPistol,uzi",
+                    "tier": 4,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "Auto-Pistol",
+                            "description": "wah",
+                            "unlocked": false,
+                            "cost": 60,
+                            "stats": {
+                                "ammoCapacity": 19.0,
+                                "reloadSpeed": 1.399999976158142,
+                                "damage": 4.0,
+                                "shotDelay": 0.25,
+                                "spread": 130.0,
+                                "bulletVelocity": 105.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 4.5
+                            },
+                            "group": "Handgun",
+                            "script": "AutoPistol",
+                            "xpCost": 0,
+                            "requiredUnlocks": "pistol9mm,tec9",
+                            "tier": 2,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "9mm Pistol",
+                                    "description": "wah",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Pistol9mm",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                },
+                                {
+                                    "title": "Tec 9",
+                                    "description": "sdhiasd",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Tec9",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Uzi",
+                            "description": "asdasdas",
+                            "unlocked": false,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 32.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 110.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Uzi",
+                            "xpCost": 0,
+                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                            "tier": 3,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "Auto-Pistol",
+                                    "description": "wah",
+                                    "unlocked": false,
+                                    "cost": 60,
+                                    "stats": {
+                                        "ammoCapacity": 19.0,
+                                        "reloadSpeed": 1.399999976158142,
+                                        "damage": 4.0,
+                                        "shotDelay": 0.25,
+                                        "spread": 130.0,
+                                        "bulletVelocity": 105.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 4.5
+                                    },
+                                    "group": "Handgun",
+                                    "script": "AutoPistol",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "pistol9mm,tec9",
+                                    "tier": 2,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "9mm Pistol",
+                                            "description": "wah",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Pistol9mm",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        },
+                                        {
+                                            "title": "Tec 9",
+                                            "description": "sdhiasd",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Tec9",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "Uzi",
+                                    "description": "asdasdas",
+                                    "unlocked": false,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 32.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 110.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Uzi",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                    "tier": 3,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "Auto-Pistol",
+                                            "description": "wah",
+                                            "unlocked": false,
+                                            "cost": 60,
+                                            "stats": {
+                                                "ammoCapacity": 19.0,
+                                                "reloadSpeed": 1.399999976158142,
+                                                "damage": 4.0,
+                                                "shotDelay": 0.25,
+                                                "spread": 130.0,
+                                                "bulletVelocity": 105.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 4.5
+                                            },
+                                            "group": "Handgun",
+                                            "script": "AutoPistol",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "pistol9mm,tec9",
+                                            "tier": 2,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "9mm Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Pistol9mm",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                },
+                                                {
+                                                    "title": "Tec 9",
+                                                    "description": "sdhiasd",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Tec9",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": "Uzi",
+                                            "description": "asdasdas",
+                                            "unlocked": false,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 32.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 110.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Uzi",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                            "tier": 3,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "Auto-Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": false,
+                                                    "cost": 60,
+                                                    "stats": {
+                                                        "ammoCapacity": 19.0,
+                                                        "reloadSpeed": 1.399999976158142,
+                                                        "damage": 4.0,
+                                                        "shotDelay": 0.25,
+                                                        "spread": 130.0,
+                                                        "bulletVelocity": 105.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 4.5
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "AutoPistol",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "pistol9mm,tec9",
+                                                    "tier": 2,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "9mm Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Pistol9mm",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        },
+                                                        {
+                                                            "title": "Tec 9",
+                                                            "description": "sdhiasd",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Tec9",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": "Uzi",
+                                                    "description": "asdasdas",
+                                                    "unlocked": false,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 32.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 110.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Uzi",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                    "tier": 3,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "Auto-Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": false,
+                                                            "cost": 60,
+                                                            "group": "Handgun",
+                                                            "script": "AutoPistol",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "pistol9mm,tec9",
+                                                            "tier": 2
+                                                        },
+                                                        {
+                                                            "title": "Uzi",
+                                                            "description": "asdasdas",
+                                                            "unlocked": false,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Uzi",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                            "tier": 3
+                                                        },
+                                                        {
+                                                            "title": ".22 SMG",
+                                                            "description": "asdasdas",
+                                                            "unlocked": true,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Smg22",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": ".22 SMG",
+                                                    "description": "asdasdas",
+                                                    "unlocked": true,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 25.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 102.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Smg22",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": ".22 SMG",
+                                            "description": "asdasdas",
+                                            "unlocked": true,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 25.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 102.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Smg22",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": ".22 SMG",
+                                    "description": "asdasdas",
+                                    "unlocked": true,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 25.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 102.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Smg22",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Uzi",
+                    "description": "asdasdas",
+                    "unlocked": false,
+                    "cost": 90,
+                    "stats": {
+                        "ammoCapacity": 32.0,
+                        "reloadSpeed": 3.200000047683716,
+                        "damage": 6.0,
+                        "shotDelay": 0.3700000047683716,
+                        "spread": 125.0,
+                        "bulletVelocity": 110.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "SMG",
+                    "script": "Uzi",
+                    "xpCost": 0,
+                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                    "tier": 3,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "Auto-Pistol",
+                            "description": "wah",
+                            "unlocked": false,
+                            "cost": 60,
+                            "stats": {
+                                "ammoCapacity": 19.0,
+                                "reloadSpeed": 1.399999976158142,
+                                "damage": 4.0,
+                                "shotDelay": 0.25,
+                                "spread": 130.0,
+                                "bulletVelocity": 105.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 4.5
+                            },
+                            "group": "Handgun",
+                            "script": "AutoPistol",
+                            "xpCost": 0,
+                            "requiredUnlocks": "pistol9mm,tec9",
+                            "tier": 2,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "9mm Pistol",
+                                    "description": "wah",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Pistol9mm",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                },
+                                {
+                                    "title": "Tec 9",
+                                    "description": "sdhiasd",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Tec9",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Uzi",
+                            "description": "asdasdas",
+                            "unlocked": false,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 32.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 110.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Uzi",
+                            "xpCost": 0,
+                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                            "tier": 3,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "Auto-Pistol",
+                                    "description": "wah",
+                                    "unlocked": false,
+                                    "cost": 60,
+                                    "stats": {
+                                        "ammoCapacity": 19.0,
+                                        "reloadSpeed": 1.399999976158142,
+                                        "damage": 4.0,
+                                        "shotDelay": 0.25,
+                                        "spread": 130.0,
+                                        "bulletVelocity": 105.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 4.5
+                                    },
+                                    "group": "Handgun",
+                                    "script": "AutoPistol",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "pistol9mm,tec9",
+                                    "tier": 2,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "9mm Pistol",
+                                            "description": "wah",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Pistol9mm",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        },
+                                        {
+                                            "title": "Tec 9",
+                                            "description": "sdhiasd",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Tec9",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "Uzi",
+                                    "description": "asdasdas",
+                                    "unlocked": false,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 32.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 110.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Uzi",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                    "tier": 3,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "Auto-Pistol",
+                                            "description": "wah",
+                                            "unlocked": false,
+                                            "cost": 60,
+                                            "stats": {
+                                                "ammoCapacity": 19.0,
+                                                "reloadSpeed": 1.399999976158142,
+                                                "damage": 4.0,
+                                                "shotDelay": 0.25,
+                                                "spread": 130.0,
+                                                "bulletVelocity": 105.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 4.5
+                                            },
+                                            "group": "Handgun",
+                                            "script": "AutoPistol",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "pistol9mm,tec9",
+                                            "tier": 2,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "9mm Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Pistol9mm",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                },
+                                                {
+                                                    "title": "Tec 9",
+                                                    "description": "sdhiasd",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Tec9",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": "Uzi",
+                                            "description": "asdasdas",
+                                            "unlocked": false,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 32.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 110.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Uzi",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                            "tier": 3,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "Auto-Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": false,
+                                                    "cost": 60,
+                                                    "stats": {
+                                                        "ammoCapacity": 19.0,
+                                                        "reloadSpeed": 1.399999976158142,
+                                                        "damage": 4.0,
+                                                        "shotDelay": 0.25,
+                                                        "spread": 130.0,
+                                                        "bulletVelocity": 105.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 4.5
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "AutoPistol",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "pistol9mm,tec9",
+                                                    "tier": 2,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "9mm Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Pistol9mm",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        },
+                                                        {
+                                                            "title": "Tec 9",
+                                                            "description": "sdhiasd",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Tec9",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": "Uzi",
+                                                    "description": "asdasdas",
+                                                    "unlocked": false,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 32.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 110.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Uzi",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                    "tier": 3,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "Auto-Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": false,
+                                                            "cost": 60,
+                                                            "group": "Handgun",
+                                                            "script": "AutoPistol",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "pistol9mm,tec9",
+                                                            "tier": 2
+                                                        },
+                                                        {
+                                                            "title": "Uzi",
+                                                            "description": "asdasdas",
+                                                            "unlocked": false,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Uzi",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                            "tier": 3
+                                                        },
+                                                        {
+                                                            "title": ".22 SMG",
+                                                            "description": "asdasdas",
+                                                            "unlocked": true,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Smg22",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": ".22 SMG",
+                                                    "description": "asdasdas",
+                                                    "unlocked": true,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 25.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 102.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Smg22",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": ".22 SMG",
+                                            "description": "asdasdas",
+                                            "unlocked": true,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 25.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 102.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Smg22",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": ".22 SMG",
+                                    "description": "asdasdas",
+                                    "unlocked": true,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 25.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 102.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Smg22",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": ".22 SMG",
+                            "description": "asdasdas",
+                            "unlocked": true,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 25.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 102.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Smg22",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                }
+            ]
         },
         "heavySmg": {
-            "title": "",
-            "description": "",
+            "title": "Heavy SMG",
+            "description": "asdasdas",
             "unlocked": false,
-            "cost": 0,
+            "cost": 120,
             "stats": {
-                "ammoCapacity": 0.0,
-                "reloadSpeed": 0.0,
-                "damage": 0.0,
-                "shotDelay": 0.0,
-                "spread": 0.0,
-                "bulletVelocity": 0.0,
-                "lifetime": 0.0,
-                "loudness": 0.0
+                "ammoCapacity": 25.0,
+                "reloadSpeed": 3.200000047683716,
+                "damage": 6.0,
+                "shotDelay": 0.3700000047683716,
+                "spread": 118.0,
+                "bulletVelocity": 140.0,
+                "lifetime": 1.7000000476837159,
+                "loudness": 6.5
             },
-            "group": "",
-            "script": "",
+            "group": "SMG",
+            "script": "HeavySmg",
             "xpCost": 0,
-            "requiredUnlocks": "",
-            "tier": 0,
-            "requiredUnlocksList": []
+            "requiredUnlocks": "compactSmg,uzi",
+            "tier": 5,
+            "requiredUnlocksList": [
+                {
+                    "title": "Compact SMG",
+                    "description": "asdasdas",
+                    "unlocked": false,
+                    "cost": 90,
+                    "stats": {
+                        "ammoCapacity": 50.0,
+                        "reloadSpeed": 3.200000047683716,
+                        "damage": 6.0,
+                        "shotDelay": 0.2800000011920929,
+                        "spread": 130.0,
+                        "bulletVelocity": 102.0,
+                        "lifetime": 1.399999976158142,
+                        "loudness": 6.0
+                    },
+                    "group": "SMG",
+                    "script": "CompactSmg",
+                    "xpCost": 0,
+                    "requiredUnlocks": "tec9,smg22",
+                    "tier": 3,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "Tec 9",
+                            "description": "sdhiasd",
+                            "unlocked": true,
+                            "cost": 20,
+                            "stats": {
+                                "ammoCapacity": 10.0,
+                                "reloadSpeed": 1.2000000476837159,
+                                "damage": 7.0,
+                                "shotDelay": 0.699999988079071,
+                                "spread": 110.0,
+                                "bulletVelocity": 120.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "Handgun",
+                            "script": "Tec9",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        },
+                        {
+                            "title": ".22 SMG",
+                            "description": "asdasdas",
+                            "unlocked": true,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 25.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 102.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Smg22",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                },
+                {
+                    "title": "Uzi",
+                    "description": "asdasdas",
+                    "unlocked": false,
+                    "cost": 90,
+                    "stats": {
+                        "ammoCapacity": 32.0,
+                        "reloadSpeed": 3.200000047683716,
+                        "damage": 6.0,
+                        "shotDelay": 0.3700000047683716,
+                        "spread": 125.0,
+                        "bulletVelocity": 110.0,
+                        "lifetime": 1.100000023841858,
+                        "loudness": 5.0
+                    },
+                    "group": "SMG",
+                    "script": "Uzi",
+                    "xpCost": 0,
+                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                    "tier": 3,
+                    "requiredUnlocksList": [
+                        {
+                            "title": "Auto-Pistol",
+                            "description": "wah",
+                            "unlocked": false,
+                            "cost": 60,
+                            "stats": {
+                                "ammoCapacity": 19.0,
+                                "reloadSpeed": 1.399999976158142,
+                                "damage": 4.0,
+                                "shotDelay": 0.25,
+                                "spread": 130.0,
+                                "bulletVelocity": 105.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 4.5
+                            },
+                            "group": "Handgun",
+                            "script": "AutoPistol",
+                            "xpCost": 0,
+                            "requiredUnlocks": "pistol9mm,tec9",
+                            "tier": 2,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "9mm Pistol",
+                                    "description": "wah",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Pistol9mm",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                },
+                                {
+                                    "title": "Tec 9",
+                                    "description": "sdhiasd",
+                                    "unlocked": true,
+                                    "cost": 20,
+                                    "stats": {
+                                        "ammoCapacity": 10.0,
+                                        "reloadSpeed": 1.2000000476837159,
+                                        "damage": 7.0,
+                                        "shotDelay": 0.699999988079071,
+                                        "spread": 110.0,
+                                        "bulletVelocity": 120.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "Handgun",
+                                    "script": "Tec9",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Uzi",
+                            "description": "asdasdas",
+                            "unlocked": false,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 32.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 110.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Uzi",
+                            "xpCost": 0,
+                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                            "tier": 3,
+                            "requiredUnlocksList": [
+                                {
+                                    "title": "Auto-Pistol",
+                                    "description": "wah",
+                                    "unlocked": false,
+                                    "cost": 60,
+                                    "stats": {
+                                        "ammoCapacity": 19.0,
+                                        "reloadSpeed": 1.399999976158142,
+                                        "damage": 4.0,
+                                        "shotDelay": 0.25,
+                                        "spread": 130.0,
+                                        "bulletVelocity": 105.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 4.5
+                                    },
+                                    "group": "Handgun",
+                                    "script": "AutoPistol",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "pistol9mm,tec9",
+                                    "tier": 2,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "9mm Pistol",
+                                            "description": "wah",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Pistol9mm",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        },
+                                        {
+                                            "title": "Tec 9",
+                                            "description": "sdhiasd",
+                                            "unlocked": true,
+                                            "cost": 20,
+                                            "stats": {
+                                                "ammoCapacity": 10.0,
+                                                "reloadSpeed": 1.2000000476837159,
+                                                "damage": 7.0,
+                                                "shotDelay": 0.699999988079071,
+                                                "spread": 110.0,
+                                                "bulletVelocity": 120.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "Handgun",
+                                            "script": "Tec9",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "Uzi",
+                                    "description": "asdasdas",
+                                    "unlocked": false,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 32.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 110.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Uzi",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                    "tier": 3,
+                                    "requiredUnlocksList": [
+                                        {
+                                            "title": "Auto-Pistol",
+                                            "description": "wah",
+                                            "unlocked": false,
+                                            "cost": 60,
+                                            "stats": {
+                                                "ammoCapacity": 19.0,
+                                                "reloadSpeed": 1.399999976158142,
+                                                "damage": 4.0,
+                                                "shotDelay": 0.25,
+                                                "spread": 130.0,
+                                                "bulletVelocity": 105.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 4.5
+                                            },
+                                            "group": "Handgun",
+                                            "script": "AutoPistol",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "pistol9mm,tec9",
+                                            "tier": 2,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "9mm Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Pistol9mm",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                },
+                                                {
+                                                    "title": "Tec 9",
+                                                    "description": "sdhiasd",
+                                                    "unlocked": true,
+                                                    "cost": 20,
+                                                    "stats": {
+                                                        "ammoCapacity": 10.0,
+                                                        "reloadSpeed": 1.2000000476837159,
+                                                        "damage": 7.0,
+                                                        "shotDelay": 0.699999988079071,
+                                                        "spread": 110.0,
+                                                        "bulletVelocity": 120.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "Tec9",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": "Uzi",
+                                            "description": "asdasdas",
+                                            "unlocked": false,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 32.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 110.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Uzi",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                            "tier": 3,
+                                            "requiredUnlocksList": [
+                                                {
+                                                    "title": "Auto-Pistol",
+                                                    "description": "wah",
+                                                    "unlocked": false,
+                                                    "cost": 60,
+                                                    "stats": {
+                                                        "ammoCapacity": 19.0,
+                                                        "reloadSpeed": 1.399999976158142,
+                                                        "damage": 4.0,
+                                                        "shotDelay": 0.25,
+                                                        "spread": 130.0,
+                                                        "bulletVelocity": 105.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 4.5
+                                                    },
+                                                    "group": "Handgun",
+                                                    "script": "AutoPistol",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "pistol9mm,tec9",
+                                                    "tier": 2,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "9mm Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Pistol9mm",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        },
+                                                        {
+                                                            "title": "Tec 9",
+                                                            "description": "sdhiasd",
+                                                            "unlocked": true,
+                                                            "cost": 20,
+                                                            "group": "Handgun",
+                                                            "script": "Tec9",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": "Uzi",
+                                                    "description": "asdasdas",
+                                                    "unlocked": false,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 32.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 110.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Uzi",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                    "tier": 3,
+                                                    "requiredUnlocksList": [
+                                                        {
+                                                            "title": "Auto-Pistol",
+                                                            "description": "wah",
+                                                            "unlocked": false,
+                                                            "cost": 60,
+                                                            "group": "Handgun",
+                                                            "script": "AutoPistol",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "pistol9mm,tec9",
+                                                            "tier": 2
+                                                        },
+                                                        {
+                                                            "title": "Uzi",
+                                                            "description": "asdasdas",
+                                                            "unlocked": false,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Uzi",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "autoPistol,uzi,smg22",
+                                                            "tier": 3
+                                                        },
+                                                        {
+                                                            "title": ".22 SMG",
+                                                            "description": "asdasdas",
+                                                            "unlocked": true,
+                                                            "cost": 90,
+                                                            "group": "SMG",
+                                                            "script": "Smg22",
+                                                            "xpCost": 0,
+                                                            "requiredUnlocks": "",
+                                                            "tier": 1
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "title": ".22 SMG",
+                                                    "description": "asdasdas",
+                                                    "unlocked": true,
+                                                    "cost": 90,
+                                                    "stats": {
+                                                        "ammoCapacity": 25.0,
+                                                        "reloadSpeed": 3.200000047683716,
+                                                        "damage": 6.0,
+                                                        "shotDelay": 0.3700000047683716,
+                                                        "spread": 125.0,
+                                                        "bulletVelocity": 102.0,
+                                                        "lifetime": 1.100000023841858,
+                                                        "loudness": 5.0
+                                                    },
+                                                    "group": "SMG",
+                                                    "script": "Smg22",
+                                                    "xpCost": 0,
+                                                    "requiredUnlocks": "",
+                                                    "tier": 1,
+                                                    "requiredUnlocksList": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "title": ".22 SMG",
+                                            "description": "asdasdas",
+                                            "unlocked": true,
+                                            "cost": 90,
+                                            "stats": {
+                                                "ammoCapacity": 25.0,
+                                                "reloadSpeed": 3.200000047683716,
+                                                "damage": 6.0,
+                                                "shotDelay": 0.3700000047683716,
+                                                "spread": 125.0,
+                                                "bulletVelocity": 102.0,
+                                                "lifetime": 1.100000023841858,
+                                                "loudness": 5.0
+                                            },
+                                            "group": "SMG",
+                                            "script": "Smg22",
+                                            "xpCost": 0,
+                                            "requiredUnlocks": "",
+                                            "tier": 1,
+                                            "requiredUnlocksList": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": ".22 SMG",
+                                    "description": "asdasdas",
+                                    "unlocked": true,
+                                    "cost": 90,
+                                    "stats": {
+                                        "ammoCapacity": 25.0,
+                                        "reloadSpeed": 3.200000047683716,
+                                        "damage": 6.0,
+                                        "shotDelay": 0.3700000047683716,
+                                        "spread": 125.0,
+                                        "bulletVelocity": 102.0,
+                                        "lifetime": 1.100000023841858,
+                                        "loudness": 5.0
+                                    },
+                                    "group": "SMG",
+                                    "script": "Smg22",
+                                    "xpCost": 0,
+                                    "requiredUnlocks": "",
+                                    "tier": 1,
+                                    "requiredUnlocksList": []
+                                }
+                            ]
+                        },
+                        {
+                            "title": ".22 SMG",
+                            "description": "asdasdas",
+                            "unlocked": true,
+                            "cost": 90,
+                            "stats": {
+                                "ammoCapacity": 25.0,
+                                "reloadSpeed": 3.200000047683716,
+                                "damage": 6.0,
+                                "shotDelay": 0.3700000047683716,
+                                "spread": 125.0,
+                                "bulletVelocity": 102.0,
+                                "lifetime": 1.100000023841858,
+                                "loudness": 5.0
+                            },
+                            "group": "SMG",
+                            "script": "Smg22",
+                            "xpCost": 0,
+                            "requiredUnlocks": "",
+                            "tier": 1,
+                            "requiredUnlocksList": []
+                        }
+                    ]
+                }
+            ]
         }
     }
 }
