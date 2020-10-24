@@ -107,5 +107,6 @@ public class WeaponNode : MonoBehaviour,
         unlocks.playerController.experienceSpendable -= weapon.cost;
         unlocks.xp.text = unlocks.playerController.experienceSpendable.ToString();
         unlocks.initialiseWeaponNodes(parentIndex);
+        unlocks.updatePlayerWeapons();
     }
 }

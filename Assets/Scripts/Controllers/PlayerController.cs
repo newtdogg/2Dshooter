@@ -25,6 +25,7 @@ public class PlayerController : CharacterController {
     public float experienceForNextLevel;
     public int experienceLevel;
     public float[] experienceLevelUpRequirement;
+    public Weapons weaponsList;
 
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();

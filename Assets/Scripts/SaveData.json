@@ -1,5 +1,5 @@
 {
-    "experienceSpendable": 80.0,
+    "experienceSpendable": 200.0,
     "experience": 100.0,
     "experienceForNextLevel": 0.0,
     "experienceLevel": 0,
@@ -96,7 +96,7 @@
         "revolver357": {
             "title": ".357 Revolver",
             "description": "das",
-            "unlocked": false,
+            "unlocked": true,
             "cost": 20,
             "stats": {
                 "ammoCapacity": 10.0,
@@ -208,7 +208,7 @@
         "revolver44": {
             "title": ".44 Revolver",
             "description": "wah",
-            "unlocked": false,
+            "unlocked": true,
             "cost": 45,
             "stats": {
                 "ammoCapacity": 6.0,
@@ -274,7 +274,7 @@
                 {
                     "title": ".357 Revolver",
                     "description": "das",
-                    "unlocked": false,
+                    "unlocked": true,
                     "cost": 20,
                     "stats": {
                         "ammoCapacity": 10.0,
@@ -914,7 +914,7 @@
                 {
                     "title": ".44 Revolver",
                     "description": "wah",
-                    "unlocked": false,
+                    "unlocked": true,
                     "cost": 45,
                     "stats": {
                         "ammoCapacity": 6.0,
@@ -980,7 +980,7 @@
                         {
                             "title": ".357 Revolver",
                             "description": "das",
-                            "unlocked": false,
+                            "unlocked": true,
                             "cost": 20,
                             "stats": {
                                 "ammoCapacity": 10.0,

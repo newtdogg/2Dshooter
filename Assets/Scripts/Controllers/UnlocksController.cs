@@ -50,4 +50,10 @@ public class UnlocksController : MonoBehaviour {
             weapon.requiredUnlocksList.Add(gunObject);
         }
     }
+
+    public void updatePlayerWeapons() {
+        playerController.weaponsList = weaponList;
+    }
+
+    
 }

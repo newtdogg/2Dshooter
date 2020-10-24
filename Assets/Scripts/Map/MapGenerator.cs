@@ -27,7 +27,7 @@ public class MapGenerator : MonoBehaviour {
         craftingStation = GameObject.Find("CraftingStation");
 		player = GameObject.Find("Player");
 		// mapToCreate = GameObject.Find("GameController").GetComponent<GameController>().activeMap;
-		mapToCreate = new IntroMap().map;
+		mapToCreate = new DebugMap().map;
 		tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
 		spawners = new Dictionary<int, Spawner>();
 		arenaWalls = new Dictionary<int, List<List<Vector2Int>>>();

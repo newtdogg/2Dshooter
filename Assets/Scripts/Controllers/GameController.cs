@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour {
     void Start() {
         if (SceneManager.GetActiveScene().name != "MainMenu") {
             playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+            playerController.weaponsList = persistenceController.saveData.weapons;
             playerController.loadData(persistenceController.saveData);
             door = GameObject.Find("Door");
             transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(() => saveGame());
