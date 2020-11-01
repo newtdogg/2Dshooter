@@ -25,7 +25,7 @@ public class Bullet : Projectile {
             }
             if(col.gameObject.name.Contains("Mob")) {
                 var colliderScript = col.gameObject.GetComponent<AIController>();
-                colliderScript.health -= colliderScript.playerController.getGun().currentStats.damage;
+                colliderScript.updateDamage(colliderScript.playerController.getGun().currentStats.damage);
             }
             if(col.gameObject.name.Contains("Player")){
                 var colliderScript = col.gameObject.GetComponent<PlayerController>();

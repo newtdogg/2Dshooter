@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pickup : MonoBehaviour {
     // Start is called before the first frame update
     public string type;
+    public int value;
 
     protected virtual void OnTriggerEnter2D(Collider2D col) {
         if(col.gameObject.name == "Player") {
@@ -17,6 +18,7 @@ public class Pickup : MonoBehaviour {
             if (child.name == type) {
                 transform.SetParent(child);
                 gameObject.SetActive(false);
+                player.GetComponent<PlayerController>().pickupItemUI(this);
             }
         }
     }

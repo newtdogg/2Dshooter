@@ -15,6 +15,7 @@ public class PlayerController : CharacterController {
     // public GameObject armorBoots;
 
     private Gun gun;
+    private Transform pickupUI;
     public int scrap;
     private Text scrapText;
     public float speed;
@@ -35,6 +36,7 @@ public class PlayerController : CharacterController {
         gun.setPlayerController(this);
         scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
+        pickupUI = transform.GetChild(8);
         maxHealth = 100;
         experienceLevelUpRequirement = new float[] { 0f, 1000f, 2000f, 5000f, 10000f };
         experienceSpendable = 200f;
@@ -181,5 +183,24 @@ public class PlayerController : CharacterController {
         experience = saveData.experience;
         experienceForNextLevel = saveData.experienceForNextLevel;
         experienceLevel = saveData.experienceLevel;
+    }
+
+    public void pickupItemUI(Pickup pickup) {
+        foreach (Transform pickupText in pickupUI) {
+            if(pickupText.gameObject.name == pickup.type) {
+                var textScript = pickupText.gameObject.GetComponent<PickupText>();
+                textScript.timer = 0;
+                textScript.value += pickup.value;
+                pickupText.gameObject.GetComponent<Text>().text = $"{pickup.type} x{textScript.value}";
+                return;
+            }
+        }
+        var pickupTitleObject = Instantiate(pickupUI.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
+        pickupTitleObject.transform.SetParent(pickupUI);
+        pickupTitleObject.name = pickup.type;
+        pickupTitleObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0.5f * pickupUI.childCount - 1, 0);
+        var newTextScript = pickupTitleObject.GetComponent<PickupText>();
+        newTextScript.value += pickup.value;
+        pickupTitleObject.GetComponent<Text>().text = $"{pickup.type} x{newTextScript.value}";
     }
 }

@@ -5,11 +5,11 @@ using System.IO;
 // using System;
 
 public class AttachmentRecipe : Recipe {
-    public string gunType;
     public List<Attachment> attachmentsAvailable;
 
     void Start()
     {
+        value = 1;
         type = "AttachmentRecipe";
         var jsonString = File.ReadAllText("./Assets/Scripts/Attachments/Attachments.json");
         var attachmentJson = JsonUtility.FromJson<Attachments>(jsonString);

@@ -6,6 +6,7 @@ using System.IO;
 
 public class WeaponRecipe : Recipe {
     void Start() {
+        value = 1;
         type = "WeaponRecipe";
     }
 }

@@ -6,5 +6,6 @@ using UnityEngine.UI;
 public class Armor : MonoBehaviour {
 
     public int value;
+    public string slot;
 
 }

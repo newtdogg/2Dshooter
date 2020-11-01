@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class AIController : MonoBehaviour
@@ -11,9 +12,13 @@ public class AIController : MonoBehaviour
     public string status;   
     public float maxHealth;
     public float attackDelay;
+    public float damageIndicatorTimer;
     public string title;
     public LootController lootController;
 	public float speed;
+    public Text damageIndicator;
+    public float damageIndicatorInt;
+    public Transform damageParent;
     public Vector3 playersLastKnownPosition;
     public Transform target;
     private Vector2[] path;
@@ -129,4 +134,16 @@ public class AIController : MonoBehaviour
         }
     }
 
+    public void updateDamage(float damage) {
+        health -= damage;
+        if(damageIndicatorTimer > 0) {
+            damageIndicatorTimer = 0;
+            damageIndicatorInt += damage;
+            damageIndicator.text = Mathf.Round(damageIndicatorInt).ToString();
+        } else {
+            damageParent.GetChild(0).gameObject.SetActive(true);
+            damageIndicatorInt = damage;
+            damageIndicator.text = Mathf.Round(damageIndicatorInt).ToString();
+        }
+    }
 }
