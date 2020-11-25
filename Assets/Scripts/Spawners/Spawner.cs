@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour {
     private GameObject[] minibossTypes;
     private TileTools tileTools;
     public int id;
+    public bool isWave;
     public Transform zombiesList;
     public int width;
     public int height;
@@ -19,12 +20,14 @@ public class Spawner : MonoBehaviour {
     public bool battleStarted;
     public bool battleCompleted;
     public GameObject wallClone;
+    public bool empty;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
 
     void Awake () {
         walls = new List<List<Vector2Int>>();
         battleStarted = false;
+        empty = false;
         zombieTypes = getSpawnerObjectsOfType("Zombies");
         minibossTypes = getSpawnerObjectsOfType("MiniBosses");
         wallClone = GameObject.Find("Wall");
@@ -36,6 +39,9 @@ public class Spawner : MonoBehaviour {
     void Update() {
         if(battleStarted && !battleCompleted && transform.GetChild(0).childCount == 0) {
             completeBattle();
+        }
+        if(!empty && zombiesList.childCount == 0) {
+            empty = true;
         }
     }
 
@@ -51,11 +57,14 @@ public class Spawner : MonoBehaviour {
         }
         return mobTypes;
     }
+
     public void spawnInitialZombies() {
         if((width * height)/ 4 < initialZombieSpawn) {
             Debug.Log("Area too small");
         }
-        positionZombies();
+        if(!isWave) {
+            positionZombies();
+        }
     }
 
     public void startBattle() {
@@ -88,7 +97,7 @@ public class Spawner : MonoBehaviour {
                 System.Random pseudoRandom = new System.Random(seed.GetHashCode() + i);
                 var zombiePosX = pseudoRandom.Next(i * distance, (i + 1) * distance);
                 var zombiePosY = pseudoRandom.Next(0, height);
-                spawnZombie(zombiePosX, zombiePosY);
+                spawnZombie(zombiePosX, zombiePosY, zombieTypes[zombieType]);
             }
         }
         if(type == "miniboss") {
@@ -103,28 +112,41 @@ public class Spawner : MonoBehaviour {
         bossClone.transform.SetParent(zombiesList);
     }
 
-    public void spawnZombie(int x, int y) {
-        GameObject zombieTypeObject = zombieTypes[zombieType];
+    public void spawnZombie(int x, int y, GameObject zombieTypeArg) {
+        GameObject zombieTypeObject = zombieTypeArg;
         var zombieClone = Instantiate(zombieTypeObject, new Vector2(transform.position.x + x, transform.position.y + y), Quaternion.identity) as GameObject;
         zombieClone.transform.SetParent(zombiesList);
         zombieClone.GetComponent<ZombieController>().setDormant();
     }
 
-
+    public void spawnZombieGroup(int quantity, string zType) {
+        var distance = width / quantity;
+        var seed = Time.time.ToString();
+        for(var i = 0; i < quantity; i++) {
+            System.Random pseudoRandom = new System.Random(seed.GetHashCode() + i);
+            var zombiePosX = pseudoRandom.Next(i * distance, (i + 1) * distance);
+            var zombiePosY = pseudoRandom.Next(0, height);
+            var zombieGameObject = Array.Find(zombieTypes, z => z.name == zType);
+            spawnZombie(zombiePosX, zombiePosY, zombieGameObject);
+        }
+    }
 
     public void setAttributes(int spawnerInt) {
         var spawnerIntStr = spawnerInt.ToString();
         id = Int16.Parse(spawnerIntStr.Substring(0,1));
         width = Int16.Parse(spawnerIntStr.Substring(1,2));
         height = Int16.Parse(spawnerIntStr.Substring(3,2));
-        initialZombieSpawn = Int16.Parse(spawnerIntStr.Substring(5,1));
-        zombieType = Int16.Parse(spawnerIntStr.Substring(6, spawnerIntStr.Length - 6));
-        if(zombieType < 10) {
-            type = "zombie";
-        } else {
-            type = "miniboss";
-        }
         centerOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
+        isWave = spawnerIntStr.Substring(spawnerIntStr.Length - 3) == "000";
+        if(!isWave) {
+            initialZombieSpawn = Int16.Parse(spawnerIntStr.Substring(5,1));
+            zombieType = Int16.Parse(spawnerIntStr.Substring(6, spawnerIntStr.Length - 6));
+            if(zombieType < 10) {
+                type = "zombie";
+            } else {
+                type = "miniboss";
+            }
+        }
     }
 
     public void setWallTriggers() {
@@ -144,10 +166,8 @@ public class Spawner : MonoBehaviour {
     }
 
     public void createWallTrigger(List<Vector2Int> wall, Vector2 wallCenter, string primaryDirection) {
-
         var newWall = Instantiate(wallClone, wallCenter, Quaternion.identity) as GameObject;
         newWall.GetComponent<BoxCollider2D>().size = primaryDirection == "y" ? new Vector2(1, wall.Count) : new Vector2(wall.Count, 1);
         newWall.transform.SetParent(transform);
     }
-    
 }

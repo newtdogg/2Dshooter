@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
+using System.IO;
 
 public class GameController : MonoBehaviour {
     public string mode;
     public int[,] activeMap;
     private string[] maps;
+    private WaveData waveData;
+    private int waveIndex;
+    public bool nextWave;
+    public bool waveComplete;
+    private bool gameStarted;
+    public bool survival;
+    public float globalSpeed;
     private PlayerController playerController;
     private UnlocksController unlocksController;
     private GameObject door;
     private PersistenceController persistenceController;
+    private MapGenerator mapGenerator;
+    public List<Spawner> spawners;
 
     public static GameController controller;
 
@@ -34,13 +45,34 @@ public class GameController : MonoBehaviour {
         if (SceneManager.GetActiveScene().name != "MainMenu") {
             playerController = GameObject.Find("Player").GetComponent<PlayerController>();
             playerController.weaponsList = persistenceController.saveData.weapons;
-            playerController.loadData(persistenceController.saveData);
+            playerController.gameController = this;
+            // playerController.loadData(persistenceController.saveData);
             door = GameObject.Find("Door");
             transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(() => saveGame());
+            mapGenerator = GameObject.Find("MapGridObject").GetComponent<MapGenerator>();
+            mapGenerator.gameController = this;
+            var waveString = File.ReadAllText("./Assets/Scripts/WaveData.json");
+            waveData = JsonUtility.FromJson<WaveData>(waveString);
+            startGameSurvival();
         }
     }
 
-    public void nextLevel () {}
+    void Update() {
+        checkNextLevel();
+    }
+
+    public void checkNextLevel () {
+        if(gameStarted) {
+            var currentZombieCount = 0;
+            foreach (var spawner in spawners) {
+                currentZombieCount += spawner.transform.GetChild(0).childCount;
+            }
+            if(currentZombieCount == 0 && nextWave) {
+                nextWave = false;
+                StartCoroutine("startWave");
+            }
+        }
+    }
 
     public void returnToIntroArea () {
         Destroy(playerController);
@@ -65,6 +97,46 @@ public class GameController : MonoBehaviour {
         persistenceController.saveData.experienceLevel = playerController.experienceLevel;
         persistenceController.saveData.weapons = unlocksController.weaponList;
         persistenceController.saveGame();
-        Debug.Log($"{persistenceController.saveData.experienceSpendable}, {playerController.experienceSpendable}");
+    }
+
+    public IEnumerator startWave() {
+        Debug.Log("starting wave");
+        Debug.Log(waveIndex);
+        yield return new WaitForSeconds (1f);
+        var currentWaveInfo = waveData.waves[waveIndex];
+        var numberList = Enumerable.Range(0, mapGenerator.spawners.Count - 1).ToList();
+        var remainingZombies = 0;
+        for(var i = 0; i < currentWaveInfo.groups.Count; i++) {
+            var zombieGroup = currentWaveInfo.groups[i];
+            var rand = new System.Random((int)System.DateTime.Now.Ticks);
+            var randomSpawnerIndex = numberList[rand.Next(numberList.Count)];
+            Debug.Log(zombieGroup.quantity);
+            Debug.Log(zombieGroup.type);
+            numberList.Remove(randomSpawnerIndex);
+            remainingZombies += zombieGroup.quantity;
+            spawners[randomSpawnerIndex].spawnZombieGroup(zombieGroup.quantity, zombieGroup.type);
+        }
+        nextWave = true;
+        waveIndex += 1;
+    }
+
+    public void startGameSurvival() {
+        gameStarted = true;
+        waveIndex = 0;
+        StartCoroutine("startWave");
+    }
+
+    public void globalSpeedSlow() {
+        StartCoroutine("globalSlowmo");
+    }
+
+    public IEnumerator globalSlowmo() {
+        globalSpeed = 0.3f;
+        while(globalSpeed < 1) {
+            globalSpeed += 0.01f;
+            yield return new WaitForSeconds (0.005f);
+        }
+        globalSpeed = 1;
+        yield return null;
     }
 }

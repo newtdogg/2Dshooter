@@ -17,7 +17,9 @@ public class MapGenerator : MonoBehaviour {
 	private Dictionary<string, TileBase> bedrockTypes;
 	public bool mapGenerated;
 	private TileTools tileTools;
-	private Dictionary<int, Spawner> spawners;
+	public int spawnerCount;
+	public GameController gameController;
+	public Dictionary<int, Spawner> spawners;
 	private Dictionary<int, List<List<Vector2Int>>> arenaWalls;
 	private GameObject player;
 
@@ -27,10 +29,11 @@ public class MapGenerator : MonoBehaviour {
         craftingStation = GameObject.Find("CraftingStation");
 		player = GameObject.Find("Player");
 		// mapToCreate = GameObject.Find("GameController").GetComponent<GameController>().activeMap;
-		mapToCreate = new DebugMap().map;
+		mapToCreate = new SurvivalMap().map;
 		tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
 		spawners = new Dictionary<int, Spawner>();
 		arenaWalls = new Dictionary<int, List<List<Vector2Int>>>();
+		spawnerCount = 0;
 		if(generateRandomMap) {
 			// CODE GOES HERE
 		} else {
@@ -44,7 +47,7 @@ public class MapGenerator : MonoBehaviour {
 		var spawnerClone = Instantiate(GameObject.Find("Spawner"), new Vector2(posX, posY), Quaternion.identity) as GameObject;
 		var spawnerScript = spawnerClone.GetComponent<Spawner>();
 		spawnerScript.setAttributes(spawnerInt);
-		spawners.Add(spawnerScript.id, spawnerScript);
+		spawners.Add(spawnerCount, spawnerScript);
 
 		// var col = spawnerClone.GetComponent<BoxCollider2D>();
 		// col.size = new Vector2(spawnerScript.width, spawnerScript.height);
@@ -134,6 +137,7 @@ public class MapGenerator : MonoBehaviour {
                     break;
                 }
                 if (intMap[x, y] > 10000) {
+					spawnerCount += 1;
                     generateSpawner(intMap[x, y], x, y);
                 } else if (intMap[x, y] > 100) {
                     setArenaWall(intMap[x, y], x, y);
@@ -145,6 +149,7 @@ public class MapGenerator : MonoBehaviour {
 			spawners[wall.Key].walls = wall.Value;
 			spawners[wall.Key].setWallTriggers();
 		}
+		gameController.spawners = new List<Spawner>(spawners.Values);
 
         // map.worldTiles = tileTools.worldTileArray;
     }

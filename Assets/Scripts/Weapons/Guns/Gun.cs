@@ -134,7 +134,7 @@ public abstract class Gun : MonoBehaviour {
         var bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.properties = bulletProperties;
         // Debug.Log(bulletScript.properties["poison"]);
-        bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity);
+        bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity * playerController.gameController.globalSpeed);
         bulletScript.setLifetime(currentStats.lifetime);
         bulletScript.parent = gameObject.name;
     }

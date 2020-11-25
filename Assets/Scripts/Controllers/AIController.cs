@@ -95,7 +95,7 @@ public class AIController : MonoBehaviour
             // tilemap.SetColor(currentWaypointInt, Color.black);
             // Debug.Log($"{transform}{gameObject.name}");
             // rbody.AddForce(new Vector3(currentWaypoint.x * -1, currentWaypoint.y * -1, 0).normalized * 2);
-            transform.position = Vector3.MoveTowards(transform.position, (Vector3)currentWaypoint, Time.deltaTime * speed/5);
+            transform.position = Vector3.MoveTowards(transform.position, (Vector3)currentWaypoint, Time.deltaTime * speed/5 * (playerController.gameController.globalSpeed));
 			yield return null;
 		}
 	}

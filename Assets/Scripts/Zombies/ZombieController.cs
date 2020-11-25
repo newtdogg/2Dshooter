@@ -94,6 +94,7 @@ public class ZombieController : AIController
         Destroy(gameObject);
         lootController.dropZombieLoot(transform.position, title);
         playerController.updateXP(xpValue);
+        // playerController.gameController.globalSpeedSlow();
     }
 
 }

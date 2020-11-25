@@ -21,6 +21,7 @@ public class PlayerController : CharacterController {
     public float speed;
     private GameObject detection;
     public bool canMove;
+    public GameController gameController;
     public float experienceSpendable;
     public float experience;
     public float experienceForNextLevel;
@@ -43,6 +44,7 @@ public class PlayerController : CharacterController {
         experience = 0f;
         experienceLevel = 0;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
+        Debug.Log(experienceForNextLevel);
         updateXP(0f);
         canMove = true;
         speed = 22f;
@@ -72,7 +74,7 @@ public class PlayerController : CharacterController {
         }
         detection.transform.GetChild(0).localScale = new Vector3(sneak["detectionDistance"], sneak["detectionDistance"], 0) * 2;
         detection.transform.GetChild(1).localScale = new Vector3(sneak["attackDistance"], sneak["attackDistance"], 0) * 2;
-        var movSpeed = speed;
+        var movSpeed = speed * gameController.globalSpeed;
         if (Input.GetKey(KeyCode.LeftShift)) {
             movSpeed = speed/2;
             sneak["detectionDistance"] = sneakDefault["detectionDistance"]/2;
@@ -161,7 +163,8 @@ public class PlayerController : CharacterController {
     public void updateXP(float xpValue) {
         experience += xpValue;
         experienceSpendable += xpValue;
-        var experiencePercentage = (experience - experienceLevelUpRequirement[experienceLevel])/(experienceForNextLevel - experienceLevelUpRequirement[experienceLevel]);
+        var xpDiff = experienceLevelUpRequirement[experienceLevel];
+        var experiencePercentage = (experience - xpDiff)/(experienceForNextLevel - xpDiff);
         var experienceBarWidth = experiencePercentage * 300;
         if(experiencePercentage >= 1) {
             experiencePercentage -= 1;
