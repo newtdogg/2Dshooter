@@ -26,7 +26,7 @@ public abstract class Gun : MonoBehaviour {
     public Dictionary<string, bool> bulletProperties;
     public GameObject activeBullet;
     private PlayerController playerController;
-    public Vector2 bulletPosition;
+    public Vector3 bulletPosition;
     public Vector2 bulletDirection;
     private Transform gunUI;
     private Text ammoCountUI;
@@ -91,13 +91,13 @@ public abstract class Gun : MonoBehaviour {
             float spreadFloat = ((float)spread - currentStats.spread/2)/1000;
             
             if (Input.GetKey(KeyCode.UpArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x, transform.position.y + 0.6f), new Vector2(spreadFloat, 1));
+                directionallyShootGun(new Vector3(0f, 0.6f, 0f), new Vector2(spreadFloat, 1));
             } else if (Input.GetKey(KeyCode.DownArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x, transform.position.y - 0.6f), new Vector2(spreadFloat, -1));
+                directionallyShootGun(new Vector3(0f, -0.6f, 0f), new Vector2(spreadFloat, -1));
             } else if (Input.GetKey(KeyCode.LeftArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x - 0.6f, transform.position.y), new Vector2(-1, spreadFloat));
+                directionallyShootGun(new Vector3(-0.6f, 0f, 0f), new Vector2(-1, spreadFloat));
             } else if (Input.GetKey(KeyCode.RightArrow)) {
-                directionallyShootGun(new Vector2(transform.position.x + 0.6f, transform.position.y), new Vector2(1, spreadFloat));
+                directionallyShootGun(new Vector3(0.6f, 0f, 0f), new Vector2(1, spreadFloat));
             }
         }
     }
@@ -130,7 +130,7 @@ public abstract class Gun : MonoBehaviour {
     }
 
     public void fireBullet () {
-        GameObject bullet = Instantiate(bulletObject, bulletPosition, Quaternion.identity) as GameObject;
+        GameObject bullet = Instantiate(bulletObject, playerController.transform.position + bulletPosition, Quaternion.identity) as GameObject;
         var bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.properties = bulletProperties;
         // Debug.Log(bulletScript.properties["poison"]);

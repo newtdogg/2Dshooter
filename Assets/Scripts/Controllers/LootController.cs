@@ -59,7 +59,9 @@ public class LootController : MonoBehaviour {
         var lootType = stats.GetType().GetProperty(type).GetValue(stats, null) as DropChance;
         var dropChanceValue = (int)lootType.GetType().GetProperty(dropchanceKey).GetValue(lootType, null);
         var chance = rand.Next(0, dropChanceValue);
-        if(chance == 1) {
+        Debug.Log("test");
+        Debug.Log(chance);
+        if(chance == 0) {
             generateLoot(loot, position);
         }
     }

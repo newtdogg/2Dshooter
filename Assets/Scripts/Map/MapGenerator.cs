@@ -22,11 +22,13 @@ public class MapGenerator : MonoBehaviour {
 	public Dictionary<int, Spawner> spawners;
 	private Dictionary<int, List<List<Vector2Int>>> arenaWalls;
 	private GameObject player;
+	private GameObject shadowBlock;
 
 	void Start() {
 		shop = GameObject.Find("Shop");
 		map = gameObject.GetComponent<Map>();
         craftingStation = GameObject.Find("CraftingStation");
+		shadowBlock = GameObject.Find("Shadow");
 		player = GameObject.Find("Player");
 		// mapToCreate = GameObject.Find("GameController").GetComponent<GameController>().activeMap;
 		mapToCreate = new SurvivalMap().map;
@@ -61,6 +63,14 @@ public class MapGenerator : MonoBehaviour {
         cameraBoundary.transform.localScale = new Vector3(width, height, 0);
         cameraBoundaryCollider.offset = new Vector2(width/2, height/2);
     }
+
+	private void addShadowSprite(Vector3Int pos) {
+		var neighbours = getNeighbourTileValues(pos);
+		if(neighbours.Contains(2)) {
+			var newShadow = Instantiate(shadowBlock, new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0), Quaternion.identity);
+			newShadow.transform.SetParent(shadowBlock.transform.parent);
+		}
+	}
 
 	public int GetSurroundingTileCount(int gridX, int gridY, string tileCover) {
 		int wallCount = 0;
@@ -97,6 +107,24 @@ public class MapGenerator : MonoBehaviour {
 		return neighbours;
 	}
 
+	public List<int> getNeighbourTileValues(Vector3Int tilePos) {
+		List<int> neighbours = new List<int>();
+		for (int x = -1; x <= 1; x++) {
+			for (int y = -1; y <= 1; y++) {
+				if(x == 0 && y == 0) {
+					continue;
+				}
+				var checkX = tilePos.x + x;
+				var checkY = tilePos.y + y;
+
+				if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < height) {
+					neighbours.Add(mapToCreate[(int)checkX, (int)checkY]);
+				}
+			}
+		}
+		return neighbours;
+	}
+
 	private void simpleMapGeneration(int[,] intMap) {
         width = intMap.GetLength(0);
         height = intMap.GetLength(1);
@@ -113,6 +141,7 @@ public class MapGenerator : MonoBehaviour {
                 switch (intMap[x, y]) {
                     case 0:
                         tileTools.setWallTile(x, y);
+						// addShadowSprite(new Vector3Int(x, y, 0));
                         break;
                     case 1:
 						tileTools.setGroundTile(x, y, true);

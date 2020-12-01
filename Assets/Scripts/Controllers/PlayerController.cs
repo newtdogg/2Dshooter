@@ -10,9 +10,9 @@ public class PlayerController : CharacterController {
     private Dictionary<string,float> sneakDefault;
 
     public Transform armorParent;
-    // public GameObject armorHead;
-    // public GameObject armorBody;
-    // public GameObject armorBoots;
+    public GameObject armorHead;
+    public GameObject armorBody;
+    public GameObject armorBoots;
 
     private Gun gun;
     private Transform pickupUI;
@@ -28,6 +28,8 @@ public class PlayerController : CharacterController {
     public int experienceLevel;
     public float[] experienceLevelUpRequirement;
     public Weapons weaponsList;
+    private Vector3 lastDirection;
+    private GameObject torch;
 
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();
@@ -38,16 +40,16 @@ public class PlayerController : CharacterController {
         scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         pickupUI = transform.GetChild(8);
+        torch = transform.GetChild(9).gameObject;
         maxHealth = 100;
         experienceLevelUpRequirement = new float[] { 0f, 1000f, 2000f, 5000f, 10000f };
         experienceSpendable = 200f;
         experience = 0f;
         experienceLevel = 0;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
-        Debug.Log(experienceForNextLevel);
         updateXP(0f);
         canMove = true;
-        speed = 22f;
+        speed = 45f;
         scrap = 80;
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
@@ -61,10 +63,10 @@ public class PlayerController : CharacterController {
             { "attackDistance", 12f }
         };
 
-        // armorParent = transform.GetChild(6);
-        // armorHead = armorParent.GetChild(0).gameObject;
-        // armorBody = armorParent.GetChild(1).gameObject;
-        // armorBoots = armorParent.GetChild(2).gameObject;
+        armorParent = transform.GetChild(7);
+        armorHead = armorParent.GetChild(0).gameObject;
+        armorBody = armorParent.GetChild(1).gameObject;
+        armorBoots = armorParent.GetChild(2).gameObject;
     }
 
     // Update is called once per frame
@@ -85,6 +87,12 @@ public class PlayerController : CharacterController {
             sneak["detectionDistance"] = sneakDefault["detectionDistance"];
             sneak["attackDistance"] = sneakDefault["attackDistance"];
         }
+        // TOGGLE TORCH
+        if (Input.GetKeyDown(KeyCode.T)) {
+            transform.GetChild(9).gameObject.SetActive(!transform.GetChild(9).gameObject.activeSelf);
+            // TODO:
+            // Handle stealth change with torch toggle
+        }
         movementControls(movSpeed);
         gun.shootingGunCheck();
     }
@@ -94,19 +102,40 @@ public class PlayerController : CharacterController {
         if(canMove) {
             if (Input.GetKey(KeyCode.A)) {
                 movementVector += Vector3.left;
+                handleDirection(movementVector);
             }
             if (Input.GetKey(KeyCode.D)) {
                 movementVector += Vector3.right;
+                handleDirection(movementVector);
             }
             if (Input.GetKey(KeyCode.W)) {
                 movementVector += Vector3.up;
+                handleDirection(movementVector);
             }
             if (Input.GetKey(KeyCode.S)) {
                 movementVector += Vector3.down;
+                handleDirection(movementVector);
             }
             rbody.AddForce(movementVector.normalized * speed);
         }
     }
+    public void handleDirection(Vector3 direction) {
+        if(direction != lastDirection) {
+            var diffAngle = Vector3.Angle(lastDirection, direction);
+            var normalAngle = Vector3.Angle(new Vector3(0, 1, 0), direction);
+            var targetDirection = direction.x > 0 ? Quaternion.Euler(0, 0, 360 - normalAngle) : Quaternion.Euler(0, 0, normalAngle);
+            Debug.Log(targetDirection);
+            torch.transform.rotation = targetDirection;
+        }
+        lastDirection = direction;
+    }
+
+    // public IEnumerator updateTorchDirection(Quaternion direction) {
+    //     while(transform.rotation.z != direction.z) {
+    //         transform.Rotate = Quaternion.Euler(0, 0, transform.rotation.z += 0.1f);
+    //         yield return new WaitForSeconds (0.001f);
+    //     }
+    // }
 
     public Gun getGun() {
         return this.gun;
