@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.UI;
 
 public class PlayerController : CharacterController {
@@ -30,6 +31,8 @@ public class PlayerController : CharacterController {
     public Weapons weaponsList;
     private Vector3 lastDirection;
     private GameObject torch;
+    public Transform enemyIndicatorParent;
+    private List<Spawner> activeSpawners;
 
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();
@@ -41,6 +44,8 @@ public class PlayerController : CharacterController {
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         pickupUI = transform.GetChild(8);
         torch = transform.GetChild(9).gameObject;
+        // enemyIndicatorParent = transform.GetChild(3).GetChild(4);
+        enemyIndicatorParent = transform.GetChild(10);
         maxHealth = 100;
         experienceLevelUpRequirement = new float[] { 0f, 1000f, 2000f, 5000f, 10000f };
         experienceSpendable = 200f;
@@ -48,6 +53,7 @@ public class PlayerController : CharacterController {
         experienceLevel = 0;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
         updateXP(0f);
+        activeSpawners = new List<Spawner>();
         canMove = true;
         speed = 45f;
         scrap = 80;
@@ -94,6 +100,7 @@ public class PlayerController : CharacterController {
             // Handle stealth change with torch toggle
         }
         movementControls(movSpeed);
+        updateEnemyIndicators();
         gun.shootingGunCheck();
     }
 
@@ -119,6 +126,7 @@ public class PlayerController : CharacterController {
             rbody.AddForce(movementVector.normalized * speed);
         }
     }
+
     public void handleDirection(Vector3 direction) {
         if(direction != lastDirection) {
             var diffAngle = Vector3.Angle(lastDirection, direction);
@@ -130,10 +138,61 @@ public class PlayerController : CharacterController {
         lastDirection = direction;
     }
 
-    // public IEnumerator updateTorchDirection(Quaternion direction) {
-    //     while(transform.rotation.z != direction.z) {
-    //         transform.Rotate = Quaternion.Euler(0, 0, transform.rotation.z += 0.1f);
-    //         yield return new WaitForSeconds (0.001f);
+    public void setupEnemyIndicators(List<Spawner> spawners) {
+        activeSpawners = spawners;
+        foreach (Transform child in enemyIndicatorParent.GetChild(1)) {
+            Destroy(child.gameObject);
+        }
+        foreach (var spawner in spawners) {
+            var zomInd = Instantiate(enemyIndicatorParent.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
+            zomInd.transform.SetParent(enemyIndicatorParent.GetChild(1));
+            zomInd.transform.localPosition = Vector3.zero;
+            var normalizedDiff = (transform.position - spawner.transform.position).normalized;
+            var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
+            var distance = (sneakDefault["attackDistance"] * 2) > 22 ? 22 : sneakDefault["attackDistance"] * 2;
+            zomInd.transform.GetChild(0).localPosition = new Vector3(0, distance, 0);
+            zomInd.transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
+        }
+    }
+
+    public void updateEnemyIndicators() {
+        var count = 0;
+        foreach (var spawner in activeSpawners) {
+            var normalizedDiff = (transform.position - spawner.transform.position).normalized;
+            var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
+            var distance = (sneakDefault["attackDistance"] * 2) > 22 ? 22 : sneakDefault["attackDistance"] * 2;
+            enemyIndicatorParent.GetChild(1).GetChild(count).GetChild(0).localPosition = new Vector3(0, distance, 0);
+            enemyIndicatorParent.GetChild(1).GetChild(count).transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
+            count += 1;
+        }
+    }
+
+    // public void setupEnemyIndicators(List<Spawner> spawners) {
+    //     activeSpawners = spawners;
+    //     foreach (Transform child in enemyIndicatorParent.GetChild(1)) {
+    //         Destroy(child.gameObject);
+    //     }
+    //     foreach (var spawner in spawners) {
+    //         var zomInd = Instantiate(enemyIndicatorParent.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
+    //         zomInd.transform.SetParent(enemyIndicatorParent.GetChild(1));
+    //         zomInd.transform.localPosition = Vector3.zero;
+    //         var normalizedDiff = (transform.position - spawner.transform.position).normalized;
+    //         var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
+    //         var distance = sneakDefault["attackDistance"] > 11 ? 11 : sneakDefault["attackDistance"];
+    //         zomInd.transform.GetChild(0).localPosition = new Vector3(0, distance * 100, 0);
+    //         zomInd.transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
+    //     }
+    // }
+
+    // public void updateEnemyIndicators() {
+    //     var count = 0;
+    //     foreach (var spawner in activeSpawners) {
+    //          var normalizedDiff = (transform.position - spawner.transform.position).normalized;
+    //         var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
+    //         var distance = sneakDefault["attackDistance"] > 11 ? 11 : sneakDefault["attackDistance"];
+    //         enemyIndicatorParent.GetChild(1).GetChild(count).GetChild(0).localPosition = new Vector3(0, distance * 100, 0);
+    //         enemyIndicatorParent.GetChild(1).GetChild(count).transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
+    //         count += 1;
     //     }
     // }
 

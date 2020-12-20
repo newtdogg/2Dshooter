@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour {
     void Awake () {
         walls = new List<List<Vector2Int>>();
         battleStarted = false;
-        empty = false;
+        empty = true;
         zombieTypes = getSpawnerObjectsOfType("Zombies");
         minibossTypes = getSpawnerObjectsOfType("MiniBosses");
         wallClone = GameObject.Find("Wall");
@@ -120,6 +120,7 @@ public class Spawner : MonoBehaviour {
     }
 
     public void spawnZombieGroup(int quantity, string zType) {
+        empty = false;
         var distance = width / quantity;
         var seed = Time.time.ToString();
         for(var i = 0; i < quantity; i++) {

@@ -116,6 +116,7 @@ public class GameController : MonoBehaviour {
             remainingZombies += zombieGroup.quantity;
             spawners[randomSpawnerIndex].spawnZombieGroup(zombieGroup.quantity, zombieGroup.type);
         }
+        playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
         nextWave = true;
         waveIndex += 1;
     }
