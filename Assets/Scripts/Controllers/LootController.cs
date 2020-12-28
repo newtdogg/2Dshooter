@@ -12,7 +12,7 @@ public class LootController : MonoBehaviour {
     void Start() {
         lootTypes = new Dictionary<string, GameObject>() {
             { "scrap", GameObject.Find("Scrap") },
-            { "recipe", GameObject.Find("Recipe") }
+            { "Recipe", GameObject.Find("Recipe") }
         };
         var jsonString = File.ReadAllText("./Assets/Scripts/DropChance.json"); 
         stats = JsonUtility.FromJson<DropChanceList>(jsonString);
@@ -59,9 +59,8 @@ public class LootController : MonoBehaviour {
         var lootType = stats.GetType().GetProperty(type).GetValue(stats, null) as DropChance;
         var dropChanceValue = (int)lootType.GetType().GetProperty(dropchanceKey).GetValue(lootType, null);
         var chance = rand.Next(0, dropChanceValue);
-        Debug.Log("test");
-        Debug.Log(chance);
         if(chance == 0) {
+            Debug.Log(loot);
             generateLoot(loot, position);
         }
     }

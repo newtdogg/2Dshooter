@@ -43,7 +43,7 @@ public class PlayerController : CharacterController {
         scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         pickupUI = transform.GetChild(8);
-        torch = transform.GetChild(9).gameObject;
+        torch = transform.GetChild(9).GetChild(0).gameObject;
         // enemyIndicatorParent = transform.GetChild(3).GetChild(4);
         enemyIndicatorParent = transform.GetChild(10);
         maxHealth = 100;
@@ -132,7 +132,6 @@ public class PlayerController : CharacterController {
             var diffAngle = Vector3.Angle(lastDirection, direction);
             var normalAngle = Vector3.Angle(new Vector3(0, 1, 0), direction);
             var targetDirection = direction.x > 0 ? Quaternion.Euler(0, 0, 360 - normalAngle) : Quaternion.Euler(0, 0, normalAngle);
-            Debug.Log(targetDirection);
             torch.transform.rotation = targetDirection;
         }
         lastDirection = direction;

@@ -16,6 +16,7 @@ public class AIController : MonoBehaviour
     public string title;
     public LootController lootController;
 	public float speed;
+    public Vector3 facingDirection;
     public Text damageIndicator;
     public float damageIndicatorInt;
     public Transform damageParent;
@@ -96,6 +97,8 @@ public class AIController : MonoBehaviour
             // Debug.Log($"{transform}{gameObject.name}");
             // rbody.AddForce(new Vector3(currentWaypoint.x * -1, currentWaypoint.y * -1, 0).normalized * 2);
             transform.position = Vector3.MoveTowards(transform.position, (Vector3)currentWaypoint, Time.deltaTime * speed/5 * (playerController.gameController.globalSpeed));
+            facingDirection = ((Vector3)currentWaypoint - transform.position).normalized;
+            // Debug.Log(90 - (Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg));
 			yield return null;
 		}
 	}

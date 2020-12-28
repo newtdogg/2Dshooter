@@ -1,6 +1,6 @@
 {
     "mobRipper": {
-        "speed": 20,
+        "speed": 25,
         "maxHealth": 26,
         "damage": 15,
         "xpValue": 30
