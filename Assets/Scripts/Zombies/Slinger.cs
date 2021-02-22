@@ -25,7 +25,7 @@ public class Slinger : ZombieController
                 status = "attacking";
                 break;
             case "idle":
-                idleBehaviour();
+                manageBehaviourState();
                 break;
         }
         if(health <= 0) {

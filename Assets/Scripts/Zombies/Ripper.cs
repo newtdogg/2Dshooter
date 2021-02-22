@@ -9,11 +9,18 @@ public class Ripper : ZombieController
     // Start is called before the first frame update
     void Start() {
         defaultZombieAwake("MobRipper");
+
+        var mapObject = GameObject.Find("MapGridObject");
+        tilemap = mapObject.transform.GetChild(0).gameObject.GetComponent<Tilemap>();
+
         damageIndicatorTimer = 0f;
         damageParent = transform.GetChild(0);
         damageIndicator = damageParent.GetChild(0).gameObject.GetComponent<Text>();
         damageIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2.34f, 0);
         damageParent.GetChild(0).gameObject.SetActive(false);
+        if(gameObject.name == $"{title}(Clone)") {
+            setIdle();
+        }
     }
 
     void Update() {
@@ -25,7 +32,7 @@ public class Ripper : ZombieController
                 status = "attacking";
                 break;
             case "idle":
-                idleBehaviour();
+                manageBehaviourState();
                 break;
             case "dormant":
                 break;

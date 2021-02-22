@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 using System;
 
 public class AIController : MonoBehaviour
 {
+    public Tilemap tilemap;
+
     public float health;
     public string type;
     public float detectionTimer;
@@ -17,6 +20,7 @@ public class AIController : MonoBehaviour
     public LootController lootController;
 	public float speed;
     public Vector3 facingDirection;
+    public Vector3 startingPosition;
     public Text damageIndicator;
     public float damageIndicatorInt;
     public Transform damageParent;
@@ -28,6 +32,7 @@ public class AIController : MonoBehaviour
     public float distance;
     public Spawner spawner;
     public GameObject bullet;
+    public bool inIdleMovement;
     public GameObject player;
     public PlayerController playerController;
     public GameController gameController;
@@ -36,6 +41,7 @@ public class AIController : MonoBehaviour
 	private float pathUpdateMoveThreshold = 0.6f;
     public bool canMove;
     public List<Action> attacks;
+    public List<Action> idleBehaviours;
     public Vector3 spawnPosition;
 
     public void OnPathFound(Vector2[] newPath, bool pathSuccessful) {
@@ -59,9 +65,17 @@ public class AIController : MonoBehaviour
     }
 
     public void setIdle() {
-        // Debug.Log("idle");
+        Debug.Log("idle");
         status = "idle";
         detectionTimer = -1f;
+        // StartCoroutine(handleIdleBehaviours());
+    }
+
+    public IEnumerator handleIdleBehaviours() {
+        var rand = new System.Random((int)System.DateTime.Now.Ticks);
+        var randIdleMovement = idleBehaviours[rand.Next(0, idleBehaviours.Count)];
+        randIdleMovement();
+        yield return null;
     }
 
     public void setDormant() {
@@ -83,13 +97,15 @@ public class AIController : MonoBehaviour
                 if (targetIndex >= path.Length) {
                     currentWaypoint = player.transform.position;
                 } else {
-                    var waypointDirection = (transform.position - new Vector3(path[targetIndex].x, path[targetIndex].y)).normalized;
-                    var playerDirection = (transform.position - player.transform.position).normalized;
-                    if(waypointDirection != playerDirection) {
-                        currentWaypoint = player.transform.position;
-                    } else {
+                    // var waypointDirection = (transform.position - new Vector3(path[targetIndex].x, path[targetIndex].y)).normalized;
+                    // var playerDirection = (transform.position - player.transform.position).normalized;
+                    // if(waypointDirection != playerDirection) {
+                    //     Debug.Log("target player");
+                    //     currentWaypoint = player.transform.position;
+                    // } else {
+                    //     Debug.Log("target path");
                         currentWaypoint = path[targetIndex];
-                    }
+                    // }
                 }
             }
             // tilemap.SetTileFlags(currentWaypointInt, TileFlags.None);
@@ -121,7 +137,7 @@ public class AIController : MonoBehaviour
 				PathRequestController.RequestPath((Vector2)transform.position, (Vector2)player.transform.position, OnPathFound);
 				targetPosOld = player.transform.position;
             // }
-            if(distance < 5) {
+            if(distance < 2) {
                 // Debug.Log("chasing");
                 currentWaypoint = player.transform.position;
             }
@@ -133,7 +149,6 @@ public class AIController : MonoBehaviour
             var randAttack = attacks[rand.Next(0, attacks.Count)];
             randAttack();
             yield return new WaitForSeconds (attackDelay);
-
         }
     }
 
@@ -149,4 +164,5 @@ public class AIController : MonoBehaviour
             damageIndicator.text = Mathf.Round(damageIndicatorInt).ToString();
         }
     }
+
 }

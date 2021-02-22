@@ -66,7 +66,7 @@ public class Eyesore : MiniBoss {
             bulletClone.GetComponent<Bullet>().setLifetime(4);
             bulletClone.GetComponent<Bullet>().parent = gameObject.name;
         }
-        sprayCount += 1;
+        sprayCount++;
         yield return null;
     }
 

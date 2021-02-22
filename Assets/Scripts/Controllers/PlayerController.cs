@@ -146,7 +146,7 @@ public class PlayerController : CharacterController {
             var zomInd = Instantiate(enemyIndicatorParent.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
             zomInd.transform.SetParent(enemyIndicatorParent.GetChild(1));
             zomInd.transform.localPosition = Vector3.zero;
-            var normalizedDiff = (transform.position - spawner.transform.position).normalized;
+            var normalizedDiff = (transform.position - spawner.centerOfObject).normalized;
             var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
             var distance = (sneakDefault["attackDistance"] * 2) > 22 ? 22 : sneakDefault["attackDistance"] * 2;
             zomInd.transform.GetChild(0).localPosition = new Vector3(0, distance, 0);
@@ -157,12 +157,15 @@ public class PlayerController : CharacterController {
     public void updateEnemyIndicators() {
         var count = 0;
         foreach (var spawner in activeSpawners) {
-            var normalizedDiff = (transform.position - spawner.transform.position).normalized;
+            if(spawner.zombiesList.childCount == 0) {
+                Destroy(enemyIndicatorParent.GetChild(1).GetChild(count).gameObject);
+            }
+            var normalizedDiff = (transform.position - spawner.centerOfObject).normalized;
             var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
             var distance = (sneakDefault["attackDistance"] * 2) > 22 ? 22 : sneakDefault["attackDistance"] * 2;
             enemyIndicatorParent.GetChild(1).GetChild(count).GetChild(0).localPosition = new Vector3(0, distance, 0);
             enemyIndicatorParent.GetChild(1).GetChild(count).transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
-            count += 1;
+            count++;
         }
     }
 
@@ -191,7 +194,7 @@ public class PlayerController : CharacterController {
     //         var distance = sneakDefault["attackDistance"] > 11 ? 11 : sneakDefault["attackDistance"];
     //         enemyIndicatorParent.GetChild(1).GetChild(count).GetChild(0).localPosition = new Vector3(0, distance * 100, 0);
     //         enemyIndicatorParent.GetChild(1).GetChild(count).transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
-    //         count += 1;
+    //         count++;
     //     }
     // }
 
@@ -263,7 +266,7 @@ public class PlayerController : CharacterController {
     }
 
     public void levelUp() {
-        experienceLevel += 1;
+        experienceLevel++;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
         transform.GetChild(3).GetChild(3).GetChild(3).gameObject.GetComponent<Text>().text = experienceLevel.ToString();
     }

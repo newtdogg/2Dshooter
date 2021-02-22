@@ -25,7 +25,7 @@ public class UnlocksController : MonoBehaviour {
         var count = 0;
         foreach (var weapon in typeof(Weapons).GetProperties()) {
             if(transform.GetChild(parentCount).GetChild(0).childCount <= count) {
-                parentCount += 1;
+                parentCount++;
                 count = 0;
             }     
             var newWeapon = weapon.GetValue(weaponList) as Weapon;
@@ -34,7 +34,7 @@ public class UnlocksController : MonoBehaviour {
                 setWeaponChildren(newWeapon);
             }
             transform.GetChild(parentCount).GetChild(0).GetChild(count).gameObject.GetComponent<WeaponNode>().setupNode(newWeapon, parentCount + 1);
-            count += 1;
+            count++;
         }
         if(selectGroup != 0) {
             transform.GetChild(selectGroup - 1).GetChild(1).gameObject.GetComponent<UnlocksOverlay>().selectGunGroup();

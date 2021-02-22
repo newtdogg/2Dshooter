@@ -20,7 +20,7 @@ public class Lubber : ZombieController
                 status = "attacking";
                 break;
             case "idle":
-                idleBehaviour();
+                manageBehaviourState();
                 break;
         }
         if(health <= 0) {

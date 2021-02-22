@@ -44,7 +44,7 @@ public class Shop : BuyPoint {
         }
         foreach (var weapon in getAvailableGunsToBuy()) {
             generateGunButtonInShop(weapon, index);
-            index += 1;
+            index++;
         }
     }
 
@@ -91,7 +91,7 @@ public class Shop : BuyPoint {
         foreach (Transform recipe in weaponRecipesParent) {
             var recipeWeaponGroup = recipe.gameObject.GetComponent<WeaponRecipe>().gunType;
             if(weaponTiers.ContainsKey(recipeWeaponGroup)) {
-                weaponTiers[recipeWeaponGroup] += 1;
+                weaponTiers[recipeWeaponGroup]++;
             } else {
                 weaponTiers.Add(recipeWeaponGroup, 1);
             }

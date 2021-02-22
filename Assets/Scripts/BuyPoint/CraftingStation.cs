@@ -42,7 +42,7 @@ public class CraftingStation : BuyPoint
         }
         foreach (var attachment in getAvailableAttachments()) {
             generateAttachmentButton(attachment, index);
-            index += 1;
+            index++;
         }
     }
 

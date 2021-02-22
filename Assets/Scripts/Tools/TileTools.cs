@@ -7,6 +7,7 @@ using System;
 public class TileTools : MonoBehaviour {
 
     public WorldTile[,] worldTileArray;
+    public int[,] intMap;
     public Tilemap groundTilemap;
     public Tilemap wallTilemap;
     public TileBase groundTile;

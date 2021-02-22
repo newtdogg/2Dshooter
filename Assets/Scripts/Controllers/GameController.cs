@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using Newtonsoft.Json;
 using System.IO;
 
 public class GameController : MonoBehaviour {
     public string mode;
     public int[,] activeMap;
     private string[] maps;
-    private WaveData waveData;
-    private int waveIndex;
-    public bool nextWave;
+    private Levels levels;
+    private int levelIndex;
     public bool waveComplete;
     private bool gameStarted;
     public bool survival;
@@ -51,9 +51,9 @@ public class GameController : MonoBehaviour {
             transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(() => saveGame());
             mapGenerator = GameObject.Find("MapGridObject").GetComponent<MapGenerator>();
             mapGenerator.gameController = this;
-            var waveString = File.ReadAllText("./Assets/Scripts/WaveData.json");
-            waveData = JsonUtility.FromJson<WaveData>(waveString);
-            startGameSurvival();
+            var dataString = File.ReadAllText("./Assets/Scripts/LevelData.json");
+            levels = JsonConvert.DeserializeObject<Levels>(dataString);
+            startGame();
         }
     }
 
@@ -62,16 +62,16 @@ public class GameController : MonoBehaviour {
     }
 
     public void checkNextLevel () {
-        if(gameStarted) {
-            var currentZombieCount = 0;
-            foreach (var spawner in spawners) {
-                currentZombieCount += spawner.transform.GetChild(0).childCount;
-            }
-            if(currentZombieCount == 0 && nextWave) {
-                nextWave = false;
-                StartCoroutine("startWave");
-            }
-        }
+        // if(gameStarted) {
+        //     var currentZombieCount = 0;
+        //     foreach (var spawner in spawners) {
+        //         currentZombieCount += spawner.transform.GetChild(0).childCount;
+        //     }
+        //     if(currentZombieCount == 0 && nextWave) {
+        //         nextWave = false;
+        //         StartCoroutine("startWave");
+        //     }
+        // }
     }
 
     public void returnToIntroArea () {
@@ -99,32 +99,34 @@ public class GameController : MonoBehaviour {
         persistenceController.saveGame();
     }
 
-    public IEnumerator startWave() {
-        Debug.Log("starting wave");
-        Debug.Log(waveIndex);
+    public IEnumerator StartLevel() {
+        // Debug.Log("starting wave");
+        // Debug.Log(levelIndex);
         yield return new WaitForSeconds (1f);
-        var currentWaveInfo = waveData.waves[waveIndex];
-        var numberList = Enumerable.Range(0, mapGenerator.spawners.Count - 1).ToList();
         var remainingZombies = 0;
-        for(var i = 0; i < currentWaveInfo.groups.Count; i++) {
-            var zombieGroup = currentWaveInfo.groups[i];
+        // for(var i = 0; i < currentLevelInfo.groups.Count; i++) {
+        //     var zombieGroup = currentLevelInfo.groups[i];
+        //     var rand = new System.Random((int)System.DateTime.Now.Ticks);
+        //     var randomSpawnerIndex = numberList[rand.Next(numberList.Count)];
+        //     Debug.Log(zombieGroup.quantity);
+        //     Debug.Log(zombieGroup.type);
+        //     numberList.Remove(randomSpawnerIndex);
+        //     remainingZombies += zombieGroup.quantity;
+        //     spawners[randomSpawnerIndex].spawnZombieGroup(zombieGroup.quantity, zombieGroup.type);
+        // }
+        for(var i = 0; i < mapGenerator.spawners.Count; i++) {
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
-            var randomSpawnerIndex = numberList[rand.Next(numberList.Count)];
-            Debug.Log(zombieGroup.quantity);
-            Debug.Log(zombieGroup.type);
-            numberList.Remove(randomSpawnerIndex);
-            remainingZombies += zombieGroup.quantity;
-            spawners[randomSpawnerIndex].spawnZombieGroup(zombieGroup.quantity, zombieGroup.type);
+           List<string> zombieGroup = levels.easy[rand.Next(levels.easy.Count)];
+            remainingZombies += zombieGroup.Count;
+            spawners[i].spawnZombieGroup(zombieGroup);
         }
         playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
-        nextWave = true;
-        waveIndex += 1;
     }
 
-    public void startGameSurvival() {
+    public void startGame() {
         gameStarted = true;
-        waveIndex = 0;
-        StartCoroutine("startWave");
+        levelIndex = 0;
+        StartCoroutine("StartLevel");
     }
 
     public void globalSpeedSlow() {
