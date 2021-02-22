@@ -8,6 +8,7 @@ public class BuffObject : Pickup {
 
     void Start()
     {
+        value = 1;
         type = "Buff";
     }
 

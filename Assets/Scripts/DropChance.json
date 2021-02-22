@@ -1,0 +1,38 @@
+{  
+    "arena": {
+        "scrapMin": 1,
+        "scrapMax": 3,
+        "scrapValue": 6,
+        "recipeDropChance": 1
+    },
+    "miniboss": {
+        "scrapMin": 1,
+        "scrapMax": 3,
+        "scrapValue": 6,
+        "recipeDropChance": 1
+    },
+    "mobRipper": {
+        "scrapMin": 1,
+        "scrapMax": 3,
+        "scrapValue": 6,
+        "recipeDropChance": 1
+    },
+    "mobLubber": {
+        "scrapMin": 1,
+        "scrapMax": 3,
+        "scrapValue": 6,
+        "recipeDropChance": 1
+    },
+    "mobChucker": {
+        "scrapMin": 1,
+        "scrapMax": 3,
+        "scrapValue": 6,
+        "recipeDropChance": 1
+    },
+    "mobSlinger": {
+        "scrapMin": 1,
+        "scrapMax": 3,
+        "scrapValue": 6,
+        "recipeDropChance": 1
+    }
+}

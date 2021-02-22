@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour {
     private GameObject[] minibossTypes;
     private TileTools tileTools;
     public int id;
+    public bool isWave;
     public Transform zombiesList;
     public int width;
     public int height;
@@ -19,12 +20,14 @@ public class Spawner : MonoBehaviour {
     public bool battleStarted;
     public bool battleCompleted;
     public GameObject wallClone;
+    public bool empty;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
 
     void Awake () {
         walls = new List<List<Vector2Int>>();
         battleStarted = false;
+        empty = true;
         zombieTypes = getSpawnerObjectsOfType("Zombies");
         minibossTypes = getSpawnerObjectsOfType("MiniBosses");
         wallClone = GameObject.Find("Wall");
@@ -37,9 +40,10 @@ public class Spawner : MonoBehaviour {
         if(battleStarted && !battleCompleted && transform.GetChild(0).childCount == 0) {
             completeBattle();
         }
+        if(!empty && zombiesList.childCount == 0) {
+            empty = true;
+        }
     }
-
-    
 
     public GameObject[] getSpawnerObjectsOfType(string type) {
         var mobObjects = GameObject.Find(type);
@@ -47,22 +51,27 @@ public class Spawner : MonoBehaviour {
         var count = 0;
         foreach (Transform child in mobObjects.transform) {
             mobTypes[count] = child.gameObject;
-            count += 1;
+            count++;
         }
         return mobTypes;
     }
+
     public void spawnInitialZombies() {
-        if((width * height)/ 4 < initialZombieSpawn) {
-            Debug.Log("Area too small");
+        // if((width * height)/ 4 < initialZombieSpawn) {
+        //     Debug.Log("Area too small");
+        // }
+        if(!isWave) {
+            positionZombies();
         }
-        positionZombies();
     }
 
     public void startBattle() {
         battleStarted = true;
         foreach (var wall in walls) {
             foreach (var block in wall) {
-                tileTools.setWallTile(block.x, block.y);
+                if(tileTools.intMap[block.x, block.y] == 1 || tileTools.intMap[block.x, block.y] == 2) {
+                    tileTools.setWallTile(block.x, block.y);
+                }
             }
         }
         if(type == "miniboss"){
@@ -84,11 +93,17 @@ public class Spawner : MonoBehaviour {
         if(type == "zombie") {
             var distance = width / initialZombieSpawn;
             var seed = Time.time.ToString();
-            for(var i = 0; i < initialZombieSpawn; i++) {
-                System.Random pseudoRandom = new System.Random(seed.GetHashCode() + i);
-                var zombiePosX = pseudoRandom.Next(i * distance, (i + 1) * distance);
+            var zombieCount = 0;
+            while(zombieCount < initialZombieSpawn) {
+                System.Random pseudoRandom = new System.Random(seed.GetHashCode() + id + zombieCount);
+                var zombiePosX = pseudoRandom.Next(zombieCount * distance, (zombieCount + 1) * distance);
                 var zombiePosY = pseudoRandom.Next(0, height);
-                spawnZombie(zombiePosX, zombiePosY);
+                var tileInt = tileTools.intMap[(int)Mathf.Floor(zombiePosX), (int)Mathf.Floor(zombiePosY)];
+                if(tileInt != 1) {
+                    continue;
+                }
+                spawnZombie(zombiePosX, zombiePosY, zombieTypes[zombieType]);
+                zombieCount++;
             }
         }
         if(type == "miniboss") {
@@ -103,28 +118,71 @@ public class Spawner : MonoBehaviour {
         bossClone.transform.SetParent(zombiesList);
     }
 
-    public void spawnZombie(int x, int y) {
-        GameObject zombieTypeObject = zombieTypes[zombieType];
+    public void spawnZombie(int x, int y, GameObject zombieTypeObject) {
         var zombieClone = Instantiate(zombieTypeObject, new Vector2(transform.position.x + x, transform.position.y + y), Quaternion.identity) as GameObject;
         zombieClone.transform.SetParent(zombiesList);
         zombieClone.GetComponent<ZombieController>().setDormant();
     }
 
-
-
-    public void setAttributes(int spawnerInt) {
-        var spawnerIntStr = spawnerInt.ToString();
-        id = Int16.Parse(spawnerIntStr.Substring(0,1));
-        width = Int16.Parse(spawnerIntStr.Substring(1,2));
-        height = Int16.Parse(spawnerIntStr.Substring(3,2));
-        initialZombieSpawn = Int16.Parse(spawnerIntStr.Substring(5,1));
-        zombieType = Int16.Parse(spawnerIntStr.Substring(6, spawnerIntStr.Length - 6));
-        if(zombieType < 10) {
-            type = "zombie";
-        } else {
-            type = "miniboss";
+    public void spawnZombieGroup(List<string> zombieGroup) {
+        empty = false;
+        var quantity = zombieGroup.Count;
+        var distance = width / quantity;
+        var seed = Time.time.ToString();
+        var zombieCount = 0;
+        while(zombieCount < quantity) {
+            System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
+            var zombiePosX = pseudoRandom.Next(zombieCount * distance, (zombieCount + 1) * distance);
+            var zombiePosY = pseudoRandom.Next(0, height);
+            var tileInt = tileTools.intMap[(int)Mathf.Floor(zombiePosX) + (int)transform.position.x, (int)Mathf.Floor(zombiePosY) + (int)transform.position.y];
+            // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(zombiePosX)} {(int)Mathf.Floor(zombiePosY)} )");
+            if(tileInt != 1 && tileInt != 2) {
+                continue;
+            }
+            var zombieGameObject = Array.Find(zombieTypes, z => z.name == zombieGroup[zombieCount]);
+            spawnZombie(zombiePosX, zombiePosY, zombieGameObject);
+            zombieCount++;
         }
+    }
+
+    public void createBoundaryWall(int edge) {
+        Debug.Log($"boundary wall: side = {edge}");
+        var edgeWall = new List<Vector2Int>();
+        if(edge == 1) {
+            var wallY = (int)getTopLeftCorner().y;
+            for(var wallX = (int)getTopLeftCorner().x; wallX < (int)getTopRightCorner().x; wallX++) {
+                edgeWall.Add(new Vector2Int(wallX, wallY));
+            }
+        } else if (edge == 2) {
+            var wallX = (int)getBottomRightCorner().x;
+            for(var wallY = (int)getBottomRightCorner().y; wallY < (int)getTopRightCorner().y; wallY++) {
+                edgeWall.Add(new Vector2Int(wallX, wallY));
+            }
+        } else if (edge == 3) {
+            var wallY = (int)getBottomLeftCorner().y;
+            for(var wallX = (int)getBottomLeftCorner().x; wallX < (int)getBottomRightCorner().x; wallX++) {
+                edgeWall.Add(new Vector2Int(wallX, wallY));
+            }
+        } else if (edge == 4) {
+            var wallX = (int)getBottomLeftCorner().x;
+            for(var wallY = (int)getBottomLeftCorner().y; wallY < (int)getTopLeftCorner().y; wallY++) {
+                edgeWall.Add(new Vector2Int(wallX, wallY));
+            }
+        }
+        walls.Add(edgeWall);
+    }
+
+    public void setAttributes(int spawnerInt, int index) {
+        var spawnerIntStr = spawnerInt.ToString();
+        id = index;
+        width = Int16.Parse(spawnerIntStr.Substring(0,2));
+        height = Int16.Parse(spawnerIntStr.Substring(2,2));
         centerOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
+        var numberOfWalls = Int16.Parse(spawnerIntStr.Substring(4,1));
+        for(var i = 0; i < numberOfWalls; i++) {
+            createBoundaryWall(Int16.Parse(spawnerIntStr.Substring(5 + i,1)));
+        }
+        setWallTriggers();
     }
 
     public void setWallTriggers() {
@@ -144,10 +202,24 @@ public class Spawner : MonoBehaviour {
     }
 
     public void createWallTrigger(List<Vector2Int> wall, Vector2 wallCenter, string primaryDirection) {
-
         var newWall = Instantiate(wallClone, wallCenter, Quaternion.identity) as GameObject;
         newWall.GetComponent<BoxCollider2D>().size = primaryDirection == "y" ? new Vector2(1, wall.Count) : new Vector2(wall.Count, 1);
         newWall.transform.SetParent(transform);
     }
-    
+
+    public Vector3 getTopLeftCorner() {
+        return new Vector3(transform.position.x, transform.position.y + height, 0);
+    }
+
+    public Vector3 getBottomLeftCorner() {
+        return transform.position;
+    }
+
+    public Vector3 getTopRightCorner() {
+        return new Vector3(transform.position.x + width, transform.position.y + height, 0);
+    }
+
+    public Vector3 getBottomRightCorner() {
+        return new Vector3(transform.position.x + width, transform.position.y, 0);
+    }
 }

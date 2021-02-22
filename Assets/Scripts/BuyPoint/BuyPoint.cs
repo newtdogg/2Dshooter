@@ -8,10 +8,13 @@ using System.Reflection;
 public class BuyPoint : MonoBehaviour
 {
     public GameObject player;
-    public void toggleUI(bool value) {
-        transform.GetChild(1).gameObject.SetActive(value);
-    }
+    public Transform parentUI;
+    public string title;
 
+    public void toggleUI(bool value) {
+        parentUI.GetChild(0).gameObject.SetActive(value);
+    }
+    
     protected virtual void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Player") {
             toggleUI(true);

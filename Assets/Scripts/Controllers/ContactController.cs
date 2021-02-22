@@ -35,7 +35,7 @@ public class ContactController : MonoBehaviour {
     }
     public void updateBrawlStatus(GameObject zombie) {
         zombiesInBrawl.Add(zombie);
-        zombieCount += 1;
+        zombieCount++;
         if(zombieCount == 1 && !inBrawl) {
             startBrawl();
         };
@@ -81,7 +81,7 @@ public class ContactController : MonoBehaviour {
     private void completeStageOfBrawl(int keyIndex) {
         timer = 0;
         brawlUI.transform.GetChild(keyIndex).gameObject.SetActive(false);
-        counter += 1;
+        counter++;
         if(difficulty / counter == 1) {
             counter = 0;
             Destroy(zombiesInBrawl[0]);

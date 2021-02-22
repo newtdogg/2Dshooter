@@ -9,34 +9,10 @@ public class Chucker : ZombieController
     // Start is called before the first frame update
     void Start()
     {
-        title = "MobChucker";
-        speed = 20;
-        maxHealth = 26;
-        damage = 15;
-        status = "idle";
-        scrapDropMin = 1;
-        scrapDropMax = 3;
-        detectionTimer = -1f;
-        canMove = true;
-        attackDelay = 3f;
-        scrapObject = GameObject.Find("Scrap");
-        recipeObject = GameObject.Find("RecipeObject");
-        rbody = gameObject.GetComponent<Rigidbody2D>();
+        defaultZombieAwake("MobChucker");
         bullet = transform.GetChild(2).gameObject;
-        if(gameObject.name == $"{title}(Clone)") {
-            spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
-            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
-        }
         attacks = new List<Action>() { throwProjectile };
-        player = GameObject.Find("Player");
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        contactController = playerController.transform.GetChild(3).GetChild(2).gameObject.GetComponent<ContactController>();
-        health = maxHealth;
-        // remove when not needed for debugging
-        tilemap = GameObject.Find("MapGridObject").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
-        // healthBar = gameObject.transform.GetChild(0).gameObject;
-        intents = transform.GetChild(1);
-        scrap = 15;
+        attackDelay = 3f;
     }
 
     void Update() {
@@ -49,12 +25,11 @@ public class Chucker : ZombieController
                 status = "attacking";
                 break;
             case "idle":
-                idleBehaviour();
+                manageBehaviourState();
                 break;
         }
         if(health <= 0) {
-            Destroy(gameObject);
-            lootController.dropZombieLoot(transform.position);
+            onDeath();
         }
     }
 

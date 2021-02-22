@@ -2,35 +2,20 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using System.Collections;
+using System.IO;
 
 public class LootController : MonoBehaviour {
 
     private Dictionary<string,GameObject> lootTypes;
-    public Dictionary<string,Dictionary<string,int>> stats;
+    public DropChanceList stats;
 
     void Start() {
         lootTypes = new Dictionary<string, GameObject>() {
             { "scrap", GameObject.Find("Scrap") },
-            { "recipe", GameObject.Find("Recipe") }
+            { "Recipe", GameObject.Find("Recipe") }
         };
-        stats = new Dictionary<string,Dictionary<string,int>>() {
-            {
-                "arena", new Dictionary<string, int>() {
-                    { "scrapMin", 3 },
-                    { "scrapMax", 5 },
-                    { "scrapValue", 10 },
-                    { "recipeDropChance", 5 }
-                }
-            },
-            {
-                "zombie", new Dictionary<string, int>() {
-                    { "scrapMin", 1 },
-                    { "scrapMax", 3 },
-                    { "scrapValue", 6 },
-                    { "recipeDropChance", 10 }
-                }
-            }
-        };
+        var jsonString = File.ReadAllText("./Assets/Scripts/DropChance.json"); 
+        stats = JsonUtility.FromJson<DropChanceList>(jsonString);
     }
 
     public void generateLoot(string lootType, Vector3 position, int quantity = 1, int spawnArea = 1, int value = 0) {
@@ -48,28 +33,40 @@ public class LootController : MonoBehaviour {
     }
 
     public void dropArenaLoot(Vector3 position) {
-        generateScrapPile("arena", position);
-        generateLootFromDropchance("arena", position, "recipe");
+        generateScrapPile("Arena", position);
+        generateLootFromDropchance("Arena", position, "Recipe");
     }
 
-    public void dropZombieLoot(Vector3 position) {
-        generateScrapPile("zombie", position);
-        generateLootFromDropchance("zombie", position, "recipe");
+    public void dropZombieLoot(Vector3 position, string title) {
+        generateScrapPile(title, position);
+        generateLootFromDropchance(title, position, "Recipe");
+    }
+
+    public void dropMiniBossLoot(Vector3 position) {
+        generateScrapPile("Miniboss", position);
     }
 
     public void generateScrapPile(string type, Vector3 position) {
         var rand = new System.Random((int)System.DateTime.Now.Ticks);
-        var scrapQuantity = rand.Next(stats[type]["scrapMin"], stats[type]["scrapMax"]);
-        generateLoot("scrap", new Vector3(position.x, position.y - 0.8f, 0), scrapQuantity, 1, stats[type]["scrapValue"]);
+        var lootType = stats.GetType().GetProperty(type).GetValue(stats, null) as DropChance;
+        var scrapQuantity = rand.Next(lootType.scrapMin, lootType.scrapMax);
+        generateLoot("scrap", new Vector3(position.x, position.y - 0.8f, 0), scrapQuantity, 1, lootType.scrapValue);
     }
 
-    public void generateLootFromDropchance(string type, Vector3 position, string loot) {
+    private void generateLootFromDropchance(string type, Vector3 position, string loot) {
         var dropchanceKey = $"{loot}DropChance";
         var rand = new System.Random((int)System.DateTime.Now.Ticks);
-        var chance = rand.Next(0, stats[type][dropchanceKey]);
-        if(chance == 1) {
+        var lootType = stats.GetType().GetProperty(type).GetValue(stats, null) as DropChance;
+        var dropChanceValue = (int)lootType.GetType().GetProperty(dropchanceKey).GetValue(lootType, null);
+        var chance = rand.Next(0, dropChanceValue);
+        if(chance == 0) {
+            Debug.Log(loot);
             generateLoot(loot, position);
         }
+    }
+
+    public void dropPerk(Vector3 position) {
+        
     }
 
 }

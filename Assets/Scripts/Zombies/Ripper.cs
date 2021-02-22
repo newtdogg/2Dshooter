@@ -1,38 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 
 public class Ripper : ZombieController
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        title = "MobRipper";
-        speed = 20;
-        maxHealth = 26;
-        damage = 15;
-        status = "idle";
-        scrapDropMin = 1;
-        scrapDropMax = 3;
-        detectionTimer = -1f;
-        canMove = true;
-        scrapObject = GameObject.Find("Scrap");
-        recipeObject = GameObject.Find("RecipeObject");
-        rbody = gameObject.GetComponent<Rigidbody2D>();
+    void Start() {
+        defaultZombieAwake("MobRipper");
+
+        var mapObject = GameObject.Find("MapGridObject");
+        tilemap = mapObject.transform.GetChild(0).gameObject.GetComponent<Tilemap>();
+
+        damageIndicatorTimer = 0f;
+        damageParent = transform.GetChild(0);
+        damageIndicator = damageParent.GetChild(0).gameObject.GetComponent<Text>();
+        damageIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2.34f, 0);
+        damageParent.GetChild(0).gameObject.SetActive(false);
         if(gameObject.name == $"{title}(Clone)") {
-            spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
-            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
+            setIdle();
         }
-        player = GameObject.Find("Player");
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        contactController = playerController.transform.GetChild(3).GetChild(2).gameObject.GetComponent<ContactController>();
-        health = maxHealth;
-        // remove when not needed for debugging
-        tilemap = GameObject.Find("MapGridObject").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
-        // healthBar = gameObject.transform.GetChild(0).gameObject;
-        intents = transform.GetChild(1);
-        scrap = 15;
     }
 
     void Update() {
@@ -44,14 +32,20 @@ public class Ripper : ZombieController
                 status = "attacking";
                 break;
             case "idle":
-                idleBehaviour();
+                manageBehaviourState();
                 break;
             case "dormant":
                 break;
         }
         if(health <= 0) {
-            Destroy(gameObject);
-            lootController.dropZombieLoot(transform.position);
+            onDeath();
+        }
+        if(damageParent.GetChild(0).gameObject.activeSelf) {
+            damageIndicatorTimer += Time.deltaTime;
+        }
+        if(damageIndicatorTimer > 1.5f) {
+            damageParent.GetChild(0).gameObject.SetActive(false);
+            damageIndicatorTimer = 0;
         }
     }
 }

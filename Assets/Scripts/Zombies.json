@@ -1,0 +1,26 @@
+{
+    "mobRipper": {
+        "speed": 25,
+        "maxHealth": 26,
+        "damage": 15,
+        "xpValue": 30
+    },
+    "mobLubber": {
+        "speed": 20,
+        "maxHealth": 26,
+        "damage": 15,
+        "xpValue": 30
+    },
+    "mobChucker": {
+        "speed": 20,
+        "maxHealth": 26,
+        "damage": 15,
+        "xpValue": 30
+    },
+    "mobSlinger": {
+        "speed": 20,
+        "maxHealth": 26,
+        "damage": 15,
+        "xpValue": 30
+    }
+}

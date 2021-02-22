@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Scrap : Pickup
 {
-    public int value;
+    void Start() {
+        type = "Scrap";
+    }
     protected override void OnTriggerEnter2D(Collider2D col) {
         if(col.gameObject.name == "Player") {
-            col.gameObject.GetComponent<PlayerController>().updateScrap(value);
+            var player = col.gameObject.GetComponent<PlayerController>();
+            player.updateScrap(value);
+            player.pickupItemUI(this);
             Destroy(gameObject);
         }
     }

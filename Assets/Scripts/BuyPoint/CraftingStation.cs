@@ -11,9 +11,11 @@ public class CraftingStation : BuyPoint
     private GameObject attachmentObject;
 
     void Start() {
+        title = "Crafting";
         player = GameObject.Find("Player");
         attachmentObject = GameObject.Find("Attachment");
-        attachmentButton = transform.GetChild(0).gameObject;
+        parentUI = GameObject.Find("BuyParent").transform;
+        attachmentButton = parentUI.GetChild(0).GetChild(0).gameObject;
     }
 
     protected override void OnCollisionEnter2D(Collision2D col) {
@@ -27,16 +29,20 @@ public class CraftingStation : BuyPoint
         var recipesTransform = player.transform.GetChild(5);
         var attachments = new List<Attachment>();
         foreach (Transform recipe in recipesTransform) {
-            attachments.AddRange(recipe.gameObject.GetComponent<Recipe>().attachmentsAvailable);
+            attachments.AddRange(recipe.gameObject.GetComponent<AttachmentRecipe>().attachmentsAvailable);
         }
         return attachments;
     }
 
     public void displayAttachments() {
+        parentUI.GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = title;
         var index = 0;
+        foreach(Transform button in parentUI.GetChild(0).GetChild(4)) {
+            Destroy(button.gameObject);
+        }
         foreach (var attachment in getAvailableAttachments()) {
             generateAttachmentButton(attachment, index);
-            index += 1;
+            index++;
         }
     }
 

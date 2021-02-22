@@ -18,7 +18,7 @@ public class Wall : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col) {
         if(!spawner.battleStarted) {
-            if(col.gameObject.name == "Player") {
+            if(col.gameObject.name == "Player" && spawner.transform.GetChild(0).childCount != 0) {
                 spawner.startBattle();
             }
         }
