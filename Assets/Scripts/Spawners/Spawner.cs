@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
+
+public enum SpawnerType {
+  Empty,
+  Instant,
+  Walled,
+  Trap,
+  Persistent,
+  Source
+}
 
 public class Spawner : MonoBehaviour {
 
@@ -9,13 +19,15 @@ public class Spawner : MonoBehaviour {
     private GameObject[] minibossTypes;
     private TileTools tileTools;
     public int id;
+    public Transform playerTransform;
     public bool isWave;
     public Transform zombiesList;
     public int width;
     public int height;
-    public string type;
+    public List<string> zombiesToSpawn;
     public int initialZombieSpawn;
     public Vector3 centerOfObject;
+    public SpawnerType type;
     public int zombieType;
     public bool battleStarted;
     public bool battleCompleted;
@@ -23,11 +35,13 @@ public class Spawner : MonoBehaviour {
     public bool empty;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
+    public GameObject zombieSourceClone;
 
     void Awake () {
         walls = new List<List<Vector2Int>>();
         battleStarted = false;
         empty = true;
+        zombieSourceClone = GameObject.Find("SpawnerSource");
         zombieTypes = getSpawnerObjectsOfType("Zombies");
         minibossTypes = getSpawnerObjectsOfType("MiniBosses");
         wallClone = GameObject.Find("Wall");
@@ -45,6 +59,27 @@ public class Spawner : MonoBehaviour {
         }
     }
 
+    public void startSpawnerByType(List<string> zombieGroup) {
+        zombiesToSpawn = zombieGroup;
+        switch (type) {
+            case SpawnerType.Empty:
+                break;
+            case SpawnerType.Instant:
+                spawnZombieGroup();
+                break;
+            case SpawnerType.Walled:
+                spawnZombieGroup();
+                break;
+            case SpawnerType.Persistent:
+                StartCoroutine(spawnZombiesOverTime());
+                break;
+            case SpawnerType.Source:
+                StartCoroutine(spawnZombiesOverTime());
+                createZombieSourceObject();
+                break;
+        }
+    }
+
     public GameObject[] getSpawnerObjectsOfType(string type) {
         var mobObjects = GameObject.Find(type);
         var mobTypes = new GameObject[mobObjects.transform.childCount];
@@ -56,17 +91,39 @@ public class Spawner : MonoBehaviour {
         return mobTypes;
     }
 
-    public void spawnInitialZombies() {
-        // if((width * height)/ 4 < initialZombieSpawn) {
-        //     Debug.Log("Area too small");
-        // }
-        if(!isWave) {
-            positionZombies();
+    public IEnumerator spawnZombiesOverTime() {
+        var zombieCount = 0;
+        while (zombieCount < zombiesToSpawn.Count * 2) {
+            yield return new WaitForSeconds (2f);
+            if(Vector3.Distance(centerOfObject, playerTransform.position) < 20f) {
+                System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
+                var zombiePosX = pseudoRandom.Next(0, width);
+                var zombiePosY = pseudoRandom.Next(0, height);
+                var tileInt = tileTools.intMap[(int)Mathf.Floor(zombiePosX) + (int)transform.position.x, (int)Mathf.Floor(zombiePosY) + (int)transform.position.y];
+                // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(zombiePosX)} {(int)Mathf.Floor(zombiePosY)} )");
+                if(tileInt != 1 && tileInt != 2) {
+                    continue;
+                }
+                var zombieGameObject = Array.Find(zombieTypes, z => z.name == zombiesToSpawn[zombieCount]);
+                spawnZombie(zombiePosX, zombiePosY, zombieGameObject);
+                zombieCount++;
+            }
         }
     }
 
-    public void startBattle() {
+    private void createZombieSourceObject() {
+        var sourceObject = Instantiate(zombieSourceClone, centerOfObject, Quaternion.identity) as GameObject;
+        var sourceObjectScript = sourceObject.GetComponent<SpawnerSource>();
+        sourceObjectScript.hp = 200f;
+        sourceObjectScript.spawner = this;
+    }
+
+    public void triggerWalls() {
+        Debug.Log("battlestarted");
         battleStarted = true;
+        if(type == SpawnerType.Trap) {
+            spawnZombieGroup();
+        }
         foreach (var wall in walls) {
             foreach (var block in wall) {
                 if(tileTools.intMap[block.x, block.y] == 1 || tileTools.intMap[block.x, block.y] == 2) {
@@ -74,9 +131,9 @@ public class Spawner : MonoBehaviour {
                 }
             }
         }
-        if(type == "miniboss"){
-            transform.GetChild(0).GetChild(0).gameObject.GetComponent<MiniBoss>().startFight();
-        }
+        // if(type == SpawnerType.Miniboss){
+        //     transform.GetChild(0).GetChild(0).gameObject.GetComponent<MiniBoss>().startFight();
+        // }
     }
 
     public void completeBattle() {
@@ -86,29 +143,6 @@ public class Spawner : MonoBehaviour {
             foreach (var block in wall) {
                 tileTools.removeWallTile(block.x, block.y);
             }
-        }
-    }
-
-    public void positionZombies() {
-        if(type == "zombie") {
-            var distance = width / initialZombieSpawn;
-            var seed = Time.time.ToString();
-            var zombieCount = 0;
-            while(zombieCount < initialZombieSpawn) {
-                System.Random pseudoRandom = new System.Random(seed.GetHashCode() + id + zombieCount);
-                var zombiePosX = pseudoRandom.Next(zombieCount * distance, (zombieCount + 1) * distance);
-                var zombiePosY = pseudoRandom.Next(0, height);
-                var tileInt = tileTools.intMap[(int)Mathf.Floor(zombiePosX), (int)Mathf.Floor(zombiePosY)];
-                if(tileInt != 1) {
-                    continue;
-                }
-                spawnZombie(zombiePosX, zombiePosY, zombieTypes[zombieType]);
-                zombieCount++;
-            }
-        }
-        if(type == "miniboss") {
-            // var miniboss = 
-            spawnMiniboss();
         }
     }
 
@@ -124,9 +158,9 @@ public class Spawner : MonoBehaviour {
         zombieClone.GetComponent<ZombieController>().setDormant();
     }
 
-    public void spawnZombieGroup(List<string> zombieGroup) {
+    public void spawnZombieGroup() {
         empty = false;
-        var quantity = zombieGroup.Count;
+        var quantity = zombiesToSpawn.Count;
         var distance = width / quantity;
         var seed = Time.time.ToString();
         var zombieCount = 0;
@@ -139,14 +173,13 @@ public class Spawner : MonoBehaviour {
             if(tileInt != 1 && tileInt != 2) {
                 continue;
             }
-            var zombieGameObject = Array.Find(zombieTypes, z => z.name == zombieGroup[zombieCount]);
+            var zombieGameObject = Array.Find(zombieTypes, z => z.name == zombiesToSpawn[zombieCount]);
             spawnZombie(zombiePosX, zombiePosY, zombieGameObject);
             zombieCount++;
         }
     }
 
     public void createBoundaryWall(int edge) {
-        Debug.Log($"boundary wall: side = {edge}");
         var edgeWall = new List<Vector2Int>();
         if(edge == 1) {
             var wallY = (int)getTopLeftCorner().y;
@@ -172,12 +205,17 @@ public class Spawner : MonoBehaviour {
         walls.Add(edgeWall);
     }
 
-    public void setAttributes(int spawnerInt, int index) {
+    public void setAttributes(int spawnerInt, int index, Transform player) {
+        playerTransform = player;
         var spawnerIntStr = spawnerInt.ToString();
         id = index;
         width = Int16.Parse(spawnerIntStr.Substring(0,2));
         height = Int16.Parse(spawnerIntStr.Substring(2,2));
         centerOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
+        var spawnerTypeList = SpawnerType.GetValues(typeof(SpawnerType)) as SpawnerType[];
+        System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
+        type = spawnerTypeList[pseudoRandom.Next(0, spawnerTypeList.Length)];
+        // Debug.Log(type);
         var numberOfWalls = Int16.Parse(spawnerIntStr.Substring(4,1));
         for(var i = 0; i < numberOfWalls; i++) {
             createBoundaryWall(Int16.Parse(spawnerIntStr.Substring(5 + i,1)));

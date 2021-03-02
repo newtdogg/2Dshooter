@@ -11,7 +11,7 @@ public abstract class Gun : MonoBehaviour {
 	public string description;
 	public bool unlocked;
 	public int cost;
-	public string type;
+	public string group;
     public float shooting;
     public float ammoQuantity;
 
@@ -45,6 +45,7 @@ public abstract class Gun : MonoBehaviour {
         ammoQuantity = baseStats.ammoCapacity;
         reloadBar = transform.GetChild(1).gameObject;
         bulletObject = GameObject.Find("DoCBullet");
+        group = weaponJsonObject.group;
         reloadTimer = -1;
         shooting = -1f;
         perkList = new List<Action<Gun>>();
@@ -79,6 +80,7 @@ public abstract class Gun : MonoBehaviour {
             }
         }
     }
+
     public virtual void reloadMagazine () {
         transform.GetChild(1).gameObject.SetActive(false);
         ammoCountUI.text = ammoQuantity.ToString();
@@ -118,7 +120,7 @@ public abstract class Gun : MonoBehaviour {
 
     public virtual void shootGun () {
         playerController.resetSneakStats();
-        playerController.setSneakStat("detectionDistance", playerController.getSneakStat("detectionDistance") + (currentStats.loudness * 2));
+        playerController.setSneakStat("detectionDistance", playerController.getSneakStat("detectionDistance") + (currentStats.loudness ));
         playerController.setSneakStat("attackDistance", playerController.getSneakStat("attackDistance") + currentStats.loudness);
         shooting = currentStats.shotDelay;
         ammoQuantity -= 1;

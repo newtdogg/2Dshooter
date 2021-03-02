@@ -1,12 +1,12 @@
 {
     "mobRipper": {
-        "speed": 25,
+        "speed": 30,
         "maxHealth": 26,
         "damage": 15,
         "xpValue": 30
     },
     "mobLubber": {
-        "speed": 20,
+        "speed": 23,
         "maxHealth": 26,
         "damage": 15,
         "xpValue": 30

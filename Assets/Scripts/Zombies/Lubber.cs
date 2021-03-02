@@ -13,18 +13,16 @@ public class Lubber : ZombieController
 
     void Update() {
         distance = Vector3.Distance(transform.position, player.transform.position);
-        switch (status) {
-            case "attackNow":
-                StopCoroutine("UpdatePath");
-                StartCoroutine("UpdatePath");
-                status = "attacking";
-                break;
-            case "idle":
-                manageBehaviourState();
-                break;
-        }
+        manageBehaviourState();
         if(health <= 0) {
             onDeath();
+        }
+        if(damageParent.GetChild(0).gameObject.activeSelf) {
+            damageIndicatorTimer += Time.deltaTime;
+        }
+        if(damageIndicatorTimer > 1.5f) {
+            damageParent.GetChild(0).gameObject.SetActive(false);
+            damageIndicatorTimer = 0;
         }
     }
 }

@@ -11,15 +11,11 @@ public class Wall : MonoBehaviour
         spawner = transform.parent.gameObject.GetComponent<Spawner>();
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-    }
 
     void OnTriggerEnter2D(Collider2D col) {
-        if(!spawner.battleStarted) {
-            if(col.gameObject.name == "Player" && spawner.transform.GetChild(0).childCount != 0) {
-                spawner.startBattle();
+        if(!spawner.battleStarted && (spawner.type == SpawnerType.Walled || spawner.type == SpawnerType.Trap)) {
+            if(col.gameObject.name == "Player" && !spawner.battleCompleted) {
+                spawner.triggerWalls();
             }
         }
     }

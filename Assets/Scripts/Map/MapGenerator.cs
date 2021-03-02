@@ -163,7 +163,7 @@ public class MapGenerator : MonoBehaviour {
 	public void generateSpawner(int spawnerInt, int posX, int posY, int spawnerIndex) {
 		var spawnerClone = Instantiate(GameObject.Find("Spawner"), new Vector2(posX, posY), Quaternion.identity) as GameObject;
 		var spawnerScript = spawnerClone.GetComponent<Spawner>();
-		spawnerScript.setAttributes(spawnerInt, spawnerIndex);
+		spawnerScript.setAttributes(spawnerInt, spawnerIndex, player.transform);
 		spawners.Add(spawnerCount, spawnerScript);
 
 		// var col = spawnerClone.GetComponent<BoxCollider2D>();

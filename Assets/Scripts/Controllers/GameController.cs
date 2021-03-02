@@ -104,21 +104,13 @@ public class GameController : MonoBehaviour {
         // Debug.Log(levelIndex);
         yield return new WaitForSeconds (1f);
         var remainingZombies = 0;
-        // for(var i = 0; i < currentLevelInfo.groups.Count; i++) {
-        //     var zombieGroup = currentLevelInfo.groups[i];
-        //     var rand = new System.Random((int)System.DateTime.Now.Ticks);
-        //     var randomSpawnerIndex = numberList[rand.Next(numberList.Count)];
-        //     Debug.Log(zombieGroup.quantity);
-        //     Debug.Log(zombieGroup.type);
-        //     numberList.Remove(randomSpawnerIndex);
-        //     remainingZombies += zombieGroup.quantity;
-        //     spawners[randomSpawnerIndex].spawnZombieGroup(zombieGroup.quantity, zombieGroup.type);
-        // }
         for(var i = 0; i < mapGenerator.spawners.Count; i++) {
-            var rand = new System.Random((int)System.DateTime.Now.Ticks);
-           List<string> zombieGroup = levels.easy[rand.Next(levels.easy.Count)];
-            remainingZombies += zombieGroup.Count;
-            spawners[i].spawnZombieGroup(zombieGroup);
+            // if(i == 1) {
+                var rand = new System.Random((int)System.DateTime.Now.Ticks);
+                List<string> zombieGroup = levels.easy[rand.Next(levels.easy.Count)];
+                remainingZombies += zombieGroup.Count;
+                spawners[i].startSpawnerByType(zombieGroup);
+            // }
         }
         playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
     }

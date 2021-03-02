@@ -13,7 +13,7 @@ public class AttachmentRecipe : Recipe {
         type = "AttachmentRecipe";
         var jsonString = File.ReadAllText("./Assets/Scripts/Attachments/Attachments.json");
         var attachmentJson = JsonUtility.FromJson<Attachments>(jsonString);
-        gunType = GameObject.Find("Gun").GetComponent<Gun>().type;
+        gunType = GameObject.Find("Gun").GetComponent<Gun>().group;
         attachmentsAvailable = generateAvailableAttachments(attachmentJson);
     }
 

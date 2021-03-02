@@ -55,18 +55,18 @@ public class PlayerController : CharacterController {
         updateXP(0f);
         activeSpawners = new List<Spawner>();
         canMove = true;
-        speed = 45f;
+        speed = 36f;
         scrap = 80;
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
-            { "timeUntilDetection", 9f },
-            { "detectionDistance", 18f },
-            { "attackDistance", 12f }
+            { "timeUntilDetection", 6f },
+            { "detectionDistance", 15f },
+            { "attackDistance", 9f }
         };
         sneakDefault = new Dictionary<string, float>() {
-            { "timeUntilDetection", 9f },
-            { "detectionDistance", 18f },
-            { "attackDistance", 12f }
+            { "timeUntilDetection", 6f },
+            { "detectionDistance", 15f },
+            { "attackDistance", 9f }
         };
 
         armorParent = transform.GetChild(7);
@@ -157,14 +157,15 @@ public class PlayerController : CharacterController {
     public void updateEnemyIndicators() {
         var count = 0;
         foreach (var spawner in activeSpawners) {
-            if(spawner.zombiesList.childCount == 0) {
-                Destroy(enemyIndicatorParent.GetChild(1).GetChild(count).gameObject);
+            if(spawner.zombiesList.childCount != 0) {     
+                var normalizedDiff = (transform.position - spawner.centerOfObject).normalized;
+                var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
+                var distance = (sneakDefault["attackDistance"] * 2) > 22 ? 22 : sneakDefault["attackDistance"] * 2;
+                enemyIndicatorParent.GetChild(1).GetChild(count).GetChild(0).localPosition = new Vector3(0, distance, 0);
+                enemyIndicatorParent.GetChild(1).GetChild(count).transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
+            } else {
+                enemyIndicatorParent.GetChild(1).GetChild(count).gameObject.SetActive(false);
             }
-            var normalizedDiff = (transform.position - spawner.centerOfObject).normalized;
-            var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
-            var distance = (sneakDefault["attackDistance"] * 2) > 22 ? 22 : sneakDefault["attackDistance"] * 2;
-            enemyIndicatorParent.GetChild(1).GetChild(count).GetChild(0).localPosition = new Vector3(0, distance, 0);
-            enemyIndicatorParent.GetChild(1).GetChild(count).transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
             count++;
         }
     }
@@ -230,9 +231,9 @@ public class PlayerController : CharacterController {
 
     public void resetSneakStats() {
         sneak = new Dictionary<string, float>() {
-            { "timeUntilDetection", 9f },
-            { "detectionDistance", 18f },
-            { "attackDistance", 12f }
+            { "timeUntilDetection", 6f },
+            { "detectionDistance", 15f },
+            { "attackDistance", 9f }
         };
     }
 
@@ -245,7 +246,8 @@ public class PlayerController : CharacterController {
     }
 
     private float calculateDamageThroughArmor(float damage) {
-        var armorRating = getArmorRating();
+        // var armorRating = getArmorRating();
+        var armorRating = 0;
         var correctedDamage = damage + (armorRating/2);
         return correctedDamage = correctedDamage > 0 ? 0.1f : correctedDamage;
     }

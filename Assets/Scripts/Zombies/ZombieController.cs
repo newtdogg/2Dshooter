@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.IO;
 using UnityEngine.Tilemaps;
@@ -12,6 +13,7 @@ public class ZombieController : AIController
     public float damage;
     public bool hookAttached;
     public Transform intents;
+    private string behaviourState;
     public bool clone;
     public bool inContactWithPlayer;
     public GameObject zombieObj;
@@ -27,6 +29,7 @@ public class ZombieController : AIController
         var zombieJsonObject = zombieList.GetType().GetProperty(zombieTitle).GetValue(zombieList, null) as ZombieStats;
         startingPosition = transform.position;
         speed = zombieJsonObject.speed;
+        defaultSpeed = speed;
         damage = zombieJsonObject.damage;
         maxHealth = zombieJsonObject.maxHealth;
         xpValue = zombieJsonObject.xpValue;
@@ -52,6 +55,15 @@ public class ZombieController : AIController
             leftPerimeterWalkWithPauses,
             moveToCenterThenLeftWithPauses
         };
+
+        damageIndicatorTimer = 0f;
+        damageParent = transform.GetChild(0);
+        damageIndicator = damageParent.GetChild(0).gameObject.GetComponent<Text>();
+        damageIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2.34f, 0);
+        damageParent.GetChild(0).gameObject.SetActive(false);
+        if(gameObject.name == $"{title}(Clone)") {
+            behaviourState = "idle";
+        }
         // remove when not needed for debugging
         // tilemap = GameObject.Find("MapGridObject").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         // healthBar = gameObject.transform.GetChild(0).gameObject;
@@ -60,32 +72,36 @@ public class ZombieController : AIController
 
     public void manageBehaviourState() {
         // attacks player if in range
-        if(distance < playerController.getSneakStat("attackDistance")) {
-            setAttacking();
+        if(distance < playerController.getSneakStat("attackDistance") && behaviourState != "attacking") {
+            // Debug.Log("attacking");
+            speed = defaultSpeed;
+            behaviourState = "attacking";
+            StopCoroutine("UpdatePath");
+            StopCoroutine("PathToLocation");
+            StartCoroutine("UpdatePath");
             stopAllIdleBehaviours();
         }
+
+        // alerts enemy to players presence
         if(distance < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) {
+            // Debug.Log("alert");
+            behaviourState = "alert";
+            speed = defaultSpeed/2;
             playersLastKnownPosition = playerController.transform.position;
-            setAlert();
+            detectionTimer = playerController.getSneakStat("timeUntilDetection");
+            StopCoroutine("PathToLocation");
+            StartCoroutine(PathToLocation(playersLastKnownPosition));
             stopAllIdleBehaviours();
         }
-        if(detectionTimer > 0) {
+
+        if(detectionTimer > 0 ) {
             detectionTimer -= Time.deltaTime;
-            // if(detectionTimer < playerController.getSneakStat("timeUntilDetection")/2f) {
-            if(detectionTimer < (playerController.getSneakStat("timeUntilDetection") - 1)) {
-                transform.position = Vector3.MoveTowards(transform.position, playersLastKnownPosition, Time.deltaTime * 2f);
-            }
-            if(detectionTimer <= 0) {
-                if(distance < playerController.getSneakStat("detectionDistance")) {
-                    setAttacking();
-                    stopAllIdleBehaviours();
-                // } else if (distance > 10) {
-                //     setIdle();
-                }
-            }
         }
-        if(detectionTimer <= 0 && status == "alert") {
-            setIdle();
+
+        if(detectionTimer <= 0 && behaviourState == "alert") {
+            StopCoroutine("PathToLocation");
+            detectionTimer = -1f;
+            behaviourState = "idle";
         }
     }
 
@@ -201,7 +217,6 @@ public class ZombieController : AIController
     }
 
     public void stopAllIdleBehaviours() {
-        Debug.Log("stopping all coroutines");
         StopCoroutine("moveAroundLocationsWithPausesCoroutine");
         StopCoroutine("moveAroundLocationsCoroutine");
         StopCoroutine("shortStationaryWaitingCoroutine");

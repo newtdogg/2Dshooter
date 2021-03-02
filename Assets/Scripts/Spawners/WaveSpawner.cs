@@ -7,6 +7,6 @@ public class WaveSpawner : Spawner {
 
     public Dictionary<string, int>[] spawnTypes;
     void Start() {
-        type = "zombie";
+        // type = "zombie";
     }
 }
