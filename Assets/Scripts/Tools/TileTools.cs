@@ -35,4 +35,8 @@ public class TileTools : MonoBehaviour {
         worldTileArray[x, y].walkable = true;
         wallTilemap.SetTile(new Vector3Int(x, y, 0), null);
     }
+
+    public int getTileInt(int x, int y) {
+        return intMap[x, y];
+    }
 }

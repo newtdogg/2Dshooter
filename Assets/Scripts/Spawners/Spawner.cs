@@ -32,6 +32,7 @@ public class Spawner : MonoBehaviour {
     public bool battleStarted;
     public bool battleCompleted;
     public GameObject wallClone;
+    public GameObject wallNodeClone;
     public bool empty;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
@@ -45,6 +46,7 @@ public class Spawner : MonoBehaviour {
         zombieTypes = getSpawnerObjectsOfType("Zombies");
         minibossTypes = getSpawnerObjectsOfType("MiniBosses");
         wallClone = GameObject.Find("Wall");
+        wallNodeClone = GameObject.Find("WallNode");
         lootController = GameObject.Find("LootController").GetComponent<LootController>();
         zombiesList = transform.GetChild(0);
         tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
@@ -124,26 +126,38 @@ public class Spawner : MonoBehaviour {
         if(type == SpawnerType.Trap) {
             spawnZombieGroup();
         }
-        foreach (var wall in walls) {
-            foreach (var block in wall) {
-                if(tileTools.intMap[block.x, block.y] == 1 || tileTools.intMap[block.x, block.y] == 2) {
-                    tileTools.setWallTile(block.x, block.y);
+        setWalls();
+
+        // foreach (var wall in walls) {
+        //     foreach (var block in wall) {
+        //         if(tileTools.getTileInt(block.x, block.y) == 1 || tileTools.getTileInt(block.x, block.y) == 2) {
+        //             tileTools.setWallTile(block.x, block.y);
+        //         }
+        //     }
+        // }
+    }
+
+    public void setWalls() {
+        var wallParent = transform.GetChild(1);
+        foreach (List<Vector2Int> wall in walls) {
+            foreach(Vector2Int wallNode in wall) {
+                if(tileTools.getTileInt(wallNode.x, wallNode.y) != 0) {
+                    var wallNodeObj = Instantiate(wallNodeClone, new Vector2(wallNode.x + 0.5f, wallNode.y + 0.5f), Quaternion.identity) as GameObject;
+                    wallNodeObj.transform.SetParent(wallParent);
                 }
             }
         }
-        // if(type == SpawnerType.Miniboss){
-        //     transform.GetChild(0).GetChild(0).gameObject.GetComponent<MiniBoss>().startFight();
-        // }
     }
 
     public void completeBattle() {
         battleCompleted = true;
         lootController.dropArenaLoot(centerOfObject);
-        foreach (var wall in walls) {
-            foreach (var block in wall) {
-                tileTools.removeWallTile(block.x, block.y);
-            }
-        }
+        transform.GetChild(1).gameObject.SetActive(false);
+        // foreach (var wall in walls) {
+        //     foreach (var block in wall) {
+        //         tileTools.removeWallTile(block.x, block.y);
+        //     }
+        // }
     }
 
     public void spawnMiniboss() {
@@ -181,26 +195,32 @@ public class Spawner : MonoBehaviour {
 
     public void createBoundaryWall(int edge) {
         var edgeWall = new List<Vector2Int>();
-        if(edge == 1) {
-            var wallY = (int)getTopLeftCorner().y;
-            for(var wallX = (int)getTopLeftCorner().x; wallX < (int)getTopRightCorner().x; wallX++) {
-                edgeWall.Add(new Vector2Int(wallX, wallY));
-            }
-        } else if (edge == 2) {
-            var wallX = (int)getBottomRightCorner().x;
-            for(var wallY = (int)getBottomRightCorner().y; wallY < (int)getTopRightCorner().y; wallY++) {
-                edgeWall.Add(new Vector2Int(wallX, wallY));
-            }
-        } else if (edge == 3) {
-            var wallY = (int)getBottomLeftCorner().y;
-            for(var wallX = (int)getBottomLeftCorner().x; wallX < (int)getBottomRightCorner().x; wallX++) {
-                edgeWall.Add(new Vector2Int(wallX, wallY));
-            }
-        } else if (edge == 4) {
-            var wallX = (int)getBottomLeftCorner().x;
-            for(var wallY = (int)getBottomLeftCorner().y; wallY < (int)getTopLeftCorner().y; wallY++) {
-                edgeWall.Add(new Vector2Int(wallX, wallY));
-            }
+        int wallX; int wallY;
+        switch (edge) {
+            case 1:
+                wallY = (int)getTopLeftCorner().y;
+                for(wallX = (int)getTopLeftCorner().x; wallX < (int)getTopRightCorner().x; wallX++) {
+                    edgeWall.Add(new Vector2Int(wallX, wallY));
+                }
+                break;
+            case 2:
+                wallX = (int)getBottomRightCorner().x;
+                for(wallY = (int)getBottomRightCorner().y; wallY < (int)getTopRightCorner().y; wallY++) {
+                    edgeWall.Add(new Vector2Int(wallX, wallY));
+                }
+                break;
+            case 3:
+                wallY = (int)getBottomLeftCorner().y;
+                for(wallX = (int)getBottomLeftCorner().x; wallX < (int)getBottomRightCorner().x; wallX++) {
+                    edgeWall.Add(new Vector2Int(wallX, wallY));
+                }
+                break;
+            case 4:
+                wallX = (int)getBottomLeftCorner().x;
+                for(wallY = (int)getBottomLeftCorner().y; wallY < (int)getTopLeftCorner().y; wallY++) {
+                    edgeWall.Add(new Vector2Int(wallX, wallY));
+                }
+                break;
         }
         walls.Add(edgeWall);
     }
@@ -215,6 +235,7 @@ public class Spawner : MonoBehaviour {
         var spawnerTypeList = SpawnerType.GetValues(typeof(SpawnerType)) as SpawnerType[];
         System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
         type = spawnerTypeList[pseudoRandom.Next(0, spawnerTypeList.Length)];
+        // type = SpawnerType.Walled;
         // Debug.Log(type);
         var numberOfWalls = Int16.Parse(spawnerIntStr.Substring(4,1));
         for(var i = 0; i < numberOfWalls; i++) {
