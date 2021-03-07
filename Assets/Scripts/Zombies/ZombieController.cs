@@ -13,7 +13,6 @@ public class ZombieController : AIController
     public float damage;
     public bool hookAttached;
     public Transform intents;
-    private string behaviourState;
     public bool clone;
     public bool inContactWithPlayer;
     public GameObject zombieObj;

@@ -19,6 +19,7 @@ public class AIController : MonoBehaviour
     public string title;
     public LootController lootController;
 	public float speed;
+    public string behaviourState;
     public float defaultSpeed;
     public Vector3 facingDirection;
     public Vector3 startingPosition;
@@ -153,16 +154,27 @@ public class AIController : MonoBehaviour
         }
     }
 
-    public void updateDamage(float damage) {
-        health -= damage;
+    public void updateDamage(float bulletDamage) {
+        var calibratedDamage = bulletDamage;
+        var modifierText = "";
+        if(health == maxHealth && behaviourState == "idle" && playerController.) {
+            Debug.Log("sneaky");
+            calibratedDamage = bulletDamage * 2f;
+            modifierText = sneak;
+        }
+        health -= calibratedDamage;
+        updateDamageUI(calibratedDamage, modifierText);
+    }
+
+    private void updateDamageUI(float damage, string modifierText) {
         if(damageIndicatorTimer > 0) {
             damageIndicatorTimer = 0;
             damageIndicatorInt += damage;
-            damageIndicator.text = Mathf.Round(damageIndicatorInt).ToString();
+            damageIndicator.text = $"{Mathf.Round(damageIndicatorInt).ToString()} {modifierText}";
         } else {
             damageParent.GetChild(0).gameObject.SetActive(true);
             damageIndicatorInt = damage;
-            damageIndicator.text = Mathf.Round(damageIndicatorInt).ToString();
+            damageIndicator.text = $"{Mathf.Round(damageIndicatorInt).ToString()} {modifierText}";
         }
     }
 

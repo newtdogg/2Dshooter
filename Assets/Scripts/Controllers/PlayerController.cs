@@ -15,6 +15,7 @@ public class PlayerController : CharacterController {
     public GameObject armorBody;
     public GameObject armorBoots;
 
+    public bool sneaking;
     private Gun gun;
     private Transform pickupUI;
     public int scrap;
@@ -44,6 +45,7 @@ public class PlayerController : CharacterController {
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         pickupUI = transform.GetChild(8);
         torch = transform.GetChild(9).GetChild(0).gameObject;
+        sneaking = false;
         // enemyIndicatorParent = transform.GetChild(3).GetChild(4);
         enemyIndicatorParent = transform.GetChild(10);
         maxHealth = 100;
@@ -84,11 +86,13 @@ public class PlayerController : CharacterController {
         detection.transform.GetChild(1).localScale = new Vector3(sneak["attackDistance"], sneak["attackDistance"], 0) * 2;
         var movSpeed = speed * gameController.globalSpeed;
         if (Input.GetKey(KeyCode.LeftShift)) {
+            sneaking = true;
             movSpeed = speed/2;
             sneak["detectionDistance"] = sneakDefault["detectionDistance"]/2;
             sneak["attackDistance"] = sneakDefault["attackDistance"]/2;
         }
         if (Input.GetKeyUp(KeyCode.LeftShift)) {
+            sneaking = false;
             movSpeed = speed;
             sneak["detectionDistance"] = sneakDefault["detectionDistance"];
             sneak["attackDistance"] = sneakDefault["attackDistance"];

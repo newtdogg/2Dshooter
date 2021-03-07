@@ -8,7 +8,8 @@ public class Bullet : Projectile {
 
     void Start() {
         defaultProperties = new Dictionary<string, bool>() {
-            { "poison", false }
+            { "poison", false },
+            { "sneak", false }
         };
     }
     // Update is called once per frame
@@ -32,6 +33,5 @@ public class Bullet : Projectile {
                 colliderScript.health -= damage;
             }
         }
-
     }
 }
