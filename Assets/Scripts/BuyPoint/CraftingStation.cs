@@ -14,8 +14,8 @@ public class CraftingStation : BuyPoint
         title = "Crafting";
         player = GameObject.Find("Player");
         attachmentObject = GameObject.Find("Attachment");
-        parentUI = GameObject.Find("BuyParent").transform;
-        attachmentButton = parentUI.GetChild(0).GetChild(0).gameObject;
+        parentUI = GameObject.Find("CraftingStationUI").transform;
+        attachmentButton = parentUI.GetChild(0).gameObject;
     }
 
     protected override void OnCollisionEnter2D(Collision2D col) {
@@ -26,24 +26,28 @@ public class CraftingStation : BuyPoint
     }
 
     public List<Attachment> getAvailableAttachments() {
-        var recipesTransform = player.transform.GetChild(5);
+        var recipesTransform = player.transform.GetChild(4);
         var attachments = new List<Attachment>();
         foreach (Transform recipe in recipesTransform) {
             attachments.AddRange(recipe.gameObject.GetComponent<AttachmentRecipe>().attachmentsAvailable);
+        }
+        foreach(var attachment in attachments) {
+            Debug.Log(attachment.name);
         }
         return attachments;
     }
 
     public void displayAttachments() {
-        parentUI.GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = title;
-        var index = 0;
-        foreach(Transform button in parentUI.GetChild(0).GetChild(4)) {
-            Destroy(button.gameObject);
-        }
-        foreach (var attachment in getAvailableAttachments()) {
-            generateAttachmentButton(attachment, index);
-            index++;
-        }
+        // parentUI.GetChild(0).GetChild(2).gameObject.GetComponent<Text>().text = title;
+        // var index = 0;
+        // foreach(Transform button in parentUI.GetChild(0).GetChild(4)) {
+        //     Destroy(button.gameObject);
+        // }
+        var test = getAvailableAttachments();
+        // foreach (var attachment in getAvailableAttachments()) {
+        //     generateAttachmentButton(attachment, index);
+        //     index++;
+        // }
     }
 
     public void generateAttachmentButton(Attachment attachment, int index) {

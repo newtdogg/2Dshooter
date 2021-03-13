@@ -54,7 +54,7 @@
       "title":".45 Pistol",
       "description":"asdasdas",
       "cost":20,
-      "unlocked":false,
+      "unlocked":true,
       "tier":2,
       "requiredUnlocks":"pistol9mm",
       "group":"Handgun"

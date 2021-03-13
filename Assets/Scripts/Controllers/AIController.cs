@@ -157,10 +157,10 @@ public class AIController : MonoBehaviour
     public void updateDamage(float bulletDamage) {
         var calibratedDamage = bulletDamage;
         var modifierText = "";
-        if(health == maxHealth && behaviourState == "idle" && playerController.) {
+        if(health == maxHealth && behaviourState == "idle" && playerController.sneaking) {
             Debug.Log("sneaky");
             calibratedDamage = bulletDamage * 2f;
-            modifierText = sneak;
+            modifierText = "sneak";
         }
         health -= calibratedDamage;
         updateDamageUI(calibratedDamage, modifierText);

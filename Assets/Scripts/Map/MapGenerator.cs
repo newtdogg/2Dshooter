@@ -264,13 +264,13 @@ public class MapGenerator : MonoBehaviour {
                         break;
                     case 3:
 						tileTools.setGroundTile(x, y, true);
-						// tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
-                        // var sh = Instantiate(shop, new Vector2(x, y), Quaternion.identity) as GameObject;
+						tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
+                        var sh = Instantiate(shop, new Vector2(x, y), Quaternion.identity) as GameObject;
                         break;
                     case 4:
 						tileTools.setGroundTile(x, y, true);
-						// tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
-                        // var cS = Instantiate(craftingStation, new Vector2(x, y), Quaternion.identity) as GameObject;
+						tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
+                        var cS = Instantiate(craftingStation, new Vector2(x, y), Quaternion.identity) as GameObject;
                         break;
 					case 5:
 						tileTools.setGroundTile(x, y, false);
