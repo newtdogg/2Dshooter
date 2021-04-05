@@ -114,7 +114,8 @@ public class MapGenerator : MonoBehaviour {
 			{ "0101", "LeftRight" }
 		};
 		var rand = new System.Random((int)System.DateTime.Now.Ticks);
-		var randCell = rand.Next(0, cellTypeGrid.Count * cellTypeGrid[0].Count);
+		// var randCell = rand.Next(0, cellTypeGrid.Count * cellTypeGrid[0].Count);
+		var randCell = 0;
 		var count = 0;
 		foreach (var row in cellTypeGrid) {
 			var rowList = new List<int[,]>();

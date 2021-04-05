@@ -2,23 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttachmentType {
+	Sight,
+	Magazine,
+	Grip,
+	Silencer
+}
+
 [System.Serializable]
 public class Attachment {
 	public string name;
+	public string script;
+	public int rarity;
 	public bool unlocked;
-    public List<string> gunType;
-	public WeaponStats stats;
-	public int cost;
+	public Dictionary<string, int> cost;
 }
 
 [System.Serializable]
 public class Attachments {
-	public Attachment silencer;
-	public Attachment heavyRounds;
-	public Attachment grip;
-	public Attachment longBarrel;
-	public Attachment Silencer { get { return silencer; } }
-	public Attachment HeavyRounds { get { return heavyRounds; } }
-	public Attachment Grip { get { return grip; } }
-	public Attachment LongBarrel { get { return longBarrel; } }
+	public List<Attachment> sight;
+	public List<Attachment> Sight { get { return sight; } }
 }

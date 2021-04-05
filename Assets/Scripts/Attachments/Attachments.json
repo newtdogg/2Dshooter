@@ -1,94 +1,44 @@
 {
-    "silencer":{
-       "stats":{
-          "ammoCapacity":0,
-          "reloadSpeed":0,
-          "damage":0,
-          "shotDelay":0,
-          "spread":0,
-          "bulletVelocity":0,
-          "lifetime":0,
-          "loudness":0
-       },
-       "name":"silencer",
-       "gunType":[
-          "All"
-       ],
-       "unlocked":true,
-       "cost":20
-    },
-    "heavyRounds":{
-       "stats":{
-          "ammoCapacity":0,
-          "reloadSpeed":0,
-          "damage":0,
-          "shotDelay":0,
-          "spread":0,
-          "bulletVelocity":0,
-          "lifetime":0,
-          "loudness":0
-       },
-       "name":"heavyRounds",
-       "gunType":[
-          "medium",
-          " heavy"
-       ],
-       "unlocked":true,
-       "cost":30
-    },
-    "grip":{
-       "stats":{
-          "ammoCapacity":0,
-          "reloadSpeed":0,
-          "damage":0,
-          "shotDelay":0,
-          "spread":0,
-          "bulletVelocity":0,
-          "lifetime":0,
-          "loudness":0
-       },
-       "name":"grip",
-       "gunType":[
-          "medium",
-          " heavy"
-       ],
-       "unlocked":true,
-       "cost":40
-    },
-    "longBarrel":{
-       "stats":{
-          "ammoCapacity":0,
-          "reloadSpeed":0,
-          "damage":0,
-          "shotDelay":0,
-          "spread":0,
-          "bulletVelocity":0,
-          "lifetime":0,
-          "loudness":0
-       },
-       "name":"longBarrel",
-       "gunType":[
-          "All"
-       ],
-       "unlocked":true,
-       "cost":50
-    },
-    "20roundMag":{
-       "stats":{
-          "ammoCapacity":0,
-          "reloadSpeed":0,
-          "damage":0,
-          "shotDelay":0,
-          "spread":0,
-          "bulletVelocity":0,
-          "lifetime":0,
-          "loudness":0
-       },
-       "name":"20roundMag",
-       "gunType":[
-          "Handgun"
-       ],
-       "unlocked":true,
-       "cost":50
-    }
- }
+   "sight": [
+      {
+         "name": "Red Dot Sight",
+         "script": "RedDotSight",
+         "tier": 1,
+         "unlocked": true,
+         "cost": {
+            "brokenGlass": 10,
+            "junkMetal": 20
+         }
+      },
+      {
+         "name": "Piss",
+         "script": "RedDotSight",
+         "tier": 1,
+         "unlocked": true,
+         "cost": {
+            "brokenGlass": 10,
+            "junkMetal": 25
+         }
+      },
+      {
+         "name": "Cum",
+         "script": "RedDotSight",
+         "tier": 1,
+         "unlocked": false,
+         "cost": {
+            "brokenGlass": 40,
+            "junkMetal": 20
+         }
+      },
+      {
+         "name": "Wow",
+         "script": "RedDotSight",
+         "tier": 1,
+         "unlocked": false,
+         "cost": {
+            "brokenGlass": 100,
+            "junkMetal": 20
+         }
+      }
+   ]
+}

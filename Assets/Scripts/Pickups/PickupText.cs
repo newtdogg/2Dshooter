@@ -6,6 +6,7 @@ public class PickupText : MonoBehaviour {
     public float timer;
     public float value;
     private RectTransform rectTransform;
+
     void Start() {
         timer = 0;
         rectTransform = gameObject.GetComponent<RectTransform>();

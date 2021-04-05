@@ -9,7 +9,7 @@ public class UnlocksController : MonoBehaviour {
 
     private GameObject treeNodeParents;
     public PlayerController playerController;
-    public Weapons weaponList;
+    public Weapons weaponsList;
     public Text xp;
 
     void Start() {
@@ -28,7 +28,7 @@ public class UnlocksController : MonoBehaviour {
                 parentCount++;
                 count = 0;
             }     
-            var newWeapon = weapon.GetValue(weaponList) as Weapon;
+            var newWeapon = weapon.GetValue(weaponsList) as Weapon;
             // Debug.Log($"{transform.GetChild(parentCount).GetChild(0).childCount}, {count}, {newWeapon.title}");
             if(newWeapon.requiredUnlocks != "") {
                 setWeaponChildren(newWeapon);
@@ -42,17 +42,17 @@ public class UnlocksController : MonoBehaviour {
     }
 
     public void setWeaponChildren(Weapon weapon) {
-        weapon.requiredUnlocksList = new List<Weapon>();
+        weapon.createUnlocksList();
         string[] gunStrings = weapon.requiredUnlocks.Split(',');
         foreach (var gunStr in gunStrings) {
             var capGunStr = char.ToUpper(gunStr[0]) + gunStr.Substring(1);
-            var gunObject = weaponList.GetType().GetProperty(capGunStr).GetValue(weaponList, null) as Weapon;
-            weapon.requiredUnlocksList.Add(gunObject);
+            var gunObject = weaponsList.GetType().GetProperty(capGunStr).GetValue(weaponsList, null) as Weapon;
+            weapon.addWeaponToUnlocks(gunObject);
         }
     }
 
     public void updatePlayerWeapons() {
-        playerController.weaponsList = weaponList;
+        playerController.weaponsList = weaponsList;
     }
 
     

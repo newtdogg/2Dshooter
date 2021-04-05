@@ -6,46 +6,33 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-public class Shop : BuyPoint {
+public class Shop : MonoBehaviour {
     // Start is called before the first frame update
+    
     private Weapons weapons;
     private PlayerController playerController;
+    public GameObject player;
+    public Transform parentUI;
     private GameObject gunButton;
     private Text gunInfoTitle;
     private Text gunInfoDamage;
     private Text gunInfoAmmoCap;
     private Button buyButton;
 
-    void Start()
-    {
-        title = "GUNS";
+    void Start() {
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
-        parentUI = GameObject.Find("ShopUI").transform;
+        parentUI = transform;
         gunButton = parentUI.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject;
         parentUI.gameObject.SetActive(false);
-        var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/Weapons.json"); 
-        weapons = JsonUtility.FromJson<Weapons>(jsonString);
         gunInfoTitle = parentUI.GetChild(4).GetChild(0).gameObject.GetComponent<Text>();
         gunInfoDamage = parentUI.GetChild(4).GetChild(2).gameObject.GetComponent<Text>();
         gunInfoAmmoCap = parentUI.GetChild(4).GetChild(4).gameObject.GetComponent<Text>();
         buyButton = parentUI.GetChild(4).GetChild(5).gameObject.GetComponent<Button>();
         selectGunGroup("Handgun");
-        updateGunInfo(weapons.Pistol9mm);
+        updateGunInfo(playerController.weaponsList.Pistol9mm);
         parentUI.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => selectGunGroup("Handgun"));
         parentUI.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<Button>().onClick.AddListener(() => selectGunGroup("SMG"));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    protected override void OnCollisionEnter2D(Collision2D col) {
-        if(col.gameObject.name == "Player") {
-            toggleUI(true);
-        }
     }
 
     private void selectGunGroup(string group) {
@@ -72,22 +59,21 @@ public class Shop : BuyPoint {
         button.transform.GetChild(1).gameObject.GetComponent<Text>().text = weapon.title;
         var buttonScript = button.GetComponent<Button>();
         buttonScript.onClick.RemoveAllListeners();
-        buttonScript.GetComponent<Button>().onClick.AddListener(() => updateGunInfo(weapon));
+        buttonScript.onClick.AddListener(() => updateGunInfo(weapon));
     }
 
-    public void purchaseGun(string gun, int cost) {
-        if(playerController.scrap > cost) {
-            var gunObject = player.transform.GetChild(0).gameObject;
-            Destroy(gunObject.GetComponent<Gun>());
-            gunObject.AddComponent(System.Type.GetType(gun));
-            playerController.updateScrap(-cost);
-        }
+    public void purchaseGun(string gun, Dictionary<string, int> cost) {
+        var gunObject = player.transform.GetChild(0).gameObject;
+        Destroy(gunObject.GetComponent<Gun>());
+        gunObject.AddComponent(System.Type.GetType(gun));
+        playerController.updateScrap(cost);
     }
 
     public void updateGunInfo(Weapon gun) {
         gunInfoTitle.text = gun.title;
         gunInfoDamage.text = gun.stats.damage.ToString();
         gunInfoAmmoCap.text = gun.stats.ammoCapacity.ToString();
+        buyButton.interactable = playerController.checkScapAmount(gun.cost);
         buyButton.onClick.RemoveAllListeners();
         buyButton.onClick.AddListener(() => purchaseGun(gun.script, gun.cost));
     }

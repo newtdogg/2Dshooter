@@ -13,7 +13,10 @@
       "script":"Pistol9mm",
       "title":"9mm Pistol",
       "description":"wah",
-      "cost":20,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":true,
       "tier":1,
       "requiredUnlocks":"",
@@ -33,7 +36,10 @@
       "script":"Tec9",
       "title":"Tec 9",
       "description":"sdhiasd",
-      "cost":20,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":true,
       "tier":1,
       "requiredUnlocks":"",
@@ -53,7 +59,10 @@
       "script":"Pistol45",
       "title":".45 Pistol",
       "description":"asdasdas",
-      "cost":20,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":true,
       "tier":2,
       "requiredUnlocks":"pistol9mm",
@@ -73,7 +82,10 @@
       "script":"Revolver357",
       "title":".357 Revolver",
       "description":"das",
-      "cost":20,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":2,
       "requiredUnlocks":"pistol9mm",
@@ -93,7 +105,10 @@
       "script":"AutoPistol",
       "title":"Auto-Pistol",
       "description":"wah",
-      "cost":60,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":2,
       "requiredUnlocks":"pistol9mm,tec9",
@@ -113,7 +128,10 @@
       "script":"Revolver44",
       "title":".44 Revolver",
       "description":"wah",
-      "cost":45,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":3,
       "requiredUnlocks":"pistol45,revolver357",
@@ -133,7 +151,10 @@
       "script":"AkimboAutoPistols",
       "title":"Akimbo Auto-Pistols",
       "description":"wah",
-      "cost":60,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":4,
       "requiredUnlocks":"autoPistol,uzi",
@@ -153,7 +174,10 @@
       "script":"DesertEagle",
       "title":"Desert Eagle",
       "description":"wah",
-      "cost":75,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":5,
       "requiredUnlocks":"revolver44",
@@ -173,7 +197,10 @@
       "script":"Smg22",
       "title":".22 SMG",
       "description":"asdasdas",
-      "cost":90,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":true,
       "tier":1,
       "requiredUnlocks":"",
@@ -193,7 +220,10 @@
       "script":"Uzi",
       "title":"Uzi",
       "description":"asdasdas",
-      "cost":90,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":3,
       "requiredUnlocks":"autoPistol,uzi,smg22",
@@ -213,7 +243,10 @@
       "script":"CompactSmg",
       "title":"Compact SMG",
       "description":"asdasdas",
-      "cost":90,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":3,
       "requiredUnlocks":"tec9,smg22",
@@ -233,7 +266,10 @@
       "script":"AkimboUzis",
       "title":"Akimbo Uzis",
       "description":"asdasdas",
-      "cost":90,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":5,
       "requiredUnlocks":"akimboAutoPistols,uzi",
@@ -253,7 +289,10 @@
       "script":"HeavySmg",
       "title":"Heavy SMG",
       "description":"asdasdas",
-      "cost":120,
+      "cost": {
+         "brokenGlass": 10,
+         "junkMetal": 25
+      },
       "unlocked":false,
       "tier":5,
       "requiredUnlocks":"compactSmg,uzi",

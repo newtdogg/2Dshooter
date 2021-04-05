@@ -73,14 +73,23 @@ public class Weapon {
 	public string title;
 	public string description;
 	public bool unlocked;
-	public int cost;
+	public Dictionary<string, int> cost;
 	public WeaponStats stats;
 	public string group;
 	public string script;
 	public int xpCost;
 	public string requiredUnlocks;
 	public int tier;
-	public List<Weapon> requiredUnlocksList;
+	private List<Weapon> requiredUnlocksList;
+
+	public void createUnlocksList() {
+		requiredUnlocksList = new List<Weapon>();
+	}
+
+	public void addWeaponToUnlocks(Weapon weapon) {
+		requiredUnlocksList.Add(weapon);
+	}
+
 	public bool isUnlockable() {
 		foreach (var child in requiredUnlocksList) {
 			if(!child.unlocked) {

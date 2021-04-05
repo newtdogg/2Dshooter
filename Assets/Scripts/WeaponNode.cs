@@ -82,7 +82,7 @@ public class WeaponNode : MonoBehaviour,
         gunInfoTransform.GetChild(1).gameObject.GetComponent<Text>().text = weapon.group;
         var gunInfoTransformStats = gunInfoTransform.GetChild(4);
         var buyButton = gunInfoModal.GetChild(1).GetChild(5).gameObject.GetComponent<Button>();
-        if(transform.parent.parent.parent.GetComponent<UnlocksController>().playerController.experienceSpendable > weapon.cost) {
+        if(transform.parent.parent.parent.GetComponent<UnlocksController>().playerController.experienceSpendable > weapon.xpCost) {
             buyButton.onClick.RemoveAllListeners();
             buyButton.onClick.AddListener(() => unlockGun());
         } else {
@@ -101,10 +101,10 @@ public class WeaponNode : MonoBehaviour,
     public void unlockGun() {
         var unlocks = transform.parent.parent.parent.GetComponent<UnlocksController>();
         Debug.Log($"{unlocks.playerController.experienceSpendable}, {weapon.cost}");
-        var unlocksWeapon = unlocks.weaponList.GetType().GetProperty(weapon.script).GetValue(unlocks.weaponList, null) as Weapon;
+        var unlocksWeapon = unlocks.weaponsList.GetType().GetProperty(weapon.script).GetValue(unlocks.weaponsList, null) as Weapon;
         gunInfoModal.gameObject.SetActive(false);
         unlocksWeapon.unlocked = true;
-        unlocks.playerController.experienceSpendable -= weapon.cost;
+        unlocks.playerController.experienceSpendable -= weapon.xpCost;
         unlocks.xp.text = unlocks.playerController.experienceSpendable.ToString();
         unlocks.initialiseWeaponNodes(parentIndex);
         unlocks.updatePlayerWeapons();

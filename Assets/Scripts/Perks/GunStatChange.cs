@@ -9,11 +9,11 @@ public class GunStatChange : Perk {
     void Start() {
         statsUpdated = false;
         var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json");
-        var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
-        // statsToUpdate = weaponList.Pistol.attachments[0].stats;
+        var weaponsList = JsonUtility.FromJson<Weapons>(jsonString);
+        // statsToUpdate = weaponsList.Pistol.attachments[0].stats;
     }
 
-    public override void applyGunPerk(Gun gun) {
+    public override void applyGunPerk(GunParent gun) {
         if(!statsUpdated) {
             Debug.Log("applyStatChange");
             gun.statsBaseState.ammoCapacity += statsToUpdate.ammoCapacity;

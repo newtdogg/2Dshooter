@@ -9,8 +9,8 @@ public class Shotgun : Gun
     private int buck;
     void Start() {
         // var jsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json"); 
-        // var weaponList = JsonUtility.FromJson<Weapons>(jsonString);
-        // baseStats = weaponList.Shotgun.stats;
+        // var weaponsList = JsonUtility.FromJson<Weapons>(jsonString);
+        // baseStats = weaponsList.Shotgun.stats;
         reloadBar = transform.GetChild(1).gameObject;
         bulletObject = GameObject.Find("DoCBullet");
         reloadTimer = -1;

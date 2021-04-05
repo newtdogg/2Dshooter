@@ -2,35 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-// using System;
 
 public class AttachmentRecipe : Recipe {
-    public List<Attachment> attachmentsAvailable;
+    public AttachmentType attachment;
 
-    void Start()
-    {
+    void Start() {
         value = 1;
         type = "AttachmentRecipe";
-        var jsonString = File.ReadAllText("./Assets/Scripts/Attachments/Attachments.json");
-        var attachmentJson = JsonUtility.FromJson<Attachments>(jsonString);
-        gunType = GameObject.Find("Gun").GetComponent<Gun>().group;
-        attachmentsAvailable = generateAvailableAttachments(attachmentJson);
     }
 
-    public List<Attachment> generateAvailableAttachments(Attachments attachments) {
-        var attachmentList = new List<Attachment>();
-        foreach (var attachment in attachments.GetType().GetProperties()) {
-            var attachmentObject = attachment.GetValue(attachments) as Attachment;
-            if(attachmentObject.gunType.Contains(gunType) || attachmentObject.gunType.Contains("All")) {
-                attachmentList.Add(attachmentObject);
-            }
-        }
-        return attachmentList;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // public List<Attachment> generateAvailableAttachments(Attachments attachments) {
+    //     var attachmentList = new List<Attachment>();
+    //     foreach (var attachment in attachments.GetType().GetProperties()) {
+    //         var attachmentObject = attachment.GetValue(attachments) as Attachment;
+    //         if(attachmentObject.gunType.Contains(gunType) || attachmentObject.gunType.Contains("All")) {
+    //             attachmentList.Add(attachmentObject);
+    //         }
+    //     }
+    //     return attachmentList;
+    // }
 }

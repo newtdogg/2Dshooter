@@ -18,8 +18,8 @@ public class PlayerController : CharacterController {
     public bool sneaking;
     private Gun gun;
     private Transform pickupUI;
-    public int scrap;
-    private Text scrapText;
+    public Dictionary<string, int> scrap;
+    // private Text scrapText;
     public float speed;
     private GameObject detection;
     public bool canMove;
@@ -41,7 +41,7 @@ public class PlayerController : CharacterController {
         detection = transform.GetChild(2).gameObject;
         gun.reloadMagazine();
         gun.setPlayerController(this);
-        scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
+        // scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         pickupUI = transform.GetChild(8);
         torch = transform.GetChild(9).GetChild(0).gameObject;
@@ -58,7 +58,10 @@ public class PlayerController : CharacterController {
         activeSpawners = new List<Spawner>();
         canMove = true;
         speed = 36f;
-        scrap = 80;
+        scrap = new Dictionary<string, int>() {
+            { "junkMetal", 20 },
+            { "brokenGlass", 10 }
+        };
         health = maxHealth;
         sneak = new Dictionary<string, float>() {
             { "timeUntilDetection", 6f },
@@ -215,9 +218,21 @@ public class PlayerController : CharacterController {
         sneak[key] = value;
     }
 
-    public void updateScrap(int amount) {
-        scrap += amount;
-        scrapText.text = scrap.ToString();
+    public void updateScrap(Dictionary<string, int> scrapValues) {
+        foreach (var scrapAmount in scrapValues) {
+            scrap[scrapAmount.Key] += scrapAmount.Value;
+        }
+        // scrapText.text = scrap.ToString();
+    }
+
+    public bool checkScapAmount(Dictionary<string, int> scrapValues) {
+        var hasScrap = true;
+        foreach (var scrapAmount in scrapValues) {
+            if(scrap[scrapAmount.Key] < scrapAmount.Value) {
+                hasScrap = false;
+            }
+        }
+        return hasScrap;
     }
 
     public void updateHealth(float amount) {

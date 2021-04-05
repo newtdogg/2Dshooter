@@ -8,7 +8,7 @@ public class PoisonBullets : Perk {
     void Start() {
         chance = 5;
     }
-    public override void applyGunPerk(Gun gun) {
+    public override void applyGunPerk(GunParent gun) {
         var rand = new System.Random((int)System.DateTime.Now.Ticks);
         if(rand.Next(0, chance) == 0) {
             gun.bulletProperties["poison"] = true;

@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour {
         maps = new string[] { "IntroMap", "DebugMap" };
         persistenceController.loadGame();
         unlocksController = GameObject.Find("Unlocks").transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<UnlocksController>();
-        unlocksController.weaponList = persistenceController.saveData.weapons;
+        unlocksController.weaponsList = persistenceController.saveData.weapons;
     }
 
     void Start() {
@@ -95,7 +95,7 @@ public class GameController : MonoBehaviour {
         persistenceController.saveData.experience = playerController.experience;
         persistenceController.saveData.experienceForNextLevel = playerController.experienceForNextLevel;
         persistenceController.saveData.experienceLevel = playerController.experienceLevel;
-        persistenceController.saveData.weapons = unlocksController.weaponList;
+        persistenceController.saveData.weapons = unlocksController.weaponsList;
         persistenceController.saveGame();
     }
 

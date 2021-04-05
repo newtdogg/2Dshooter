@@ -8,14 +8,18 @@ public class LootController : MonoBehaviour {
 
     private Dictionary<string,GameObject> lootTypes;
     public DropChanceList stats;
+    private AttachmentType[] attachmentList;
 
     void Start() {
         lootTypes = new Dictionary<string, GameObject>() {
             { "scrap", GameObject.Find("Scrap") },
-            { "Recipe", GameObject.Find("Recipe") }
+            { "attachmentRecipe", GameObject.Find("AttachmentRecipe") }
         };
-        var jsonString = File.ReadAllText("./Assets/Scripts/DropChance.json"); 
-        stats = JsonUtility.FromJson<DropChanceList>(jsonString);
+        var dropChanceJSON = File.ReadAllText("./Assets/Scripts/DropChance.json"); 
+        stats = JsonUtility.FromJson<DropChanceList>(dropChanceJSON);
+        // var attachmentJSON = File.ReadAllText("./Assets/Scripts/Attachments/Attachments.json");
+        // var allAttachments = JsonUtility.FromJson<Attachments>(jsonString);
+        attachmentList = AttachmentType.GetValues(typeof(AttachmentType)) as AttachmentType[];
     }
 
     public void generateLoot(string lootType, Vector3 position, int quantity = 1, int spawnArea = 1, int value = 0) {
@@ -29,17 +33,25 @@ public class LootController : MonoBehaviour {
             if(lootType == "scrap") {
                 lootItem.GetComponent<Scrap>().value = value;
             }
+            if(lootType == "attachmentRecipe") {
+                lootItem.GetComponent<AttachmentRecipe>().attachment = getRandomAttachmentType();
+            }
         }
+    }
+
+    public AttachmentType getRandomAttachmentType() {
+        System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
+        return attachmentList[pseudoRandom.Next(0, attachmentList.Length)];
     }
 
     public void dropArenaLoot(Vector3 position) {
         generateScrapPile("Arena", position);
-        generateLootFromDropchance("Arena", position, "Recipe");
+        generateLootFromDropchance("Arena", position, "attachmentRecipe");
     }
 
     public void dropZombieLoot(Vector3 position, string title) {
         generateScrapPile(title, position);
-        generateLootFromDropchance(title, position, "Recipe");
+        generateLootFromDropchance(title, position, "attachmentRecipe");
     }
 
     public void dropMiniBossLoot(Vector3 position) {
@@ -57,8 +69,9 @@ public class LootController : MonoBehaviour {
         var dropchanceKey = $"{loot}DropChance";
         var rand = new System.Random((int)System.DateTime.Now.Ticks);
         var lootType = stats.GetType().GetProperty(type).GetValue(stats, null) as DropChance;
-        var dropChanceValue = (int)lootType.GetType().GetProperty(dropchanceKey).GetValue(lootType, null);
-        var chance = rand.Next(0, dropChanceValue);
+        // var dropChanceValue = (int)lootType.GetType().GetProperty(dropchanceKey).GetValue(lootType, null);
+        // var chance = rand.Next(0, dropChanceValue);
+        var chance = 0;
         if(chance == 0) {
             Debug.Log(loot);
             generateLoot(loot, position);

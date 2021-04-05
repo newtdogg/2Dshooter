@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Newtonsoft.Json;
 
 public class PersistenceController {
 
@@ -11,14 +12,14 @@ public class PersistenceController {
         saveData = new SaveData();
     }
     public void saveGame() {
-        var saveJson = JsonUtility.ToJson(saveData, true);
+        var saveJson = JsonConvert.SerializeObject(saveData, Formatting.Indented);
         File.WriteAllText("./Assets/Scripts/SaveData.json", saveJson); 
     }
 
     public void loadGame() {
         saveData = new SaveData();
         var saveJson = File.ReadAllText("./Assets/Scripts/SaveData.json"); 
-        saveData = JsonUtility.FromJson<SaveData>(saveJson);
+        saveData = JsonConvert.DeserializeObject<SaveData>(saveJson);
     }
 }
 
