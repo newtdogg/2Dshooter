@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 
-public class Ripper : ZombieController
+public class RedJacket : ZombieController
 {
     // Start is called before the first frame update
     void Start() {
-        defaultZombieAwake("MobRipper");
+        defaultZombieAwake("MobRedJacket");
 
         var mapObject = GameObject.Find("MapGridObject");
         tilemap = mapObject.transform.GetChild(0).gameObject.GetComponent<Tilemap>();

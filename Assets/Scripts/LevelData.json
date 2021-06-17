@@ -1,6 +1,8 @@
 {
     "easy": [
-       ["MobRipper", "MobRipper", "MobRipper", "MobLubber"],
-       ["MobRipper", "MobLubber", "MobRipper", "MobLubber"]
+       ["MobRedJacket", "MobRedJacket", "MobRedJacket", "MobLubber"],
+       ["MobRedJacket", "MobLubber", "MobRedJacket", "MobLubber"],
+       ["MobChucker", "MobChucker", "MobChucker", "MobChucker"],
+       ["MobSlinger", "MobSlinger", "MobSlinger", "MobSlinger"]
     ]
 }

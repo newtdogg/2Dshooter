@@ -4,11 +4,11 @@ using UnityEngine;
 
 [System.Serializable]
 public class Zombies {
-    public ZombieStats mobRipper;
+    public ZombieStats mobRedJacket;
     public ZombieStats mobLubber;
     public ZombieStats mobChucker;
     public ZombieStats mobSlinger;
-    public ZombieStats MobRipper { get { return mobRipper; } }
+    public ZombieStats MobRedJacket { get { return mobRedJacket; } }
     public ZombieStats MobLubber { get { return mobLubber; } }
     public ZombieStats MobChucker { get { return mobChucker; } }
     public ZombieStats MobSlinger { get { return mobSlinger; } }

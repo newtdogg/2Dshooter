@@ -10,13 +10,13 @@ public enum SpawnerType {
   Walled,
   Trap,
   Persistent,
-  Source
+  Source,
+  Boss
 }
 
 public class Spawner : MonoBehaviour {
 
     private GameObject[] zombieTypes;
-    private GameObject[] minibossTypes;
     private TileTools tileTools;
     public int id;
     public Transform playerTransform;
@@ -34,6 +34,7 @@ public class Spawner : MonoBehaviour {
     public GameObject wallClone;
     public GameObject wallNodeClone;
     public bool empty;
+    public string boss;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
     public GameObject zombieSourceClone;
@@ -44,7 +45,6 @@ public class Spawner : MonoBehaviour {
         empty = true;
         zombieSourceClone = GameObject.Find("SpawnerSource");
         zombieTypes = getSpawnerObjectsOfType("Zombies");
-        minibossTypes = getSpawnerObjectsOfType("MiniBosses");
         wallClone = GameObject.Find("Wall");
         wallNodeClone = GameObject.Find("WallNode");
         lootController = GameObject.Find("LootController").GetComponent<LootController>();
@@ -125,19 +125,17 @@ public class Spawner : MonoBehaviour {
         battleStarted = true;
         if(type == SpawnerType.Trap) {
             spawnZombieGroup();
+        } 
+        if (type == SpawnerType.Boss) {
+            startBossFight();
+        } else {
+            setWalls(true);
         }
-        setWalls();
-
-        // foreach (var wall in walls) {
-        //     foreach (var block in wall) {
-        //         if(tileTools.getTileInt(block.x, block.y) == 1 || tileTools.getTileInt(block.x, block.y) == 2) {
-        //             tileTools.setWallTile(block.x, block.y);
-        //         }
-        //     }
-        // }
     }
 
-    public void setWalls() {
+    // TODO: walls destructable toggle
+
+    public void setWalls(bool destroyable) {
         var wallParent = transform.GetChild(1);
         foreach (List<Vector2Int> wall in walls) {
             foreach(Vector2Int wallNode in wall) {
@@ -149,6 +147,13 @@ public class Spawner : MonoBehaviour {
         }
     }
 
+    public void startBossFight() {
+        var bossClone = GameObject.Find(boss);
+        var bossObject = Instantiate(bossClone, centerOfObject, Quaternion.identity) as GameObject;
+        bossClone.transform.SetParent(zombiesList);
+        setWalls(false);
+    }
+
     public void completeBattle() {
         battleCompleted = true;
         lootController.dropArenaLoot(centerOfObject);
@@ -158,12 +163,6 @@ public class Spawner : MonoBehaviour {
         //         tileTools.removeWallTile(block.x, block.y);
         //     }
         // }
-    }
-
-    public void spawnMiniboss() {
-        Debug.Log("mini boss spawned");
-        var bossClone = Instantiate(minibossTypes[zombieType - 10], centerOfObject, Quaternion.identity) as GameObject;
-        bossClone.transform.SetParent(zombiesList);
     }
 
     public void spawnZombie(int x, int y, GameObject zombieTypeObject) {
@@ -234,7 +233,7 @@ public class Spawner : MonoBehaviour {
         centerOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
         var spawnerTypeList = SpawnerType.GetValues(typeof(SpawnerType)) as SpawnerType[];
         System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
-        type = spawnerTypeList[pseudoRandom.Next(0, spawnerTypeList.Length)];
+        type = spawnerTypeList[pseudoRandom.Next(0, spawnerTypeList.Length - 1)];
         // type = SpawnerType.Walled;
         // Debug.Log(type);
         var numberOfWalls = Int16.Parse(spawnerIntStr.Substring(4,1));
@@ -242,6 +241,17 @@ public class Spawner : MonoBehaviour {
             createBoundaryWall(Int16.Parse(spawnerIntStr.Substring(5 + i,1)));
         }
         setWallTriggers();
+    }
+
+    public void setBossSpawnerAttributes(int spawnerInt, int index, Transform player) {
+        playerTransform = player;
+        id = index;
+        width = 64;
+        height = 64;
+        type = SpawnerType.Boss;
+        for(var i = 0; i < 4; i++) {
+            createBoundaryWall(i);
+        }
     }
 
     public void setWallTriggers() {

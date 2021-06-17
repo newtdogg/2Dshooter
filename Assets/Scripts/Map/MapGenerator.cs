@@ -12,6 +12,9 @@ public class MapGenerator : MonoBehaviour {
 	public int width;
 	public int height;
 
+	public int gridSizeX = 4;
+	public int gridSizeY = 3;
+
 	public int[,] mapToCreate;
 	private Map map;
 	public bool generateRandomMap;
@@ -23,6 +26,7 @@ public class MapGenerator : MonoBehaviour {
 	public int spawnerCount;
 	public GameController gameController;
 	public Dictionary<int, Spawner> spawners;
+	public Spawner bossSpawner;
 	private Dictionary<int, List<List<Vector2Int>>> arenaWalls;
 	private GameObject player;
 	private GameObject shadowBlock;
@@ -53,15 +57,13 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-	public new List<List<int[]>> createCellGrid() {
-		var gridSizeX = 3;
-		var gridSizeY = 2;
+	public new List<List<int[]>> createCellGrid(int gridSizeX, int gridSizeY) {
 		var cellGrid = new List<List<int[]>>();
 		for(var y = 0; y < gridSizeY; y++) {
 			cellGrid.Add(new List<int[]>());
 			for(var x = 0; x < gridSizeX; x++) {
 				if(y == 0 && x == 0) {
-					cellGrid[0].Add(new int[] {1,1,0,0});
+					cellGrid[0].Add(new int[] {0,0,1,1});
 				} else {
 					cellGrid[y].Add(generateRandomFittingCell(cellGrid, x, y, gridSizeX, gridSizeY));
 				}
@@ -82,21 +84,37 @@ public class MapGenerator : MonoBehaviour {
 			if(newX >= maxSizeX || newX < 0 || newY >= maxSizeY || newY < 0 ) {
 				newCell[currentWallIndex] = 0;
 			} else {
-				newCell[currentWallIndex] = newCell.Sum() > 1 ? rand.Next(0, 1) : 1;
+				var randWallPercent = rand.Next(0, 100);
+				var randWall = randWallPercent < 30 ? 1 : 0;
+				newCell[currentWallIndex] = newCell.Sum() >= 1 ? randWall : 1;
 			}
 			if (newY >= 0 && newY < grid.Count) {
 				if(newX >= 0 && newX < grid[newY].Count) {
 					newCell[currentWallIndex] = grid[newY][newX][count];
 				}
 			}
-			count += 1;	
+			count += 1;
 		}
 		return newCell;
+	}
+
+	private int[,] assembleCell(int[,] primaryCell, int[,] interiorCell) {
+		var borderWidth = 6;
+    	var primaryCellSize = 64;
+		for(var x = 0; x < primaryCellSize; x++) {
+			for(var y = 0; y < primaryCellSize; y++) {
+				if(y >= borderWidth && x >= borderWidth && y < primaryCellSize - borderWidth  && x < primaryCellSize - borderWidth) {
+					primaryCell[x, y] = interiorCell[x - borderWidth, y - borderWidth];
+				}
+			}
+		}
+		return primaryCell;
 	}
 
 	public List<List<int[,]>> translateCellGridToMapCells(List<List<int[]>> cellTypeGrid) {
 		var cellGrid = new List<List<int[,]>>();
 		var cellNumberToStringMap = new Dictionary<string, string>() {
+			{ "0000", "Empty" },
 			{ "1000", "Top" },
 			{ "0100", "Right" },
 			{ "0010", "Bottom" },
@@ -107,7 +125,7 @@ public class MapGenerator : MonoBehaviour {
 			{ "1001", "TopLeft" },
 			{ "0111", "RightBottomLeft" },
 			{ "1011", "TopLeftBottom" },
-			{ "1101", "TopRightLeft" },
+			{ "1101", "RightTopLeft" },
 			{ "1110", "TopRightBottom" },
 			{ "1111", "Cross" },
 			{ "1010", "TopBottom" },
@@ -115,6 +133,8 @@ public class MapGenerator : MonoBehaviour {
 		};
 		var rand = new System.Random((int)System.DateTime.Now.Ticks);
 		// var randCell = rand.Next(0, cellTypeGrid.Count * cellTypeGrid[0].Count);
+		var bossIndex = rand.Next(0, gridSizeX);
+		var startIndex = (gridSizeX * (gridSizeY - 1)) + rand.Next(0, gridSizeX);
 		var randCell = 0;
 		var count = 0;
 		foreach (var row in cellTypeGrid) {
@@ -122,31 +142,44 @@ public class MapGenerator : MonoBehaviour {
 			foreach (var cell in row) {
 				var cellString = string.Join("", cell);
 				var cellName = cellNumberToStringMap[cellString];
-				string mapJSONString;
-				if(randCell == count) {
-					mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/{cellName}/Start.json");
+				var mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/Primary/{cellName}.json");
+				string cellInterior;
+				var cellRand = new System.Random((int)System.DateTime.Now.Ticks);
+				if(count == startIndex) {
+					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Start/1.json");
+				} else if (count == bossIndex) {
+					Debug.Log("piss");
+					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Boss/1.json");
 				} else {
-					mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/{cellName}/1.json");
+					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Generic/{cellRand.Next(1, 4)}.json");
 				}
-				var testmap = JsonConvert.DeserializeObject<MapCell>(mapJSONString);
-				rowList.Add(testmap.map);
+				var cellInteriorObject = JsonConvert.DeserializeObject<MapCell>(cellInterior);
+				var mapPrimaryCell = JsonConvert.DeserializeObject<MapCell>(mapJSONString);
+				if(cellString != "0000") {
+					assembleCell(mapPrimaryCell.map, cellInteriorObject.map);
+				}
+				rowList.Add(mapPrimaryCell.map);
 				count += 1;
 			}
+			rowList.Reverse();
 			cellGrid.Add(rowList);
 		}
+		cellGrid.Reverse();
 		return cellGrid;
 	}
 
 	public int[,] generateMapFromCells() {
-		// var test = createCellGrid();
-		var test = new List<List<int[]>>() {
-			new List<int[]>() {new int[] {1, 1, 0, 0},new int[] {1, 0, 0, 1}},
-			new List<int[]>() {new int[] {0, 1, 1, 0},new int[] {0, 0, 1, 1}}
-		};
+		var test = createCellGrid(gridSizeX, gridSizeY);
+		// var test = new List<List<int[]>>() {
+		// 	new List<int[]>() {new int[] {1, 1, 0, 0},new int[] {1, 0, 0, 1}},
+		// 	new List<int[]>() {new int[] {0, 1, 1, 0},new int[] {0, 0, 1, 1}}
+		// };
 		var listOfCells = translateCellGridToMapCells(test);
-		var width = 128;
-		var height = width;
 		var sideLength = 64;
+		// var width = 128;
+		// var height = width;
+		var width = gridSizeX * sideLength;
+		var height = gridSizeY * sideLength;
 		var mainArray = new int[height, width];
 		for(var yCount = 0; yCount < listOfCells.Count; yCount++) {
 			for(var xCount = 0; xCount < listOfCells[yCount].Count; xCount++) {
@@ -161,16 +194,19 @@ public class MapGenerator : MonoBehaviour {
 		return mainArray;
 	}
 
-	public void generateSpawner(int spawnerInt, int posX, int posY, int spawnerIndex) {
-		var spawnerClone = Instantiate(GameObject.Find("Spawner"), new Vector2(posX, posY), Quaternion.identity) as GameObject;
-		var spawnerScript = spawnerClone.GetComponent<Spawner>();
-		spawnerScript.setAttributes(spawnerInt, spawnerIndex, player.transform);
-		spawners.Add(spawnerCount, spawnerScript);
 
-		// var col = spawnerClone.GetComponent<BoxCollider2D>();
-		// col.size = new Vector2(spawnerScript.width, spawnerScript.height);
-		// col.offset = new Vector2(spawnerScript.width/2, spawnerScript.height/2);
-		// spawnerScript.spawnInitialZombies();
+	public void generateSpawner(int spawnerInt, int posX, int posY, int spawnerIndex, bool isBossSpawner) {
+		var spawnerPos = isBossSpawner ? new Vector2(posX - 12, posY - 12) : new Vector2(posX, posY); 
+		var spawnerClone = Instantiate(GameObject.Find("Spawner"), spawnerPos, Quaternion.identity) as GameObject;
+		var spawnerScript = spawnerClone.GetComponent<Spawner>();
+		if(isBossSpawner) {
+			spawnerScript.setBossSpawnerAttributes(spawnerInt, spawnerIndex, player.transform);
+			bossSpawner = spawnerScript;
+			Debug.Log(bossSpawner);
+		} else {
+			spawnerScript.setAttributes(spawnerInt, spawnerIndex, player.transform);
+			spawners.Add(spawnerCount, spawnerScript);
+		}
 	}
 
 	private void generateShadow(int x, int y, int width, int height) {
@@ -286,9 +322,13 @@ public class MapGenerator : MonoBehaviour {
 						generateShadow(x, y, Int32.Parse(intMap[x, y].ToString().Substring(2,2)), Int32.Parse(intMap[x, y].ToString().Substring(4,2)));
 						tileTools.setWallTile(x, y);
 					} else if (intMap[x, y] > 10000) {
+						if(intMap[x, y] == 666666) {
+							generateSpawner(intMap[x, y], x, y, spawnerCount, true);
+						} else {
+							generateSpawner(intMap[x, y], x, y, spawnerCount, false);
+						}
 						spawnerCount++;
 						tileTools.setWallTile(x, y);
-						generateSpawner(intMap[x, y], x, y, spawnerCount);
 					}
 				}
                 tileTools.worldTileArray[x, y].worldPosition = new Vector2(x, y);
@@ -299,6 +339,8 @@ public class MapGenerator : MonoBehaviour {
 			spawners[wall.Key].setWallTriggers();
 		}
 		tileTools.intMap = intMap;
+		gameController.bossSpawner = bossSpawner;
+		Debug.Log(bossSpawner);
 		gameController.spawners = new List<Spawner>(spawners.Values);
     }
 

@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour {
     private GameObject door;
     private PersistenceController persistenceController;
     private MapGenerator mapGenerator;
+    public Spawner bossSpawner;
     public List<Spawner> spawners;
 
     public static GameController controller;
@@ -105,13 +106,13 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds (1f);
         var remainingZombies = 0;
         for(var i = 0; i < mapGenerator.spawners.Count; i++) {
-            // if(i == 1) {
-                var rand = new System.Random((int)System.DateTime.Now.Ticks);
-                List<string> zombieGroup = levels.easy[rand.Next(levels.easy.Count)];
-                remainingZombies += zombieGroup.Count;
-                spawners[i].startSpawnerByType(zombieGroup);
-            // }
+            var rand = new System.Random((int)System.DateTime.Now.Ticks);
+            List<string> zombieGroup = levels.easy[rand.Next(levels.easy.Count)];
+            remainingZombies += zombieGroup.Count;
+            spawners[i].startSpawnerByType(zombieGroup);
         }
+        var bossRand = new System.Random((int)System.DateTime.Now.Ticks);
+        bossSpawner.boss = "MobEyeSore";
         playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
     }
 

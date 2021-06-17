@@ -57,7 +57,7 @@ public class PlayerController : CharacterController {
         updateXP(0f);
         activeSpawners = new List<Spawner>();
         canMove = true;
-        speed = 36f;
+        speed = 50f;
         scrap = new Dictionary<string, int>() {
             { "junkMetal", 20 },
             { "brokenGlass", 10 }
