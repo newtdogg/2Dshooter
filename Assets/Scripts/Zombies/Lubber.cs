@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Lubber : ZombieController
+public class Lubber : MobController
 {
     // Start is called before the first frame update
     void Start()
     {
-        defaultZombieAwake("MobLubber");
+        defaultMobAwake("MobLubber");
     }
 
     void Update() {

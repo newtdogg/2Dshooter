@@ -146,7 +146,7 @@
 					primaryGrassTilemap.SetTile(pos, grassDefault);
 					if(tile.tileCover["trees"] == 0 && tile.tileCover["secondaryGrass"] == 0) {
 						if(rand1.Next(0, 250) == 0) {
-							// tile.hasZombie = true;
+							// tile.hasMob = true;
 						}
 					}
 					// if(rand1.Next(0, 250) == 0) {

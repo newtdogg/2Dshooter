@@ -100,17 +100,17 @@ public class AIController : MonoBehaviour
             var target = path[path.Length - 1];
             var currentWaypointInt = new Vector3Int((int)Mathf.Floor(currentWaypoint.x), (int)Mathf.Floor(currentWaypoint.y), 0);
             var lastWaypointInt = new Vector3Int((int)Mathf.Floor(path[path.Length - 1].x), (int)Mathf.Floor(path[path.Length - 1].y), 0);
-            var zombiePosInt = new Vector3Int((int)Mathf.Floor(zomPos.x), (int)Mathf.Floor(zomPos.y), 0);
+            var mobPosInt = new Vector3Int((int)Mathf.Floor(zomPos.x), (int)Mathf.Floor(zomPos.y), 0);
             if(distance > playerController.getSneakStat("detectionDistance") * 2f && type != "boss") {
                 Debug.Log("out of range :(");
                 StopCoroutine("UpdatePath");
                 yield break;
-            } else if (zombiePosInt.x == currentWaypointInt.x && zombiePosInt.y == currentWaypointInt.y) {
+            } else if (mobPosInt.x == currentWaypointInt.x && mobPosInt.y == currentWaypointInt.y) {
 				targetIndex ++;
                 if(targetIndex < path.Length) {
                 }
                 // if (targetIndex >= path.Length) {
-                if (targetIndex >= path.Length || (zombiePosInt.x == lastWaypointInt.x && zombiePosInt.y == lastWaypointInt.y)) {
+                if (targetIndex >= path.Length || (mobPosInt.x == lastWaypointInt.x && mobPosInt.y == lastWaypointInt.y)) {
                 // if (targetIndex >= path.Length || lastPosition == transform.position) {
                     currentWaypoint = player.transform.position;
                 } else {

@@ -16,19 +16,19 @@ public enum SpawnerType {
 
 public class Spawner : MonoBehaviour {
 
-    private GameObject[] zombieTypes;
+    private GameObject[] mobTypes;
     private TileTools tileTools;
     public int id;
     public Transform playerTransform;
     public bool isWave;
-    public Transform zombiesList;
+    public Transform mobsList;
     public int width;
     public int height;
-    public List<string> zombiesToSpawn;
-    public int initialZombieSpawn;
+    public List<string> mobsToSpawn;
+    public int initialMobSpawn;
     public Vector3 centerOfObject;
     public SpawnerType type;
-    public int zombieType;
+    public int mobType;
     public bool battleStarted;
     public bool battleCompleted;
     public GameObject wallClone;
@@ -37,18 +37,18 @@ public class Spawner : MonoBehaviour {
     public string boss;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
-    public GameObject zombieSourceClone;
+    public GameObject mobSourceClone;
 
     void Awake () {
         walls = new List<List<Vector2Int>>();
         battleStarted = false;
         empty = true;
-        zombieSourceClone = GameObject.Find("SpawnerSource");
-        zombieTypes = getSpawnerObjectsOfType("Zombies");
+        mobSourceClone = GameObject.Find("SpawnerSource");
+        mobTypes = getSpawnerObjectsOfType("Mobs");
         wallClone = GameObject.Find("Wall");
         wallNodeClone = GameObject.Find("WallNode");
         lootController = GameObject.Find("LootController").GetComponent<LootController>();
-        zombiesList = transform.GetChild(0);
+        mobsList = transform.GetChild(0);
         tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
     }
 
@@ -56,28 +56,28 @@ public class Spawner : MonoBehaviour {
         if(battleStarted && !battleCompleted && transform.GetChild(0).childCount == 0) {
             completeBattle();
         }
-        if(!empty && zombiesList.childCount == 0) {
+        if(!empty && mobsList.childCount == 0) {
             empty = true;
         }
     }
 
-    public void startSpawnerByType(List<string> zombieGroup) {
-        zombiesToSpawn = zombieGroup;
+    public void startSpawnerByType(List<string> mobGroup) {
+        mobsToSpawn = mobGroup;
         switch (type) {
             case SpawnerType.Empty:
                 break;
             case SpawnerType.Default:
-                spawnZombieGroup();
+                spawnMobGroup();
                 break;
             case SpawnerType.Walled:
-                spawnZombieGroup();
+                spawnMobGroup();
                 break;
             case SpawnerType.Persistent:
-                StartCoroutine(spawnZombiesOverTime());
+                StartCoroutine(spawnMobsOverTime());
                 break;
             case SpawnerType.Source:
-                StartCoroutine(spawnZombiesOverTime());
-                createZombieSourceObject();
+                StartCoroutine(spawnMobsOverTime());
+                createMobSourceObject();
                 break;
         }
     }
@@ -93,28 +93,28 @@ public class Spawner : MonoBehaviour {
         return mobTypes;
     }
 
-    public IEnumerator spawnZombiesOverTime() {
-        var zombieCount = 0;
-        while (zombieCount < zombiesToSpawn.Count * 2) {
+    public IEnumerator spawnMobsOverTime() {
+        var mobCount = 0;
+        while (mobCount < mobsToSpawn.Count * 2) {
             yield return new WaitForSeconds (2f);
             if(Vector3.Distance(centerOfObject, playerTransform.position) < 20f) {
                 System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
-                var zombiePosX = pseudoRandom.Next(0, width);
-                var zombiePosY = pseudoRandom.Next(0, height);
-                var tileInt = tileTools.intMap[(int)Mathf.Floor(zombiePosX) + (int)transform.position.x, (int)Mathf.Floor(zombiePosY) + (int)transform.position.y];
-                // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(zombiePosX)} {(int)Mathf.Floor(zombiePosY)} )");
+                var mobPosX = pseudoRandom.Next(0, width);
+                var mobPosY = pseudoRandom.Next(0, height);
+                var tileInt = tileTools.intMap[(int)Mathf.Floor(mobPosX) + (int)transform.position.x, (int)Mathf.Floor(mobPosY) + (int)transform.position.y];
+                // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(mobPosX)} {(int)Mathf.Floor(mobPosY)} )");
                 if(tileInt != 1 && tileInt != 2) {
                     continue;
                 }
-                var zombieGameObject = Array.Find(zombieTypes, z => z.name == zombiesToSpawn[zombieCount]);
-                spawnZombie(zombiePosX, zombiePosY, zombieGameObject);
-                zombieCount++;
+                var mobGameObject = Array.Find(mobTypes, z => z.name == mobsToSpawn[mobCount]);
+                spawnMob(mobPosX, mobPosY, mobGameObject);
+                mobCount++;
             }
         }
     }
 
-    private void createZombieSourceObject() {
-        var sourceObject = Instantiate(zombieSourceClone, centerOfObject, Quaternion.identity) as GameObject;
+    private void createMobSourceObject() {
+        var sourceObject = Instantiate(mobSourceClone, centerOfObject, Quaternion.identity) as GameObject;
         var sourceObjectScript = sourceObject.GetComponent<SpawnerSource>();
         sourceObjectScript.hp = 200f;
         sourceObjectScript.spawner = this;
@@ -124,7 +124,7 @@ public class Spawner : MonoBehaviour {
         Debug.Log("battlestarted");
         battleStarted = true;
         if(type == SpawnerType.Trap) {
-            spawnZombieGroup();
+            spawnMobGroup();
         } 
         if (type == SpawnerType.Boss) {
             startBossFight();
@@ -150,7 +150,7 @@ public class Spawner : MonoBehaviour {
     public void startBossFight() {
         var bossClone = GameObject.Find(boss);
         var bossObject = Instantiate(bossClone, centerOfObject, Quaternion.identity) as GameObject;
-        bossClone.transform.SetParent(zombiesList);
+        bossClone.transform.SetParent(mobsList);
         setWalls(false);
     }
 
@@ -165,30 +165,30 @@ public class Spawner : MonoBehaviour {
         // }
     }
 
-    public void spawnZombie(int x, int y, GameObject zombieTypeObject) {
-        var zombieClone = Instantiate(zombieTypeObject, new Vector2(transform.position.x + x, transform.position.y + y), Quaternion.identity) as GameObject;
-        zombieClone.transform.SetParent(zombiesList);
-        zombieClone.GetComponent<ZombieController>().setDormant();
+    public void spawnMob(int x, int y, GameObject mobTypeObject) {
+        var mobClone = Instantiate(mobTypeObject, new Vector2(transform.position.x + x, transform.position.y + y), Quaternion.identity) as GameObject;
+        mobClone.transform.SetParent(mobsList);
+        mobClone.GetComponent<MobController>().setDormant();
     }
 
-    public void spawnZombieGroup() {
+    public void spawnMobGroup() {
         empty = false;
-        var quantity = zombiesToSpawn.Count;
+        var quantity = mobsToSpawn.Count;
         var distance = width / quantity;
         var seed = Time.time.ToString();
-        var zombieCount = 0;
-        while(zombieCount < quantity) {
+        var mobCount = 0;
+        while(mobCount < quantity) {
             System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
-            var zombiePosX = pseudoRandom.Next(zombieCount * distance, (zombieCount + 1) * distance);
-            var zombiePosY = pseudoRandom.Next(0, height);
-            var tileInt = tileTools.intMap[(int)Mathf.Floor(zombiePosX) + (int)transform.position.x, (int)Mathf.Floor(zombiePosY) + (int)transform.position.y];
-            // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(zombiePosX)} {(int)Mathf.Floor(zombiePosY)} )");
+            var mobPosX = pseudoRandom.Next(mobCount * distance, (mobCount + 1) * distance);
+            var mobPosY = pseudoRandom.Next(0, height);
+            var tileInt = tileTools.intMap[(int)Mathf.Floor(mobPosX) + (int)transform.position.x, (int)Mathf.Floor(mobPosY) + (int)transform.position.y];
+            // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(mobPosX)} {(int)Mathf.Floor(mobPosY)} )");
             if(tileInt != 1 && tileInt != 2) {
                 continue;
             }
-            var zombieGameObject = Array.Find(zombieTypes, z => z.name == zombiesToSpawn[zombieCount]);
-            spawnZombie(zombiePosX, zombiePosY, zombieGameObject);
-            zombieCount++;
+            var mobGameObject = Array.Find(mobTypes, z => z.name == mobsToSpawn[mobCount]);
+            spawnMob(mobPosX, mobPosY, mobGameObject);
+            mobCount++;
         }
     }
 

@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class WorldTile : IHeapItem<WorldTile> {
     public string bedrockName;
     public Dictionary<string, int> tileCover;
-    public bool hasZombie;
+    public bool hasMob;
     public Vector2 worldPosition;
     public WorldTile parent;
     public bool walkable;

@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using UnityEngine.Tilemaps;
 
-public class ZombieController : AIController
+public class MobController : AIController
 {
     // Start is called before the first frame update
     
@@ -15,24 +15,24 @@ public class ZombieController : AIController
     public Transform intents;
     public bool clone;
     public bool inContactWithPlayer;
-    public GameObject zombieObj;
+    public GameObject mobObj;
     public GameObject scrapObject;
     public GameObject recipeObject;
     public int scrap;
     public ContactController contactController;
     public float xpValue;
 
-    public void defaultZombieAwake(string zombieTitle) {
-        var jsonString = File.ReadAllText("./Assets/Scripts/Zombies.json"); 
-        var zombieList = JsonUtility.FromJson<Zombies>(jsonString);
-        var zombieJsonObject = zombieList.GetType().GetProperty(zombieTitle).GetValue(zombieList, null) as ZombieStats;
+    public void defaultMobAwake(string mobTitle) {
+        var jsonString = File.ReadAllText("./Assets/Scripts/Mobs.json"); 
+        var mobList = JsonUtility.FromJson<Mobs>(jsonString);
+        var mobJsonObject = mobList.GetType().GetProperty(mobTitle).GetValue(mobList, null) as MobStats;
         startingPosition = transform.position;
-        speed = zombieJsonObject.speed;
+        speed = mobJsonObject.speed;
         defaultSpeed = speed;
-        damage = zombieJsonObject.damage;
-        maxHealth = zombieJsonObject.maxHealth;
-        xpValue = zombieJsonObject.xpValue;
-        title = zombieTitle;
+        damage = mobJsonObject.damage;
+        maxHealth = mobJsonObject.maxHealth;
+        xpValue = mobJsonObject.xpValue;
+        title = mobTitle;
         status = "idle";
         detectionTimer = -1f;
         canMove = true;
@@ -135,7 +135,7 @@ public class ZombieController : AIController
 
     public void onDeath() {
         Destroy(gameObject);
-        lootController.dropZombieLoot(transform.position, title);
+        lootController.dropMobLoot(transform.position, title);
         playerController.updateXP(xpValue);
         // playerController.gameController.globalSpeedSlow();
     }

@@ -173,7 +173,7 @@ public class PlayerController : CharacterController {
     public void updateEnemyIndicators() {
         var count = 0;
         foreach (var spawner in activeSpawners) {
-            if(spawner.zombiesList.childCount != 0) {     
+            if(spawner.mobsList.childCount != 0) {     
                 var normalizedDiff = (transform.position - spawner.centerOfObject).normalized;
                 var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
                 var distance = (sneakDefault["attackDistance"] * 2) > 22 ? 22 : sneakDefault["attackDistance"] * 2;

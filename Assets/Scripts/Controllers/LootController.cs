@@ -49,7 +49,7 @@ public class LootController : MonoBehaviour {
         generateLootFromDropchance("Arena", position, "attachmentRecipe");
     }
 
-    public void dropZombieLoot(Vector3 position, string title) {
+    public void dropMobLoot(Vector3 position, string title) {
         generateScrapPile(title, position);
         generateLootFromDropchance(title, position, "attachmentRecipe");
     }

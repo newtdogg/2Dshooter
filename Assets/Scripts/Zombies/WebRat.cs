@@ -4,12 +4,12 @@ using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
 
-public class WebRat : ZombieController
+public class WebRat : MobController
 {
     public GameObject hookClone;
     void Start()
     {
-        defaultZombieAwake("MobWebRat");
+        defaultMobAwake("MobWebRat");
         bullet = GameObject.Find("DoCHook");
         attacks = new List<Action>() { throwHook };
         attackDelay = 3;

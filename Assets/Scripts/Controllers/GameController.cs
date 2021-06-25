@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
     private int levelIndex;
     public bool waveComplete;
     private bool gameStarted;
-    private Zombies zombieData;
+    private Mobs mobData;
     public bool survival;
     public float globalSpeed;
     private PlayerController playerController;
@@ -36,8 +36,8 @@ public class GameController : MonoBehaviour {
         else if (controller != this){
             Destroy(gameObject);
         }
-        var zombieJsonString = File.ReadAllText("./Assets/Scripts/Zombies.json"); 
-        zombieData = JsonUtility.FromJson<Zombies>(zombieJsonString);
+        var mobJsonString = File.ReadAllText("./Assets/Scripts/Mobs.json"); 
+        mobData = JsonUtility.FromJson<Mobs>(mobJsonString);
         persistenceController = new PersistenceController();
         maps = new string[] { "IntroMap", "DebugMap" };
         persistenceController.loadGame();
@@ -67,11 +67,11 @@ public class GameController : MonoBehaviour {
 
     public void checkNextLevel () {
         // if(gameStarted) {
-        //     var currentZombieCount = 0;
+        //     var currentMobCount = 0;
         //     foreach (var spawner in spawners) {
-        //         currentZombieCount += spawner.transform.GetChild(0).childCount;
+        //         currentMobCount += spawner.transform.GetChild(0).childCount;
         //     }
-        //     if(currentZombieCount == 0 && nextWave) {
+        //     if(currentMobCount == 0 && nextWave) {
         //         nextWave = false;
         //         StartCoroutine("startWave");
         //     }
@@ -110,14 +110,14 @@ public class GameController : MonoBehaviour {
         // Debug.Log("starting wave");
         // Debug.Log(levelIndex);
         yield return new WaitForSeconds (1f);
-        var remainingZombies = 0;
+        var remainingMobs = 0;
         for(var i = 0; i < mapGenerator.spawners.Count; i++) {
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
             var spawn = levels.temperate.spawns[rand.Next(levels.temperate.spawns.Count)] as Spawn;
-            var zombieGroup = spawn.enemies;
+            var mobGroup = spawn.enemies;
             spawners[i].type = spawn.spawnerTypes[rand.Next(spawn.spawnerTypes.Count)];
-            remainingZombies = zombieGroup.Count;
-            spawners[i].startSpawnerByType(zombieGroup);
+            remainingMobs = mobGroup.Count;
+            spawners[i].startSpawnerByType(mobGroup);
         }
         var bossRand = new System.Random((int)System.DateTime.Now.Ticks);
         bossSpawner.boss = "MobEyeSore";
@@ -131,7 +131,7 @@ public class GameController : MonoBehaviour {
         // Debug.Log("starting wave");
         // Debug.Log(levelIndex);
         yield return new WaitForSeconds (1f);
-        var remainingZombies = 0;
+        var remainingMobs = 0;
         spawners[0].type = SpawnerType.Default;
         mapGenerator.spawners[0].startSpawnerByType(new List<string> {"MobWebRat", "MobWebRat"});
     }

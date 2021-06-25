@@ -4,12 +4,12 @@ using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
 
-public class Chucker : ZombieController
+public class Chucker : MobController
 {
     // Start is called before the first frame update
     void Start()
     {
-        defaultZombieAwake("MobChucker");
+        defaultMobAwake("MobChucker");
         bullet = transform.GetChild(2).gameObject;
         attacks = new List<Action>() { throwProjectile };
         attackDelay = 3f;
