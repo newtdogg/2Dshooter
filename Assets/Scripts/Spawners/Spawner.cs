@@ -6,7 +6,7 @@ using System.Linq;
 
 public enum SpawnerType {
   Empty,
-  Instant,
+  Default,
   Walled,
   Trap,
   Persistent,
@@ -66,7 +66,7 @@ public class Spawner : MonoBehaviour {
         switch (type) {
             case SpawnerType.Empty:
                 break;
-            case SpawnerType.Instant:
+            case SpawnerType.Default:
                 spawnZombieGroup();
                 break;
             case SpawnerType.Walled:
@@ -231,9 +231,9 @@ public class Spawner : MonoBehaviour {
         width = Int16.Parse(spawnerIntStr.Substring(0,2));
         height = Int16.Parse(spawnerIntStr.Substring(2,2));
         centerOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
-        var spawnerTypeList = SpawnerType.GetValues(typeof(SpawnerType)) as SpawnerType[];
-        System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
-        type = spawnerTypeList[pseudoRandom.Next(0, spawnerTypeList.Length - 1)];
+        // var spawnerTypeList = SpawnerType.GetValues(typeof(SpawnerType)) as SpawnerType[];
+        // System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
+        // type = spawnerTypeList[pseudoRandom.Next(0, spawnerTypeList.Length - 1)];
         // type = SpawnerType.Walled;
         // Debug.Log(type);
         var numberOfWalls = Int16.Parse(spawnerIntStr.Substring(4,1));

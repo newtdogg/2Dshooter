@@ -5,20 +5,8 @@
         "damage": 15,
         "xpValue": 30
     },
-    "mobLubber": {
-        "speed": 23,
-        "maxHealth": 26,
-        "damage": 15,
-        "xpValue": 30
-    },
-    "mobChucker": {
-        "speed": 20,
-        "maxHealth": 26,
-        "damage": 15,
-        "xpValue": 30
-    },
-    "mobSlinger": {
-        "speed": 20,
+    "mobWebRat": {
+        "speed": 22,
         "maxHealth": 26,
         "damage": 15,
         "xpValue": 30

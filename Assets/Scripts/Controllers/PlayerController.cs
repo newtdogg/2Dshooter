@@ -21,6 +21,8 @@ public class PlayerController : CharacterController {
     public Dictionary<string, int> scrap;
     // private Text scrapText;
     public float speed;
+    public float defaultSpeed;
+    public float slowTimer;
     private GameObject detection;
     public bool canMove;
     public GameController gameController;
@@ -57,6 +59,7 @@ public class PlayerController : CharacterController {
         updateXP(0f);
         activeSpawners = new List<Spawner>();
         canMove = true;
+        defaultSpeed = 50f;
         speed = 50f;
         scrap = new Dictionary<string, int>() {
             { "junkMetal", 20 },
@@ -87,7 +90,13 @@ public class PlayerController : CharacterController {
         }
         detection.transform.GetChild(0).localScale = new Vector3(sneak["detectionDistance"], sneak["detectionDistance"], 0) * 2;
         detection.transform.GetChild(1).localScale = new Vector3(sneak["attackDistance"], sneak["attackDistance"], 0) * 2;
-        var movSpeed = speed * gameController.globalSpeed;
+        var movSpeed = 0f;
+        if(slowTimer >= 0) {
+            movSpeed = (speed/2) * gameController.globalSpeed;
+            slowTimer -= Time.deltaTime;
+        } else {
+            movSpeed = speed * gameController.globalSpeed;
+        }
         if (Input.GetKey(KeyCode.LeftShift)) {
             sneaking = true;
             movSpeed = speed/2;
@@ -177,35 +186,6 @@ public class PlayerController : CharacterController {
         }
     }
 
-    // public void setupEnemyIndicators(List<Spawner> spawners) {
-    //     activeSpawners = spawners;
-    //     foreach (Transform child in enemyIndicatorParent.GetChild(1)) {
-    //         Destroy(child.gameObject);
-    //     }
-    //     foreach (var spawner in spawners) {
-    //         var zomInd = Instantiate(enemyIndicatorParent.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
-    //         zomInd.transform.SetParent(enemyIndicatorParent.GetChild(1));
-    //         zomInd.transform.localPosition = Vector3.zero;
-    //         var normalizedDiff = (transform.position - spawner.transform.position).normalized;
-    //         var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
-    //         var distance = sneakDefault["attackDistance"] > 11 ? 11 : sneakDefault["attackDistance"];
-    //         zomInd.transform.GetChild(0).localPosition = new Vector3(0, distance * 100, 0);
-    //         zomInd.transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
-    //     }
-    // }
-
-    // public void updateEnemyIndicators() {
-    //     var count = 0;
-    //     foreach (var spawner in activeSpawners) {
-    //          var normalizedDiff = (transform.position - spawner.transform.position).normalized;
-    //         var degrees = Mathf.Atan2(normalizedDiff.y, normalizedDiff.x) * Mathf.Rad2Deg;
-    //         var distance = sneakDefault["attackDistance"] > 11 ? 11 : sneakDefault["attackDistance"];
-    //         enemyIndicatorParent.GetChild(1).GetChild(count).GetChild(0).localPosition = new Vector3(0, distance * 100, 0);
-    //         enemyIndicatorParent.GetChild(1).GetChild(count).transform.rotation = Quaternion.Euler(0, 0, degrees + 90f);
-    //         count++;
-    //     }
-    // }
-
     public Gun getGun() {
         return this.gun;
     }
@@ -290,6 +270,10 @@ public class PlayerController : CharacterController {
         experienceLevel++;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
         transform.GetChild(3).GetChild(3).GetChild(3).gameObject.GetComponent<Text>().text = experienceLevel.ToString();
+    }
+
+    public void slow(float time) {
+        slowTimer = time;
     }
 
     public void loadData(SaveData saveData) {

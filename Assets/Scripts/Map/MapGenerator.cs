@@ -15,16 +15,15 @@ public class MapGenerator : MonoBehaviour {
 	public int gridSizeX = 4;
 	public int gridSizeY = 3;
 
-	public int[,] mapToCreate;
 	private Map map;
-	public bool generateRandomMap;
 	public GameObject shop;
 	public GameObject craftingStation;
 	private Dictionary<string, TileBase> bedrockTypes;
-	public bool mapGenerated;
 	private TileTools tileTools;
+	public bool mapGenerated;
 	public int spawnerCount;
 	public GameController gameController;
+	public int[,] mapToCreate;
 	public Dictionary<int, Spawner> spawners;
 	public Spawner bossSpawner;
 	private Dictionary<int, List<List<Vector2Int>>> arenaWalls;
@@ -42,19 +41,12 @@ public class MapGenerator : MonoBehaviour {
 		// mapToCreate = GameObject.Find("GameController").GetComponent<GameController>().activeMap;
 		// mapToCreate = new DebugMap().map;
 		// mapToCreate = new SurvivalMap().map;
-		mapToCreate = generateMapFromCells();
 		tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
 		spawners = new Dictionary<int, Spawner>();
 		arenaWalls = new Dictionary<int, List<List<Vector2Int>>>();
 		spawnerCount = 0;
 		shadowParent = transform.parent.GetChild(1).gameObject;
 		borderShadow = transform.parent.GetChild(2).gameObject;
-		if(generateRandomMap) {
-			// CODE GOES HERE
-		} else {
-			simpleMapGeneration(mapToCreate);
-			mapGenerated = true;
-		}
 	}
 
 	public new List<List<int[]>> createCellGrid(int gridSizeX, int gridSizeY) {
@@ -169,15 +161,9 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	public int[,] generateMapFromCells() {
-		var test = createCellGrid(gridSizeX, gridSizeY);
-		// var test = new List<List<int[]>>() {
-		// 	new List<int[]>() {new int[] {1, 1, 0, 0},new int[] {1, 0, 0, 1}},
-		// 	new List<int[]>() {new int[] {0, 1, 1, 0},new int[] {0, 0, 1, 1}}
-		// };
-		var listOfCells = translateCellGridToMapCells(test);
+		var cellSideArray = createCellGrid(gridSizeX, gridSizeY);
+		var listOfCells = translateCellGridToMapCells(cellSideArray);
 		var sideLength = 64;
-		// var width = 128;
-		// var height = width;
 		var width = gridSizeX * sideLength;
 		var height = gridSizeY * sideLength;
 		var mainArray = new int[height, width];
@@ -276,9 +262,23 @@ public class MapGenerator : MonoBehaviour {
 		return neighbours;
 	}
 
-	private void simpleMapGeneration(int[,] intMap) {
-        width = intMap.GetLength(0);
-        height = intMap.GetLength(1);
+	public void generateMobDebugMap() {
+		var cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Debug.json");
+		var mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/Primary/Bottom.json");
+		var cellInteriorObject = JsonConvert.DeserializeObject<MapCell>(cellInterior);
+		var mapPrimaryCell = JsonConvert.DeserializeObject<MapCell>(mapJSONString);
+		mapToCreate = assembleCell(mapPrimaryCell.map, cellInteriorObject.map);
+		createMap();
+	}
+
+	public void generateLevelMap() {
+		mapToCreate = generateMapFromCells();
+		createMap();
+	}
+
+	public void createMap() {
+        width = mapToCreate.GetLength(0);
+        height = mapToCreate.GetLength(1);
         // setCameraBoundary(w, h);
 		map.worldTiles = new WorldTile[width, height];
         tileTools.worldTileArray = map.worldTiles;
@@ -289,7 +289,7 @@ public class MapGenerator : MonoBehaviour {
         tileTools.wallTile = tileTools.wallTilemap.GetTile(new Vector3Int(0, 0, 0));
         for(var x = 0; x < width - 1; x++) {
             for(var y = 0; y < height - 1; y++) {
-                switch (intMap[x, y]) {
+                switch (mapToCreate[x, y]) {
                     case 0:
                         tileTools.setWallTile(x, y);
                         break;
@@ -317,18 +317,18 @@ public class MapGenerator : MonoBehaviour {
 						tileTools.setGroundTile(x, y, true);
                     break;
                 }
-				if(intMap[x, y] > 10) {
-					if(intMap[x, y].ToString().Substring(0,2) == "55") {
-						generateShadow(x, y, Int32.Parse(intMap[x, y].ToString().Substring(2,2)), Int32.Parse(intMap[x, y].ToString().Substring(4,2)));
+				if(mapToCreate[x, y] > 10) {
+					if(mapToCreate[x, y].ToString().Substring(0,2) == "55") {
+						generateShadow(x, y, Int32.Parse(mapToCreate[x, y].ToString().Substring(2,2)), Int32.Parse(mapToCreate[x, y].ToString().Substring(4,2)));
 						tileTools.setWallTile(x, y);
-					} else if (intMap[x, y] > 10000) {
-						if(intMap[x, y] == 666666) {
-							generateSpawner(intMap[x, y], x, y, spawnerCount, true);
+					} else if (mapToCreate[x, y] > 10000) {
+						if(mapToCreate[x, y] == 666666) {
+							generateSpawner(mapToCreate[x, y], x, y, spawnerCount, true);
 						} else {
-							generateSpawner(intMap[x, y], x, y, spawnerCount, false);
+							generateSpawner(mapToCreate[x, y], x, y, spawnerCount, false);
 						}
 						spawnerCount++;
-						tileTools.setWallTile(x, y);
+						tileTools.setGroundTile(x, y, true);
 					}
 				}
                 tileTools.worldTileArray[x, y].worldPosition = new Vector2(x, y);
@@ -338,7 +338,7 @@ public class MapGenerator : MonoBehaviour {
 			spawners[wall.Key].walls = wall.Value;
 			spawners[wall.Key].setWallTriggers();
 		}
-		tileTools.intMap = intMap;
+		tileTools.intMap = mapToCreate;
 		gameController.bossSpawner = bossSpawner;
 		Debug.Log(bossSpawner);
 		gameController.spawners = new List<Spawner>(spawners.Values);

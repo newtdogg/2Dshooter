@@ -9,13 +9,13 @@ public class DropChanceList {
     public DropChance mobRedJacket;
     public DropChance mobLubber;
     public DropChance mobChucker;
-    public DropChance mobSlinger;
+    public DropChance mobWebRat;
 	public DropChance Arena { get { return arena; } }
     public DropChance Miniboss { get { return miniboss; } }
     public DropChance MobRedJacket { get { return mobRedJacket; } }
     public DropChance MobLubber { get { return mobLubber; } }
     public DropChance MobChucker { get { return mobChucker; } }
-    public DropChance MobSlinger { get { return mobSlinger; } }
+    public DropChance MobWebRat { get { return mobWebRat; } }
 }
 
 [System.Serializable]

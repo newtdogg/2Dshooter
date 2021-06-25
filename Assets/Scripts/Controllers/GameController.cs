@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
     private int levelIndex;
     public bool waveComplete;
     private bool gameStarted;
+    private Zombies zombieData;
     public bool survival;
     public float globalSpeed;
     private PlayerController playerController;
@@ -35,6 +36,8 @@ public class GameController : MonoBehaviour {
         else if (controller != this){
             Destroy(gameObject);
         }
+        var zombieJsonString = File.ReadAllText("./Assets/Scripts/Zombies.json"); 
+        zombieData = JsonUtility.FromJson<Zombies>(zombieJsonString);
         persistenceController = new PersistenceController();
         maps = new string[] { "IntroMap", "DebugMap" };
         persistenceController.loadGame();
@@ -101,14 +104,19 @@ public class GameController : MonoBehaviour {
     }
 
     public IEnumerator StartLevel() {
+        yield return new WaitForSeconds (0.5f);
+        mapGenerator.generateLevelMap();
+        mapGenerator.mapGenerated = true;
         // Debug.Log("starting wave");
         // Debug.Log(levelIndex);
         yield return new WaitForSeconds (1f);
         var remainingZombies = 0;
         for(var i = 0; i < mapGenerator.spawners.Count; i++) {
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
-            List<string> zombieGroup = levels.easy[rand.Next(levels.easy.Count)];
-            remainingZombies += zombieGroup.Count;
+            var spawn = levels.temperate.spawns[rand.Next(levels.temperate.spawns.Count)] as Spawn;
+            var zombieGroup = spawn.enemies;
+            spawners[i].type = spawn.spawnerTypes[rand.Next(spawn.spawnerTypes.Count)];
+            remainingZombies = zombieGroup.Count;
             spawners[i].startSpawnerByType(zombieGroup);
         }
         var bossRand = new System.Random((int)System.DateTime.Now.Ticks);
@@ -116,10 +124,23 @@ public class GameController : MonoBehaviour {
         playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
     }
 
+    public IEnumerator StartDebugLevel() {
+        yield return new WaitForSeconds (0.5f);
+        mapGenerator.generateMobDebugMap();
+        mapGenerator.mapGenerated = true;
+        // Debug.Log("starting wave");
+        // Debug.Log(levelIndex);
+        yield return new WaitForSeconds (1f);
+        var remainingZombies = 0;
+        spawners[0].type = SpawnerType.Default;
+        mapGenerator.spawners[0].startSpawnerByType(new List<string> {"MobWebRat", "MobWebRat"});
+    }
+
     public void startGame() {
         gameStarted = true;
         levelIndex = 0;
-        StartCoroutine("StartLevel");
+        // StartCoroutine("StartLevel");
+        StartCoroutine("StartDebugLevel");
     }
 
     public void globalSpeedSlow() {

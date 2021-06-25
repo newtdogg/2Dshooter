@@ -12,4 +12,11 @@ public class Projectile : MonoBehaviour {
         lifetime = lt;
     }
 
+    void Update() {
+        lifetime -= Time.deltaTime;
+        if(lifetime < 0) {
+            Destroy(gameObject);
+        }
+    }
+
 }

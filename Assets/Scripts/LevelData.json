@@ -1,8 +1,15 @@
 {
-    "easy": [
-       ["MobRedJacket", "MobRedJacket", "MobRedJacket", "MobLubber"],
-       ["MobRedJacket", "MobLubber", "MobRedJacket", "MobLubber"],
-       ["MobChucker", "MobChucker", "MobChucker", "MobChucker"],
-       ["MobSlinger", "MobSlinger", "MobSlinger", "MobSlinger"]
-    ]
+    "temperate": {
+        "spawns": [
+            // {
+            //     "enemies": ["MobRedJacket", "MobRedJacket"],
+            //     "spawnerTypes": ["Default", "Source"]
+            // },
+            {
+                "enemies": ["MobWebRat", "MobWebRat"],
+                "spawnerTypes": ["Default", "Walled"]
+            }
+        ],
+        "bosses": []
+    }
 }

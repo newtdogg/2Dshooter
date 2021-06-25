@@ -71,46 +71,62 @@ public class ZombieController : AIController
 
     public void manageBehaviourState() {
         // attacks player if in range
-        if(distance < playerController.getSneakStat("attackDistance") && behaviourState != "attacking") {
-            // Debug.Log("attacking");
+        // if(distance < playerController.getSneakStat("attackDistance") && behaviourState == "attacking") {
+        if(distance < playerController.getSneakStat("attackDistance") && behaviourState == "alert") {
             speed = defaultSpeed;
             behaviourState = "attacking";
             StopCoroutine("UpdatePath");
             StopCoroutine("PathToLocation");
             StartCoroutine("UpdatePath");
+            StartCoroutine("CycleRandomAttacks");
             stopAllIdleBehaviours();
         }
 
         // alerts enemy to players presence
-        if(distance < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) {
-            // Debug.Log("alert");
-            behaviourState = "alert";
-            speed = defaultSpeed/2;
-            playersLastKnownPosition = playerController.transform.position;
-            detectionTimer = playerController.getSneakStat("timeUntilDetection");
-            StopCoroutine("PathToLocation");
-            StartCoroutine(PathToLocation(playersLastKnownPosition));
-            stopAllIdleBehaviours();
+        if((distance < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) || 
+        // enemy deaggros if player is too far away
+        (distance > playerController.getSneakStat("detectionDistance") && behaviourState == "attacking")) {
+        // (distance > playerController.getSneakStat("detectionDistance") && (behaviourState == "alert" || behaviourState == "attacking"))) {
+            stopAttackingBehaviours();
+            triggerAlertState();
         }
 
-        if(detectionTimer > 0 ) {
-            detectionTimer -= Time.deltaTime;
-        }
-
+        // enemy stops moving after being alerted
         if(detectionTimer <= 0 && behaviourState == "alert") {
             StopCoroutine("PathToLocation");
             detectionTimer = -1f;
             behaviourState = "idle";
         }
+
+        if(detectionTimer > 0 ) {
+            detectionTimer -= Time.deltaTime;
+        }
+    }
+
+    public void stopAttackingBehaviours() {
+        Debug.Log("stopAttackingBehaviours");
+        StopCoroutine("FollowPath");
+        StopCoroutine("UpdatePath");
+        StopCoroutine("CycleRandomAttacks");
+    }
+
+    public void triggerAlertState() {
+        behaviourState = "alert";
+        speed = defaultSpeed/2;
+        playersLastKnownPosition = playerController.transform.position;
+        detectionTimer = playerController.getSneakStat("timeUntilDetection");
+        StopCoroutine("PathToLocation");
+        StartCoroutine(PathToLocation(playersLastKnownPosition));
+        stopAllIdleBehaviours();
     }
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name == "Player") {
             inContactWithPlayer = true;
-            hookAttached = false;
             playerController.canMove = false;
             contactController.updateBrawlStatus(gameObject);
             StopCoroutine("FollowPath");
+            StopCoroutine("CycleRandomAttacks");
         }
         if (col.gameObject.name.Contains("Mob")) {
             Physics2D.IgnoreCollision(col.collider, GetComponent<Collider2D>());
@@ -172,6 +188,19 @@ public class ZombieController : AIController
             }
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, Time.deltaTime * 3);
             yield return null;
+        }
+    }
+
+    public void defaultUpdate() {
+        if(health <= 0) {
+            onDeath();
+        }
+        if(damageParent.GetChild(0).gameObject.activeSelf) {
+            damageIndicatorTimer += Time.deltaTime;
+        }
+        if(damageIndicatorTimer > 1.5f) {
+            damageParent.GetChild(0).gameObject.SetActive(false);
+            damageIndicatorTimer = 0;
         }
     }
 
