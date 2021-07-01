@@ -46,7 +46,7 @@ public class GunParent : MonoBehaviour {
         xpCost = weaponJsonObject.xpCost;
         ammoQuantity = baseStats.ammoCapacity;
         reloadBar = transform.GetChild(1).gameObject;
-        bulletObject = GameObject.Find("DoCBullet");
+        bulletObject = GameObject.Find("DoCPlayerBullet");
         group = weaponJsonObject.group;
         reloadTimer = -1;
         shooting = -1f;
@@ -99,6 +99,7 @@ public class GunParent : MonoBehaviour {
         GameObject bullet = Instantiate(bulletObject, playerController.transform.position + bulletPosition, Quaternion.identity) as GameObject;
         var bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.properties = bulletProperties;
+        bulletScript.damage = currentStats.damage;
         // Debug.Log(bulletScript.properties["poison"]);
         bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity * playerController.gameController.globalSpeed);
         bulletScript.setLifetime(currentStats.lifetime);

@@ -21,12 +21,8 @@ public class Bullet : Projectile {
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name != parent) {
-            if(gameObject.name == "DoCBullet(Clone)" && col.gameObject.name != "DoCBullet(Clone)") {
+            if(gameObject.name == "DoCPlayerBullet(Clone)" && col.gameObject.name != "DoCPlayerBullet(Clone)") {
                 Destroy (gameObject);
-            }
-            if(col.gameObject.name.Contains("Mob")) {
-                var colliderScript = col.gameObject.GetComponent<AIController>();
-                colliderScript.updateDamage(colliderScript.playerController.getGun().currentStats.damage);
             }
             if(col.gameObject.name.Contains("Player")){
                 var colliderScript = col.gameObject.GetComponent<PlayerController>();

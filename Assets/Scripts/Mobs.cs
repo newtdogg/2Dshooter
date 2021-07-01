@@ -5,11 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class Mobs {
     public MobStats mobRedJacket;
-    public MobStats mobLubber;
+    public MobStats mobSlugopod;
     public MobStats mobChucker;
     public MobStats mobWebRat;
     public MobStats MobRedJacket { get { return mobRedJacket; } }
-    public MobStats MobLubber { get { return mobLubber; } }
+    public MobStats MobSlugopod { get { return mobSlugopod; } }
     public MobStats MobChucker { get { return mobChucker; } }
     public MobStats MobWebRat { get { return mobWebRat; } }
 }

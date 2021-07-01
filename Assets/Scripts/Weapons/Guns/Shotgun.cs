@@ -12,7 +12,7 @@ public class Shotgun : Gun
         // var weaponsList = JsonUtility.FromJson<Weapons>(jsonString);
         // baseStats = weaponsList.Shotgun.stats;
         reloadBar = transform.GetChild(1).gameObject;
-        bulletObject = GameObject.Find("DoCBullet");
+        bulletObject = GameObject.Find("DoCPlayerBullet");
         reloadTimer = -1;
         shooting = -1f;
         ammoQuantity = baseStats.ammoCapacity;

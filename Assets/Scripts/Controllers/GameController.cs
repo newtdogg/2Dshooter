@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds (1f);
         var remainingMobs = 0;
         spawners[0].type = SpawnerType.Default;
-        mapGenerator.spawners[0].startSpawnerByType(new List<string> {"MobWebRat", "MobWebRat"});
+        mapGenerator.spawners[0].startSpawnerByType(new List<string> {"MobSlugopod", "MobSlugopod"});
     }
 
     public void startGame() {

@@ -10,5 +10,11 @@
         "maxHealth": 26,
         "damage": 15,
         "xpValue": 30
+    },
+    "mobSlugopod": {
+        "speed": 7,
+        "maxHealth": 100,
+        "damage": 15,
+        "xpValue": 30
     }
 }

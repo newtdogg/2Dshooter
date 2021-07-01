@@ -47,13 +47,13 @@ public class MobController : AIController
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         contactController = playerController.transform.GetChild(3).GetChild(2).gameObject.GetComponent<ContactController>();
         health = maxHealth;
-        idleBehaviours = new List<Action> {
-            shortStationaryWaiting,
-            mediumStationaryWaiting,
-            rightPerimeterWalkWithPauses,
-            leftPerimeterWalkWithPauses,
-            moveToCenterThenLeftWithPauses
-        };
+        // idleBehaviours = new List<Action> {
+        //     shortStationaryWaiting,
+        //     mediumStationaryWaiting,
+        //     rightPerimeterWalkWithPauses,
+        //     leftPerimeterWalkWithPauses,
+        //     moveToCenterThenLeftWithPauses
+        // };
 
         damageIndicatorTimer = 0f;
         damageParent = transform.GetChild(0);
@@ -121,7 +121,7 @@ public class MobController : AIController
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if(col.gameObject.name == "Player") {
+        if (col.gameObject.name == "Player") {
             inContactWithPlayer = true;
             playerController.canMove = false;
             contactController.updateBrawlStatus(gameObject);
@@ -131,6 +131,23 @@ public class MobController : AIController
         if (col.gameObject.name.Contains("Mob")) {
             Physics2D.IgnoreCollision(col.collider, GetComponent<Collider2D>());
         }
+        if (col.gameObject.name.Contains("DoCPlayerBullet")) {
+            var projectileScript = col.gameObject.GetComponent<Projectile>();
+            updateDamage(projectileScript.damage);
+        }
+    }
+
+    public void defaultUpdate() {
+        if(health <= 0) {
+            onDeath();
+        }
+        if(damageParent.GetChild(0).gameObject.activeSelf) {
+            damageIndicatorTimer += Time.deltaTime;
+        }
+        if(damageIndicatorTimer > 2f) {
+            damageParent.GetChild(0).gameObject.SetActive(false);
+            damageIndicatorTimer = 0;
+        }
     }
 
     public void onDeath() {
@@ -138,6 +155,22 @@ public class MobController : AIController
         lootController.dropMobLoot(transform.position, title);
         playerController.updateXP(xpValue);
         // playerController.gameController.globalSpeedSlow();
+    }
+
+    public IEnumerator lunge(float magnitude, int accuracy) {
+        // canMove = false;
+        var rand = new System.Random((int)System.DateTime.Now.Ticks);
+        var offset = rand.Next(0, 10 - accuracy)/50;
+        var distanceVector = (player.transform.position - transform.position).normalized;
+        var distanceVectorWithAccuracy = new Vector3(distanceVector.x + offset, distanceVector.y + offset, 0);
+        facingDirection = distanceVector;
+        calculateCompassFacingDirection(facingDirection);
+        rbody.AddForce(distanceVectorWithAccuracy * 100 * rbody.mass * magnitude);
+        yield return new WaitForSeconds (0.8f);
+        rbody.velocity = Vector3.zero;
+        rbody.angularVelocity = 0f; 
+        // canMove = true;
+        yield return null;
     }
 
 
@@ -159,90 +192,77 @@ public class MobController : AIController
         yield return new WaitForSeconds (7f);
     }
 
-    public IEnumerator moveAroundLocationsCoroutine(List<Vector3> locations) {
-        var waypointIndex = 0;
-        while(true) {
-            if(waypointIndex == locations.Count) {
-                yield break;
-            }
-            currentWaypoint = locations[waypointIndex];
-            if ((Mathf.Floor(transform.position.x) == Mathf.Floor(currentWaypoint.x)) && (Mathf.Floor(transform.position.y) == Mathf.Floor(currentWaypoint.y))) {
-                waypointIndex++;
-                Debug.Log("updated waypoint");
-            }
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, Time.deltaTime * 3);
-            yield return null;
-        }
-    }
+    // public IEnumerator moveAroundLocationsCoroutine(List<Vector3> locations) {
+    //     var waypointIndex = 0;
+    //     while(true) {
+    //         if(waypointIndex == locations.Count) {
+    //             yield break;
+    //         }
+    //         currentWaypoint = locations[waypointIndex];
+    //         if ((Mathf.Floor(transform.position.x) == Mathf.Floor(currentWaypoint.x)) && (Mathf.Floor(transform.position.y) == Mathf.Floor(currentWaypoint.y))) {
+    //             waypointIndex++;
+    //             Debug.Log("updated waypoint");
+    //         }
+    //         transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, Time.deltaTime * 3);
+    //         yield return null;
+    //     }
+    // }
 
-    public IEnumerator moveAroundLocationsWithPausesCoroutine(List<Vector3> locations, int waitTime) {
-        var waypointIndex = 0;
-        while(true) {
-            if(waypointIndex == locations.Count) {
-                yield break;
-            }
-            currentWaypoint = locations[waypointIndex];
-            if ((Mathf.Floor(transform.position.x) == Mathf.Floor(currentWaypoint.x)) && (Mathf.Floor(transform.position.y) == Mathf.Floor(currentWaypoint.y))) {
-                waypointIndex++;
-                yield return new WaitForSeconds(waitTime);
-            }
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, Time.deltaTime * 3);
-            yield return null;
-        }
-    }
+    // public IEnumerator moveAroundLocationsWithPausesCoroutine(List<Vector3> locations, int waitTime) {
+    //     var waypointIndex = 0;
+    //     while(true) {
+    //         if(waypointIndex == locations.Count) {
+    //             yield break;
+    //         }
+    //         currentWaypoint = locations[waypointIndex];
+    //         if ((Mathf.Floor(transform.position.x) == Mathf.Floor(currentWaypoint.x)) && (Mathf.Floor(transform.position.y) == Mathf.Floor(currentWaypoint.y))) {
+    //             waypointIndex++;
+    //             yield return new WaitForSeconds(waitTime);
+    //         }
+    //         transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, Time.deltaTime * 3);
+    //         yield return null;
+    //     }
+    // }
 
-    public void defaultUpdate() {
-        if(health <= 0) {
-            onDeath();
-        }
-        if(damageParent.GetChild(0).gameObject.activeSelf) {
-            damageIndicatorTimer += Time.deltaTime;
-        }
-        if(damageIndicatorTimer > 1.5f) {
-            damageParent.GetChild(0).gameObject.SetActive(false);
-            damageIndicatorTimer = 0;
-        }
-    }
+    // public void shortStationaryWaiting() {
+    //     StartCoroutine(shortStationaryWaitingCoroutine());
+    // }
 
-    public void shortStationaryWaiting() {
-        StartCoroutine(shortStationaryWaitingCoroutine());
-    }
+    // public void mediumStationaryWaiting() {
+    //     StartCoroutine(mediumStationaryWaitingCoroutine());
+    // }
 
-    public void mediumStationaryWaiting() {
-        StartCoroutine(mediumStationaryWaitingCoroutine());
-    }
+    // public void longStationaryWaiting() {
+    //     StartCoroutine(longStationaryWaitingCoroutine());
+    // }
 
-    public void longStationaryWaiting() {
-        StartCoroutine(longStationaryWaitingCoroutine());
-    }
+    // public void leftPerimeterWalkWithPauses() {
+    //     var pointList = new List<Vector3>() { 
+    //         spawner.getBottomLeftCorner(),
+    //         spawner.getTopLeftCorner(),
+    //         spawner.getBottomLeftCorner(),
+    //         startingPosition
+    //     };
+    //     StartCoroutine(moveAroundLocationsWithPausesCoroutine(pointList, 2));
+    // }
 
-    public void leftPerimeterWalkWithPauses() {
-        var pointList = new List<Vector3>() { 
-            spawner.getBottomLeftCorner(),
-            spawner.getTopLeftCorner(),
-            spawner.getBottomLeftCorner(),
-            startingPosition
-        };
-        StartCoroutine(moveAroundLocationsWithPausesCoroutine(pointList, 2));
-    }
+    // public void rightPerimeterWalkWithPauses() {
+    //     var pointList = new List<Vector3>() { 
+    //         spawner.getBottomRightCorner(),
+    //         spawner.getTopRightCorner(),
+    //         spawner.getBottomRightCorner(),
+    //         startingPosition
+    //     };
+    //     StartCoroutine(moveAroundLocationsWithPausesCoroutine(pointList, 2));
+    // }
 
-    public void rightPerimeterWalkWithPauses() {
-        var pointList = new List<Vector3>() { 
-            spawner.getBottomRightCorner(),
-            spawner.getTopRightCorner(),
-            spawner.getBottomRightCorner(),
-            startingPosition
-        };
-        StartCoroutine(moveAroundLocationsWithPausesCoroutine(pointList, 2));
-    }
-
-    public void moveToCenterThenLeftWithPauses() {
-        var pointList = new List<Vector3>() { 
-            spawner.centerOfObject,
-            spawner.getBottomLeftCorner()
-        };
-        StartCoroutine(moveAroundLocationsWithPausesCoroutine(pointList, 1));
-    }
+    // public void moveToCenterThenLeftWithPauses() {
+    //     var pointList = new List<Vector3>() { 
+    //         spawner.centerOfObject,
+    //         spawner.getBottomLeftCorner()
+    //     };
+    //     StartCoroutine(moveAroundLocationsWithPausesCoroutine(pointList, 1));
+    // }
 
     public void stopAllIdleBehaviours() {
         StopCoroutine("moveAroundLocationsWithPausesCoroutine");

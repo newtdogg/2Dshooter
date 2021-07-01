@@ -22,6 +22,7 @@ public class AIController : MonoBehaviour
     public string behaviourState;
     public float defaultSpeed;
     public Vector3 facingDirection;
+    public Vector2Int compassFacingDirection;
     public Vector3 startingPosition;
     public Text damageIndicator;
     public float damageIndicatorInt;
@@ -131,6 +132,7 @@ public class AIController : MonoBehaviour
             lastPosition = transform.position;
             transform.position = Vector3.MoveTowards(transform.position, (Vector3)currentWaypoint, Time.deltaTime * (speed/5f) * (playerController.gameController.globalSpeed));
             facingDirection = ((Vector3)currentWaypoint - transform.position).normalized;
+            calculateCompassFacingDirection(facingDirection);
             // Debug.Log(90 - (Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg));
 			yield return null;
 		}
@@ -154,28 +156,52 @@ public class AIController : MonoBehaviour
         }
     }
 
-    public void updateDamage(float bulletDamage) {
+    public void updateDamage(float bulletDamage, string damageModifier = "") {
         var calibratedDamage = bulletDamage;
-        var modifierText = "";
+        var modifierText = damageModifier;
         if(health == maxHealth && behaviourState == "idle" && playerController.sneaking) {
             Debug.Log("sneaky");
             calibratedDamage = bulletDamage * 2f;
-            modifierText = "sneak";
+            modifierText = "critical";
         }
         health -= calibratedDamage;
+        Debug.Log($"{calibratedDamage}, {health}");
         updateDamageUI(calibratedDamage, modifierText);
     }
 
     private void updateDamageUI(float damage, string modifierText) {
+        switch (modifierText) {
+            case "critical":
+                damageIndicator.color = new Color(0.5f, 0.1f, 1f);
+                break;
+            case "shielded":
+                damageIndicator.color = new Color(0.2f, 0.5f, 0.9f);
+                break;
+            default: 
+                damageIndicator.color = new Color(0.6f, 0f, 0.1f);
+                break;
+        }
         if(damageIndicatorTimer > 0) {
             damageIndicatorTimer = 0;
             damageIndicatorInt += damage;
-            damageIndicator.text = $"{Mathf.Round(damageIndicatorInt).ToString()} {modifierText}";
+            // Debug.Log(damageIndicatorInt);
+            damageIndicator.text = $"{Mathf.Round(damageIndicatorInt).ToString()}";
         } else {
             damageParent.GetChild(0).gameObject.SetActive(true);
             damageIndicatorInt = damage;
-            damageIndicator.text = $"{Mathf.Round(damageIndicatorInt).ToString()} {modifierText}";
+            damageIndicator.text = $"{Mathf.Round(damageIndicatorInt).ToString()}";
         }
+    }
+
+    public void calculateCompassFacingDirection(Vector3 facingDirection) {
+        var absX = Mathf.Abs(facingDirection.x);
+        var absY = Mathf.Abs(facingDirection.y);
+        if(absX > absY) {
+            compassFacingDirection = new Vector2Int((int)Mathf.Round(facingDirection.x), 0);
+        } else {
+            compassFacingDirection = new Vector2Int(0, (int)Mathf.Round(facingDirection.y));
+        }
+        // Debug.Log(compassFacingDirection);
     }
 
 }

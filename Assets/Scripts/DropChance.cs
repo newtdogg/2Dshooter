@@ -7,13 +7,13 @@ public class DropChanceList {
 	public DropChance arena;
     public DropChance miniboss;
     public DropChance mobRedJacket;
-    public DropChance mobLubber;
+    public DropChance mobSlugopod;
     public DropChance mobChucker;
     public DropChance mobWebRat;
 	public DropChance Arena { get { return arena; } }
     public DropChance Miniboss { get { return miniboss; } }
     public DropChance MobRedJacket { get { return mobRedJacket; } }
-    public DropChance MobLubber { get { return mobLubber; } }
+    public DropChance MobSlugopod { get { return mobSlugopod; } }
     public DropChance MobChucker { get { return mobChucker; } }
     public DropChance MobWebRat { get { return mobWebRat; } }
 }
