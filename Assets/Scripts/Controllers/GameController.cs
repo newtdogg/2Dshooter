@@ -136,11 +136,32 @@ public class GameController : MonoBehaviour {
         mapGenerator.spawners[0].startSpawnerByType(new List<string> {"MobSlugopod", "MobSlugopod"});
     }
 
+    public IEnumerator StartSmallLevel() {
+        yield return new WaitForSeconds (0.5f);
+        mapGenerator.generateSmallMap();
+        mapGenerator.mapGenerated = true;
+        // Debug.Log("starting wave");
+        // Debug.Log(levelIndex);
+        yield return new WaitForSeconds (1f);
+        var remainingMobs = 0;
+        for(var i = 0; i < mapGenerator.spawners.Count; i++) {
+            var rand = new System.Random((int)System.DateTime.Now.Ticks);
+            var spawn = levels.temperate.spawns[rand.Next(levels.temperate.spawns.Count)] as Spawn;
+            var mobGroup = spawn.enemies;
+            spawners[i].type = spawn.spawnerTypes[rand.Next(spawn.spawnerTypes.Count)];
+            remainingMobs = mobGroup.Count;
+            spawners[i].startSpawnerByType(mobGroup);
+        }
+        bossSpawner.boss = "MobEyeSore";
+        playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
+    }
+
     public void startGame() {
         gameStarted = true;
         levelIndex = 0;
         // StartCoroutine("StartLevel");
-        StartCoroutine("StartDebugLevel");
+        // StartCoroutine("StartDebugLevel");
+        StartCoroutine("StartSmallLevel");
     }
 
     public void globalSpeedSlow() {

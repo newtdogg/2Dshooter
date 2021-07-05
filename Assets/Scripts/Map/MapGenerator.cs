@@ -7,6 +7,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System;
 
+
 public class MapGenerator : MonoBehaviour {
 
 	public int width;
@@ -31,6 +32,28 @@ public class MapGenerator : MonoBehaviour {
 	private GameObject shadowBlock;
 	private GameObject borderShadow;
 	private GameObject shadowParent;
+	private Dictionary<string, string> cellNumberToStringMap = new Dictionary<string, string>() {
+		{ "0000", "Empty" },
+		{ "1000", "Top" },
+		{ "0100", "Right" },
+		{ "0010", "Bottom" },
+		{ "0001", "Left" },
+		{ "1100", "TopRight" },
+		{ "0110", "BottomRight" },
+		{ "0011", "BottomLeft" },
+		{ "1001", "TopLeft" },
+		{ "0111", "RightBottomLeft" },
+		{ "1011", "TopLeftBottom" },
+		{ "1101", "RightTopLeft" },
+		{ "1110", "TopRightBottom" },
+		{ "1111", "Cross" },
+		{ "1010", "TopBottom" },
+		{ "0101", "LeftRight" }
+	};
+
+	private MapData smallestMapData;
+	private MapData activeMapData;
+	
 
 	void Start() {
 		shop = GameObject.Find("Shop");
@@ -38,6 +61,12 @@ public class MapGenerator : MonoBehaviour {
         craftingStation = GameObject.Find("CraftingStation");
 		shadowBlock = GameObject.Find("Shadow");
 		player = GameObject.Find("Player");
+		smallestMapData = new MapData(2, 2);
+		smallestMapData.setRoomValues(3, 2, 1, 0);
+		smallestMapData.grid = new List<List<int[]>>() {
+			new List<int[]>() {new int[] {0, 0, 1, 1}, new int[] {0, 1, 1, 0}},
+			new List<int[]>() {new int[] {1, 0, 0, 1}, new int[] {1, 1, 0, 0}}
+		};
 		// mapToCreate = GameObject.Find("GameController").GetComponent<GameController>().activeMap;
 		// mapToCreate = new DebugMap().map;
 		// mapToCreate = new SurvivalMap().map;
@@ -47,47 +76,6 @@ public class MapGenerator : MonoBehaviour {
 		spawnerCount = 0;
 		shadowParent = transform.parent.GetChild(1).gameObject;
 		borderShadow = transform.parent.GetChild(2).gameObject;
-	}
-
-	public new List<List<int[]>> createCellGrid(int gridSizeX, int gridSizeY) {
-		var cellGrid = new List<List<int[]>>();
-		for(var y = 0; y < gridSizeY; y++) {
-			cellGrid.Add(new List<int[]>());
-			for(var x = 0; x < gridSizeX; x++) {
-				if(y == 0 && x == 0) {
-					cellGrid[0].Add(new int[] {0,0,1,1});
-				} else {
-					cellGrid[y].Add(generateRandomFittingCell(cellGrid, x, y, gridSizeX, gridSizeY));
-				}
-			}
-		}
-		return cellGrid;
-	}
-
-	private int[] generateRandomFittingCell(List<List<int[]>> grid, int x, int y, int maxSizeX, int maxSizeY) {
-		var directions = new List<Vector2Int>() { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
-		var newCell = new int[] { 0, 0, 0, 0 };
-		var count = 0;
-		foreach (var direction in directions) {
-			var newX = x + direction.x;
-      		var newY = y + direction.y;
-			var currentWallIndex = count > 1 ? count - 2 : count + 2;
-			var rand = new System.Random((int)System.DateTime.Now.Ticks);
-			if(newX >= maxSizeX || newX < 0 || newY >= maxSizeY || newY < 0 ) {
-				newCell[currentWallIndex] = 0;
-			} else {
-				var randWallPercent = rand.Next(0, 100);
-				var randWall = randWallPercent < 30 ? 1 : 0;
-				newCell[currentWallIndex] = newCell.Sum() >= 1 ? randWall : 1;
-			}
-			if (newY >= 0 && newY < grid.Count) {
-				if(newX >= 0 && newX < grid[newY].Count) {
-					newCell[currentWallIndex] = grid[newY][newX][count];
-				}
-			}
-			count += 1;
-		}
-		return newCell;
 	}
 
 	private int[,] assembleCell(int[,] primaryCell, int[,] interiorCell) {
@@ -103,33 +91,10 @@ public class MapGenerator : MonoBehaviour {
 		return primaryCell;
 	}
 
-	public List<List<int[,]>> translateCellGridToMapCells(List<List<int[]>> cellTypeGrid) {
-		var cellGrid = new List<List<int[,]>>();
-		var cellNumberToStringMap = new Dictionary<string, string>() {
-			{ "0000", "Empty" },
-			{ "1000", "Top" },
-			{ "0100", "Right" },
-			{ "0010", "Bottom" },
-			{ "0001", "Left" },
-			{ "1100", "TopRight" },
-			{ "0110", "BottomRight" },
-			{ "0011", "BottomLeft" },
-			{ "1001", "TopLeft" },
-			{ "0111", "RightBottomLeft" },
-			{ "1011", "TopLeftBottom" },
-			{ "1101", "RightTopLeft" },
-			{ "1110", "TopRightBottom" },
-			{ "1111", "Cross" },
-			{ "1010", "TopBottom" },
-			{ "0101", "LeftRight" }
-		};
-		var rand = new System.Random((int)System.DateTime.Now.Ticks);
-		// var randCell = rand.Next(0, cellTypeGrid.Count * cellTypeGrid[0].Count);
-		var bossIndex = rand.Next(0, gridSizeX);
-		var startIndex = (gridSizeX * (gridSizeY - 1)) + rand.Next(0, gridSizeX);
-		var randCell = 0;
+	public List<List<int[,]>> translateCellGridToMapCells(MapData mapData) {
 		var count = 0;
-		foreach (var row in cellTypeGrid) {
+		var cellGrid = new List<List<int[,]>>();
+		foreach (var row in mapData.grid) {
 			var rowList = new List<int[,]>();
 			foreach (var cell in row) {
 				var cellString = string.Join("", cell);
@@ -137,11 +102,12 @@ public class MapGenerator : MonoBehaviour {
 				var mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/Primary/{cellName}.json");
 				string cellInterior;
 				var cellRand = new System.Random((int)System.DateTime.Now.Ticks);
-				if(count == startIndex) {
+				if(count == mapData.startingRoomLocation) {
 					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Start/1.json");
-				} else if (count == bossIndex) {
-					Debug.Log("piss");
+				} else if (count == mapData.bossRoomLocation) {
 					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Boss/1.json");
+				} else if (count == mapData.itemRoomLocation) {
+					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Item/1.json");
 				} else {
 					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Generic/{cellRand.Next(1, 4)}.json");
 				}
@@ -160,9 +126,18 @@ public class MapGenerator : MonoBehaviour {
 		return cellGrid;
 	}
 
-	public int[,] generateMapFromCells() {
-		var cellSideArray = createCellGrid(gridSizeX, gridSizeY);
-		var listOfCells = translateCellGridToMapCells(cellSideArray);
+	public int[,] generateMapFromCells(string type) {
+		activeMapData = new MapData(gridSizeX, gridSizeY);
+		switch (type) {
+			case "smallestfloor": 
+				activeMapData = smallestMapData;
+			break;
+			case "random":
+			default:
+				activeMapData.generateRandomMapData();
+				break;
+		}
+		var listOfCells = translateCellGridToMapCells(activeMapData);
 		var sideLength = 64;
 		var width = gridSizeX * sideLength;
 		var height = gridSizeY * sideLength;
@@ -272,7 +247,12 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	public void generateLevelMap() {
-		mapToCreate = generateMapFromCells();
+		mapToCreate = generateMapFromCells("random");
+		createMap();
+	}
+
+	public void generateSmallMap() {
+		mapToCreate = generateMapFromCells("smallestfloor");
 		createMap();
 	}
 
