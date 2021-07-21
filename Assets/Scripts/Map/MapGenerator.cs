@@ -15,6 +15,7 @@ public class MapGenerator : MonoBehaviour {
 
 	public int gridSizeX = 4;
 	public int gridSizeY = 3;
+	public int sideLength = 64;
 
 	private Map map;
 	public GameObject shop;
@@ -22,17 +23,18 @@ public class MapGenerator : MonoBehaviour {
 	private Dictionary<string, TileBase> bedrockTypes;
 	private TileTools tileTools;
 	public bool mapGenerated;
-	public int spawnerCount;
 	public GameController gameController;
 	public int[,] mapToCreate;
-	public Dictionary<int, Spawner> spawners;
+	public Dictionary<string, Spawner> spawners;
 	public Spawner bossSpawner;
 	private Dictionary<int, List<List<Vector2Int>>> arenaWalls;
 	private GameObject player;
 	private GameObject shadowBlock;
 	private GameObject borderShadow;
 	private GameObject shadowParent;
-	private Dictionary<string, string> cellNumberToStringMap = new Dictionary<string, string>() {
+	private List<GameObject> itemRoomEntranceWalls;
+	private GameObject entranceWall;
+	private readonly Dictionary<string, string> cellNumberToStringMap = new Dictionary<string, string>() {
 		{ "0000", "Empty" },
 		{ "1000", "Top" },
 		{ "0100", "Right" },
@@ -51,6 +53,14 @@ public class MapGenerator : MonoBehaviour {
 		{ "0101", "LeftRight" }
 	};
 
+	private List<Vector2Int> entryWallPositions = new List<Vector2Int>()
+	{
+		new Vector2Int(27, 58),
+		new Vector2Int(58, 27),
+		new Vector2Int(27, 5),
+		new Vector2Int(5, 27),
+	};
+
 	private MapData smallestMapData;
 	private MapData activeMapData;
 	
@@ -61,25 +71,61 @@ public class MapGenerator : MonoBehaviour {
         craftingStation = GameObject.Find("CraftingStation");
 		shadowBlock = GameObject.Find("Shadow");
 		player = GameObject.Find("Player");
+		itemRoomEntranceWalls = new List<GameObject>();
 		smallestMapData = new MapData(2, 2);
-		smallestMapData.setRoomValues(3, 2, 1, 0);
+		smallestMapData.setRoomValues(
+			new Vector2Int(0, 0),
+			new Vector2Int(0, 1),
+			new Vector2Int(1, 0),
+			new Vector2Int(1, 1)
+		);
+		// smallestMapData.grid = new List<List<int[]>>() {
+		// 	new List<int[]>() {new int[] {0, 0, 1, 1}, new int[] {0, 1, 1, 0}},
+		// 	new List<int[]>() {new int[] {1, 0, 0, 1}, new int[] {1, 1, 0, 0}}
+		// };
 		smallestMapData.grid = new List<List<int[]>>() {
-			new List<int[]>() {new int[] {0, 0, 1, 1}, new int[] {0, 1, 1, 0}},
-			new List<int[]>() {new int[] {1, 0, 0, 1}, new int[] {1, 1, 0, 0}}
+			new List<int[]>() {new int[] {1, 1, 0, 0}, new int[] {1, 0, 0, 1}},
+			new List<int[]>() {new int[] {0, 1, 1, 0}, new int[] {0, 0, 1, 1}}
 		};
 		// mapToCreate = GameObject.Find("GameController").GetComponent<GameController>().activeMap;
 		// mapToCreate = new DebugMap().map;
 		// mapToCreate = new SurvivalMap().map;
 		tileTools = GameObject.Find("TileTools").GetComponent<TileTools>();
-		spawners = new Dictionary<int, Spawner>();
+		spawners = new Dictionary<string, Spawner>();
 		arenaWalls = new Dictionary<int, List<List<Vector2Int>>>();
-		spawnerCount = 0;
 		shadowParent = transform.parent.GetChild(1).gameObject;
 		borderShadow = transform.parent.GetChild(2).gameObject;
+		entranceWall = GameObject.Find("EntranceWall");
+	}
+	
+	public void generateMobDebugMap() {
+		var cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Debug.json");
+		var mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/Primary/Bottom.json");
+		var cellInteriorObject = JsonConvert.DeserializeObject<MapCell>(cellInterior);
+		var mapPrimaryCell = JsonConvert.DeserializeObject<MapCell>(mapJSONString);
+		mapToCreate = assembleCell(mapPrimaryCell.map, cellInteriorObject.map);
+		activeMapData = new MapData(1, 1);
+		smallestMapData.setRoomValues(
+			new Vector2Int(5, 5),
+			new Vector2Int(5, 5),
+			new Vector2Int(5, 5),
+			new Vector2Int(5, 5)
+		);
+		createMap();
+	}
+
+	public void generateLevelMap() {
+		mapToCreate = generateMapFromCells("random");
+		createMap();
+	}
+
+	public void generateSmallMap() {
+		mapToCreate = generateMapFromCells("smallestfloor");
+		createMap();
 	}
 
 	private int[,] assembleCell(int[,] primaryCell, int[,] interiorCell) {
-		var borderWidth = 6;
+		const int borderWidth = 6;
     	var primaryCellSize = 64;
 		for(var x = 0; x < primaryCellSize; x++) {
 			for(var y = 0; y < primaryCellSize; y++) {
@@ -92,41 +138,58 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	public List<List<int[,]>> translateCellGridToMapCells(MapData mapData) {
-		var count = 0;
+		var yCount = 0;
 		var cellGrid = new List<List<int[,]>>();
-		foreach (var row in mapData.grid) {
+		foreach (var row in mapData.grid)
+		{
+			var xCount = 0;
 			var rowList = new List<int[,]>();
-			foreach (var cell in row) {
+			foreach (var cell in row)
+			{
+				var cellVec = new Vector2Int(xCount, yCount);
 				var cellString = string.Join("", cell);
 				var cellName = cellNumberToStringMap[cellString];
 				var mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/Primary/{cellName}.json");
-				string cellInterior;
-				var cellRand = new System.Random((int)System.DateTime.Now.Ticks);
-				if(count == mapData.startingRoomLocation) {
+				string cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Start/1.json");
+				var cellRand = new System.Random((int) System.DateTime.Now.Ticks);
+				if (cellVec == mapData.startingRoomLocation)
+				{
 					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Start/1.json");
-				} else if (count == mapData.bossRoomLocation) {
-					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Boss/1.json");
-				} else if (count == mapData.itemRoomLocation) {
-					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Item/1.json");
-				} else {
-					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Generic/{cellRand.Next(1, 4)}.json");
 				}
+				else if (cellVec == mapData.bossRoomLocation)
+				{
+					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Boss/1.json");
+				}
+				else if (cellVec == mapData.itemRoomLocation)
+				{
+					cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Item/1.json");
+				}
+				else
+				{
+					cellInterior =
+						File.ReadAllText($"./Assets/Scripts/Map/Maps/Interior/Generic/{cellRand.Next(1, 4)}.json");
+				}
+
 				var cellInteriorObject = JsonConvert.DeserializeObject<MapCell>(cellInterior);
 				var mapPrimaryCell = JsonConvert.DeserializeObject<MapCell>(mapJSONString);
-				if(cellString != "0000") {
+				if (cellString != "0000")
+				{
 					assembleCell(mapPrimaryCell.map, cellInteriorObject.map);
 				}
+
 				rowList.Add(mapPrimaryCell.map);
-				count += 1;
+				xCount += 1;
 			}
-			rowList.Reverse();
+
+			// rowList.Reverse();
 			cellGrid.Add(rowList);
+			yCount += 1;
 		}
-		cellGrid.Reverse();
+
 		return cellGrid;
 	}
 
-	public int[,] generateMapFromCells(string type) {
+	private int[,] generateMapFromCells(string type) {
 		activeMapData = new MapData(gridSizeX, gridSizeY);
 		switch (type) {
 			case "smallestfloor": 
@@ -138,9 +201,8 @@ public class MapGenerator : MonoBehaviour {
 				break;
 		}
 		var listOfCells = translateCellGridToMapCells(activeMapData);
-		var sideLength = 64;
-		var width = gridSizeX * sideLength;
-		var height = gridSizeY * sideLength;
+		var width = activeMapData.xLength * sideLength;
+		var height = activeMapData.yLength * sideLength;
 		var mainArray = new int[height, width];
 		for(var yCount = 0; yCount < listOfCells.Count; yCount++) {
 			for(var xCount = 0; xCount < listOfCells[yCount].Count; xCount++) {
@@ -155,18 +217,30 @@ public class MapGenerator : MonoBehaviour {
 		return mainArray;
 	}
 
+	private void destroyItemRoomWalls() {
+		foreach (var wall in itemRoomEntranceWalls) {
+			Destroy(wall);
+		}
+	}
 
-	public void generateSpawner(int spawnerInt, int posX, int posY, int spawnerIndex, bool isBossSpawner) {
+
+	private void generateSpawner(int spawnerInt, int posX, int posY, Vector2Int spawnerVector, int spawnerIndex, bool isBossSpawner) {
 		var spawnerPos = isBossSpawner ? new Vector2(posX - 12, posY - 12) : new Vector2(posX, posY); 
 		var spawnerClone = Instantiate(GameObject.Find("Spawner"), spawnerPos, Quaternion.identity) as GameObject;
 		var spawnerScript = spawnerClone.GetComponent<Spawner>();
+		var id = $"{spawnerIndex}v{spawnerVector.x}:{spawnerVector.y}";
+		spawnerScript.cellVector = spawnerVector;
+		if (id == $"0v{activeMapData.itemRoomKeyLocation.x}:{activeMapData.itemRoomKeyLocation.y}") {
+			spawnerScript.holdsItemKey = true;
+			spawnerScript.keyPickupCallback = destroyItemRoomWalls;
+		}
 		if(isBossSpawner) {
-			spawnerScript.setBossSpawnerAttributes(spawnerInt, spawnerIndex, player.transform);
+			// spawnerScript.setBossSpawnerAttributes(spawnerInt, spawnerIndex, player.transform);
 			bossSpawner = spawnerScript;
 			Debug.Log(bossSpawner);
 		} else {
-			spawnerScript.setAttributes(spawnerInt, spawnerIndex, player.transform);
-			spawners.Add(spawnerCount, spawnerScript);
+			spawnerScript.setAttributes(spawnerInt, spawnerVector, player.transform);
+			spawners.Add(id, spawnerScript);
 		}
 	}
 
@@ -237,29 +311,27 @@ public class MapGenerator : MonoBehaviour {
 		return neighbours;
 	}
 
-	public void generateMobDebugMap() {
-		var cellInterior = File.ReadAllText($"./Assets/Scripts/Map/Maps/Debug.json");
-		var mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/Primary/Bottom.json");
-		var cellInteriorObject = JsonConvert.DeserializeObject<MapCell>(cellInterior);
-		var mapPrimaryCell = JsonConvert.DeserializeObject<MapCell>(mapJSONString);
-		mapToCreate = assembleCell(mapPrimaryCell.map, cellInteriorObject.map);
-		createMap();
+	
+
+	private void createCellEntranceWalls(Vector2Int cellPos) {
+		var wallCount = 0;
+		foreach (var position in entryWallPositions) {
+			createEntryWall((cellPos.x * sideLength) + position.x, (cellPos.y * sideLength) + position.y, (wallCount + 1) % 2);
+			wallCount += 1;
+		}
 	}
 
-	public void generateLevelMap() {
-		mapToCreate = generateMapFromCells("random");
-		createMap();
-	}
-
-	public void generateSmallMap() {
-		mapToCreate = generateMapFromCells("smallestfloor");
-		createMap();
+	private void createEntryWall(int xPos, int yPos, int direction) {
+		var entranceWallClone = Instantiate(entranceWall, new Vector3(direction == 0 ? xPos : xPos + 5, direction == 0 ? yPos + 5 : yPos, 0), Quaternion.identity);
+		entranceWallClone.transform.localScale = direction == 0 ? new Vector3(1, 10, 0) : new Vector3(10, 1, 0);
+		itemRoomEntranceWalls.Add(entranceWallClone);
 	}
 
 	public void createMap() {
         width = mapToCreate.GetLength(0);
         height = mapToCreate.GetLength(1);
         // setCameraBoundary(w, h);
+        var spawnerCount = 0;
 		map.worldTiles = new WorldTile[width, height];
         tileTools.worldTileArray = map.worldTiles;
         var mapObj = gameObject;
@@ -267,60 +339,75 @@ public class MapGenerator : MonoBehaviour {
         tileTools.wallTilemap = mapObj.transform.GetChild(1).gameObject.GetComponent<Tilemap>();
         tileTools.groundTile = tileTools.wallTilemap.GetTile(new Vector3Int(1, 0, 0));
         tileTools.wallTile = tileTools.wallTilemap.GetTile(new Vector3Int(0, 0, 0));
-        for(var x = 0; x < width - 1; x++) {
-            for(var y = 0; y < height - 1; y++) {
-                switch (mapToCreate[x, y]) {
-                    case 0:
-                        tileTools.setWallTile(x, y);
-                        break;
-                    case 1:
-						tileTools.setGroundTile(x, y, true);
-                        break;
-                    case 2:
-						tileTools.setGroundTile(x, y, false);
-                        break;
-                    case 3:
-						tileTools.setGroundTile(x, y, true);
-						tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
-                        var sh = Instantiate(shop, new Vector2(x, y), Quaternion.identity) as GameObject;
-                        break;
-                    case 4:
-						tileTools.setGroundTile(x, y, true);
-						tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
-                        var cS = Instantiate(craftingStation, new Vector2(x, y), Quaternion.identity) as GameObject;
-                        break;
-					case 5:
-						tileTools.setGroundTile(x, y, false);
-						player.transform.position = new Vector2(x, y);
-						break;
-                    default:
-						tileTools.setGroundTile(x, y, true);
-                    break;
-                }
-				if(mapToCreate[x, y] > 10) {
-					if(mapToCreate[x, y].ToString().Substring(0,2) == "55") {
-						generateShadow(x, y, Int32.Parse(mapToCreate[x, y].ToString().Substring(2,2)), Int32.Parse(mapToCreate[x, y].ToString().Substring(4,2)));
-						tileTools.setWallTile(x, y);
-					} else if (mapToCreate[x, y] > 10000) {
-						if(mapToCreate[x, y] == 666666) {
-							generateSpawner(mapToCreate[x, y], x, y, spawnerCount, true);
-						} else {
-							generateSpawner(mapToCreate[x, y], x, y, spawnerCount, false);
-						}
-						spawnerCount++;
-						tileTools.setGroundTile(x, y, true);
-					}
-				}
-                tileTools.worldTileArray[x, y].worldPosition = new Vector2(x, y);
-            }
+        for (var x = 0; x < width - 1; x++) {
+	        for (var y = 0; y < height - 1; y++)
+	        {
+		        switch (mapToCreate[x, y])
+		        {
+			        case 0:
+				        tileTools.setWallTile(x, y);
+				        break;
+			        case 1:
+				        tileTools.setGroundTile(x, y, true);
+				        break;
+			        case 2:
+				        tileTools.setGroundTile(x, y, false);
+				        break;
+			        case 3:
+				        tileTools.setGroundTile(x, y, true);
+				        tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
+				        var sh = Instantiate(shop, new Vector2(x, y), Quaternion.identity) as GameObject;
+				        break;
+			        case 4:
+				        tileTools.setGroundTile(x, y, true);
+				        tileTools.worldTileArray[x, y] = new WorldTile(1, 0);
+				        var cS = Instantiate(craftingStation, new Vector2(x, y), Quaternion.identity) as GameObject;
+				        break;
+			        case 5:
+				        tileTools.setGroundTile(x, y, false);
+				        player.transform.position = new Vector2(x, y);
+				        break;
+			        default:
+				        tileTools.setGroundTile(x, y, true);
+				        break;
+		        }
+
+		        if (mapToCreate[x, y] > 10)
+		        {
+			        if (mapToCreate[x, y].ToString().Substring(0, 2) == "55")
+			        {
+				        generateShadow(x, y, Int32.Parse(mapToCreate[x, y].ToString().Substring(2, 2)),
+					        Int32.Parse(mapToCreate[x, y].ToString().Substring(4, 2)));
+				        tileTools.setWallTile(x, y);
+			        }
+			        else if (mapToCreate[x, y] > 10000)
+			        {
+				        var cellX = (int)(Mathf.Floor(x / sideLength));
+				        var cellY = (int)(Mathf.Floor(y / sideLength));
+				        var cellVector = new Vector2Int(cellX, cellY);
+				        if (spawners.Count > 0) {
+					        if (spawners.Values.Last().cellVector != cellVector) {
+						        spawnerCount = 0;
+					        }
+				        }
+				        
+				        if (mapToCreate[x, y] == 666666) {
+					        generateSpawner(mapToCreate[x, y], x, y, cellVector, spawnerCount, true);
+				        } else {
+					        generateSpawner(mapToCreate[x, y], x, y, cellVector, spawnerCount,false);
+				        }
+
+				        spawnerCount++;
+				        tileTools.setGroundTile(x, y, true);
+			        }
+		        }
+		        tileTools.worldTileArray[x, y].worldPosition = new Vector2(x, y);
+	        }
         }
-		foreach (var wall in arenaWalls) {
-			spawners[wall.Key].walls = wall.Value;
-			spawners[wall.Key].setWallTriggers();
-		}
-		tileTools.intMap = mapToCreate;
+
+        tileTools.intMap = mapToCreate;
 		gameController.bossSpawner = bossSpawner;
-		Debug.Log(bossSpawner);
+		createCellEntranceWalls(activeMapData.itemRoomLocation);
 		gameController.spawners = new List<Spawner>(spawners.Values);
     }
 

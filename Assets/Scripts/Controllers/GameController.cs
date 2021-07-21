@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds (1f);
         var remainingMobs = 0;
         spawners[0].type = SpawnerType.Default;
-        mapGenerator.spawners[0].startSpawnerByType(new List<string> {"MobSlugopod", "MobSlugopod"});
+        mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobSlugopod", "MobSlugopod"});
     }
 
     public IEnumerator StartSmallLevel() {
@@ -160,8 +160,8 @@ public class GameController : MonoBehaviour {
         gameStarted = true;
         levelIndex = 0;
         // StartCoroutine("StartLevel");
-        // StartCoroutine("StartDebugLevel");
-        StartCoroutine("StartSmallLevel");
+        StartCoroutine("StartDebugLevel");
+        // StartCoroutine("StartSmallLevel");
     }
 
     public void globalSpeedSlow() {

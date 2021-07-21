@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public class PlayerController : CharacterController {
+public class PlayerController : PlayableCharacterController {
     // Start is called before the first frame update
     private Rigidbody2D rbody;
     private Dictionary<string,float> sneak;
@@ -60,7 +60,7 @@ public class PlayerController : CharacterController {
         activeSpawners = new List<Spawner>();
         canMove = true;
         defaultSpeed = 50f;
-        speed = 50f;
+        speed = 15f;
         scrap = new Dictionary<string, int>() {
             { "junkMetal", 20 },
             { "brokenGlass", 10 }
@@ -123,6 +123,7 @@ public class PlayerController : CharacterController {
     private void movementControls(float speed) {
         var movementVector = new Vector3(0, 0, 0);
         if(canMove) {
+            /*call handle direction only when input is called*/
             if (Input.GetKey(KeyCode.A)) {
                 movementVector += Vector3.left;
                 handleDirection(movementVector);
@@ -143,7 +144,7 @@ public class PlayerController : CharacterController {
         }
     }
 
-    public void handleDirection(Vector3 direction) {
+    private void handleDirection(Vector3 direction) {
         if(direction != lastDirection) {
             var diffAngle = Vector3.Angle(lastDirection, direction);
             var normalAngle = Vector3.Angle(new Vector3(0, 1, 0), direction);

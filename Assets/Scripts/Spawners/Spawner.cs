@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour {
 
     private GameObject[] mobTypes;
     private TileTools tileTools;
-    public int id;
+    public Vector2Int id;
     public Transform playerTransform;
     public bool isWave;
     public Transform mobsList;
@@ -26,13 +26,17 @@ public class Spawner : MonoBehaviour {
     public int height;
     public List<string> mobsToSpawn;
     public int initialMobSpawn;
+    public Action keyPickupCallback;
     public Vector3 centerOfObject;
     public SpawnerType type;
     public int mobType;
     public bool battleStarted;
     public bool battleCompleted;
-    public GameObject wallClone;
+    public GameObject wallTriggerClone;
+    public bool holdsItemKey;
+    public Vector2Int cellVector;
     public GameObject wallNodeClone;
+    private GameObject roomKey;
     public bool empty;
     public string boss;
     public List<List<Vector2Int>> walls;
@@ -43,9 +47,10 @@ public class Spawner : MonoBehaviour {
         walls = new List<List<Vector2Int>>();
         battleStarted = false;
         empty = true;
+        roomKey = GameObject.Find("RoomKey");
         mobSourceClone = GameObject.Find("SpawnerSource");
         mobTypes = getSpawnerObjectsOfType("Mobs");
-        wallClone = GameObject.Find("Wall");
+        wallTriggerClone = GameObject.Find("WallTrigger");
         wallNodeClone = GameObject.Find("WallNode");
         lootController = GameObject.Find("LootController").GetComponent<LootController>();
         mobsList = transform.GetChild(0);
@@ -158,6 +163,11 @@ public class Spawner : MonoBehaviour {
         battleCompleted = true;
         lootController.dropArenaLoot(centerOfObject);
         transform.GetChild(1).gameObject.SetActive(false);
+        if (holdsItemKey)
+        {
+            var roomKeyClone = Instantiate(roomKey, centerOfObject, Quaternion.identity);
+            roomKeyClone.GetComponent<Key>().pickupCallback = keyPickupCallback;
+        }
         // foreach (var wall in walls) {
         //     foreach (var block in wall) {
         //         tileTools.removeWallTile(block.x, block.y);
@@ -224,10 +234,10 @@ public class Spawner : MonoBehaviour {
         walls.Add(edgeWall);
     }
 
-    public void setAttributes(int spawnerInt, int index, Transform player) {
+    public void setAttributes(int spawnerInt, Vector2Int spawnerId, Transform player) {
         playerTransform = player;
         var spawnerIntStr = spawnerInt.ToString();
-        id = index;
+        id = spawnerId;
         width = Int16.Parse(spawnerIntStr.Substring(0,2));
         height = Int16.Parse(spawnerIntStr.Substring(2,2));
         centerOfObject = new Vector3(transform.position.x + (width/2), transform.position.y + (height/2), 0);
@@ -243,9 +253,9 @@ public class Spawner : MonoBehaviour {
         setWallTriggers();
     }
 
-    public void setBossSpawnerAttributes(int spawnerInt, int index, Transform player) {
+    public void setBossSpawnerAttributes(Vector2Int spawnerInt, int index, Transform player) {
         playerTransform = player;
-        id = index;
+        // id = index;
         width = 64;
         height = 64;
         type = SpawnerType.Boss;
@@ -271,7 +281,7 @@ public class Spawner : MonoBehaviour {
     }
 
     public void createWallTrigger(List<Vector2Int> wall, Vector2 wallCenter, string primaryDirection) {
-        var newWall = Instantiate(wallClone, wallCenter, Quaternion.identity) as GameObject;
+        var newWall = Instantiate(wallTriggerClone, wallCenter, Quaternion.identity) as GameObject;
         newWall.GetComponent<BoxCollider2D>().size = primaryDirection == "y" ? new Vector2(1, wall.Count) : new Vector2(wall.Count, 1);
         newWall.transform.SetParent(transform);
     }

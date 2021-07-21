@@ -5,10 +5,10 @@ using System.Linq;
 
 public class MapData {
 	public List<List<int[]>> grid;
-	public int bossRoomLocation;
-	public int startingRoomLocation;
-	public int itemRoomLocation;
-	public int itemRoomKeyLocation;
+	public Vector2Int bossRoomLocation;
+	public Vector2Int startingRoomLocation;
+	public Vector2Int itemRoomLocation;
+	public Vector2Int itemRoomKeyLocation;
 	public int xLength;
 	public int yLength;
 
@@ -17,7 +17,7 @@ public class MapData {
 		yLength = y;
 	}
 
-	public void setRoomValues(int bossRoomLocationVal, int startingRoomLocationVal, int itemRoomLocationVal, int itemRoomKeyLocationVal) {
+	public void setRoomValues(Vector2Int bossRoomLocationVal, Vector2Int startingRoomLocationVal, Vector2Int itemRoomLocationVal, Vector2Int itemRoomKeyLocationVal) {
 		bossRoomLocation = bossRoomLocationVal;
 		startingRoomLocation = startingRoomLocationVal;
 		itemRoomLocation = itemRoomLocationVal;
@@ -27,9 +27,9 @@ public class MapData {
 	public void generateRandomMapData () {
 		var rand = new System.Random((int)System.DateTime.Now.Ticks);
         grid = createRandomCellGrid(xLength, yLength);
-		bossRoomLocation = rand.Next(0, xLength);
-		startingRoomLocation = (xLength * (yLength - 1)) + rand.Next(0, xLength);
-		itemRoomKeyLocation = xLength + rand.Next(0, xLength * (yLength - 2));
+		bossRoomLocation = new Vector2Int(rand.Next(0, xLength), 0);
+		startingRoomLocation = new Vector2Int(rand.Next(0, xLength), yLength);
+		itemRoomKeyLocation = new Vector2Int(rand.Next(1, xLength - 1), rand.Next(1, yLength - 1));
 	}
 
     public new List<List<int[]>> createRandomCellGrid(int gridSizeX, int gridSizeY) {
