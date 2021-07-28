@@ -18,7 +18,7 @@ public class Pickup : MonoBehaviour {
             if (child.name == type) {
                 transform.SetParent(child);
                 gameObject.SetActive(false);
-                player.GetComponent<PlayerController>().pickupItemUI(this);
+                // player.GetComponent<PlayerController>().pickupItemUI(this);
             }
         }
     }

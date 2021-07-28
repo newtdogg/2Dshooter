@@ -1,0 +1,27 @@
+{
+    "weakAdhesive": {
+        "baseType": "adhesive",
+        "title": "Weak Adhesive",
+        "value": 1
+    },
+    "refinedAdhesive": {
+        "baseType": "adhesive",
+        "title": "Refined Adhesive",
+        "value": 3
+    },
+    "smallMetalScraps": {
+        "baseType": "steel",
+        "title": "Small Metal Scraps",
+        "value": 1
+    },
+    "steelScraps": {
+        "baseType": "steel",
+        "title": "Steel Scraps",
+        "value": 3
+    },
+    "aluminiumScraps": {
+        "baseType": "aluminum",
+        "title": "Aluminum Scraps",
+        "value": 1
+    }
+}

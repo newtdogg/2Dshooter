@@ -161,7 +161,7 @@ public class Spawner : MonoBehaviour {
 
     public void completeBattle() {
         battleCompleted = true;
-        lootController.dropArenaLoot(centerOfObject);
+        // lootController.dropArenaLoot(centerOfObject);
         transform.GetChild(1).gameObject.SetActive(false);
         if (holdsItemKey)
         {

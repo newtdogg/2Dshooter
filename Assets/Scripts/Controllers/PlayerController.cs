@@ -199,11 +199,14 @@ public class PlayerController : PlayableCharacterController {
         sneak[key] = value;
     }
 
-    public void updateScrap(Dictionary<string, int> scrapValues) {
-        foreach (var scrapAmount in scrapValues) {
-            scrap[scrapAmount.Key] += scrapAmount.Value;
+    public void updateScrap(Dictionary<string, int> scrapDict) {
+        foreach (var scrapObj in scrapDict) {
+            if(scrap.ContainsKey(scrapObj.Key)) {
+                scrap[scrapObj.Key] += scrapObj.Value;
+            } else {
+                scrap.Add(scrapObj.Key, scrapObj.Value);
+            }
         }
-        // scrapText.text = scrap.ToString();
     }
 
     public bool checkScapAmount(Dictionary<string, int> scrapValues) {
@@ -284,22 +287,30 @@ public class PlayerController : PlayableCharacterController {
         experienceLevel = saveData.experienceLevel;
     }
 
-    public void pickupItemUI(Pickup pickup) {
-        foreach (Transform pickupText in pickupUI) {
-            if(pickupText.gameObject.name == pickup.type) {
-                var textScript = pickupText.gameObject.GetComponent<PickupText>();
-                textScript.timer = 0;
-                textScript.value += pickup.value;
-                pickupText.gameObject.GetComponent<Text>().text = $"{pickup.type} x{textScript.value}";
-                return;
+    public void pickupScrapUI(Dictionary<string, int> scrapDict) {
+        foreach (var scrapObj in scrapDict) {
+            if(!checkScrapPickupUI(scrapObj)) {
+                var pickupTitleObject = Instantiate(pickupUI.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
+                pickupTitleObject.transform.SetParent(pickupUI);
+                pickupTitleObject.name = scrapObj.Key;
+                pickupTitleObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0.5f * pickupUI.childCount - 1, 0);
+                var newTextScript = pickupTitleObject.GetComponent<PickupText>();
+                newTextScript.value += scrapObj.Value;
+                pickupTitleObject.GetComponent<Text>().text = $"{scrapObj.Key} x{scrapObj.Value}";
             }
         }
-        var pickupTitleObject = Instantiate(pickupUI.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
-        pickupTitleObject.transform.SetParent(pickupUI);
-        pickupTitleObject.name = pickup.type;
-        pickupTitleObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0.5f * pickupUI.childCount - 1, 0);
-        var newTextScript = pickupTitleObject.GetComponent<PickupText>();
-        newTextScript.value += pickup.value;
-        pickupTitleObject.GetComponent<Text>().text = $"{pickup.type} x{newTextScript.value}";
+    }
+
+    public bool checkScrapPickupUI(KeyValuePair<string, int> scrapObj) {
+        foreach (Transform pickupText in pickupUI) {
+            if(pickupText.gameObject.name == scrapObj.Key) {
+                var textScript = pickupText.gameObject.GetComponent<PickupText>();
+                textScript.timer = 0;
+                textScript.value += scrapObj.Value;
+                pickupText.gameObject.GetComponent<Text>().text = $"{scrapObj.Key} x{textScript.value}";
+                return true;
+            }
+        }
+        return false;
     }
 }

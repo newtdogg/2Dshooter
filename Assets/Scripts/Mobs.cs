@@ -21,4 +21,5 @@ public class MobStats {
     public int damage;
     public int xpValue;
     public List<SpawnerType> spawnerTypes;
+    public Dictionary<string, List<string>> scrapLoot;
 }

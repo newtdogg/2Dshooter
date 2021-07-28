@@ -43,9 +43,8 @@ public class WebRat : MobController
             StopCoroutine("FollowPath");
             StopCoroutine("CycleRandomAttacks");
         }
-        if (col.gameObject.name.Contains("Mob")) {
-            Physics2D.IgnoreCollision(col.collider, GetComponent<Collider2D>());
-        }
+        defaultMobCollisionEnter(col);
+        defaultBulletCollisionEnter(col);
     }
 
     public IEnumerator attachToPlayer() {

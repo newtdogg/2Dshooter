@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour {
         else if (controller != this){
             Destroy(gameObject);
         }
-        var mobJsonString = File.ReadAllText("./Assets/Scripts/Mobs.json"); 
+        var mobJsonString = File.ReadAllText("./Assets/Scripts/Mobs.json");
         mobData = JsonUtility.FromJson<Mobs>(mobJsonString);
         persistenceController = new PersistenceController();
         maps = new string[] { "IntroMap", "DebugMap" };
@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds (1f);
         var remainingMobs = 0;
         spawners[0].type = SpawnerType.Default;
-        mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobSlugopod", "MobSlugopod"});
+        mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobWebRat", "MobWebRat"});
     }
 
     public IEnumerator StartSmallLevel() {

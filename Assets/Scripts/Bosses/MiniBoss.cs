@@ -9,15 +9,15 @@ public class MiniBoss : Boss {
 
     public void onDeath() {
         switch (gameController.mode) {
-            case "normal":
-                lootController.dropMiniBossLoot(transform.position);
-                lootController.dropPerk(transform.position);
-                gameController.spawnDoorToNextLevel(spawnPosition);
-                break;
-            case "tutorial":
-                gameController.spawnDoorToNextLevel(new Vector3(spawnPosition.x + 3, spawnPosition.y, 0));
-                gameController.spawnDoorToIntroArea(new Vector3(spawnPosition.x - 3, spawnPosition.y, 0));
-                break;
+            // case "normal":
+            //     lootController.dropMiniBossLoot(transform.position);
+            //     lootController.dropPerk(transform.position);
+            //     gameController.spawnDoorToNextLevel(spawnPosition);
+            //     break;
+            // case "tutorial":
+            //     gameController.spawnDoorToNextLevel(new Vector3(spawnPosition.x + 3, spawnPosition.y, 0));
+            //     gameController.spawnDoorToIntroArea(new Vector3(spawnPosition.x - 3, spawnPosition.y, 0));
+            //     break;
         };
     }
     

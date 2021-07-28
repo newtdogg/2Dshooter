@@ -165,7 +165,6 @@ public class AIController : MonoBehaviour
             modifierText = "critical";
         }
         health -= calibratedDamage;
-        Debug.Log($"{calibratedDamage}, {health}");
         updateDamageUI(calibratedDamage, modifierText);
     }
 

@@ -120,7 +120,7 @@ public class MobController : AIController
         stopAllIdleBehaviours();
     }
 
-    void OnCollisionEnter2D(Collision2D col) {
+    public void defaultPlayerCollisionEnter(Collision2D col) {
         if (col.gameObject.name == "Player") {
             inContactWithPlayer = true;
             playerController.canMove = false;
@@ -128,9 +128,15 @@ public class MobController : AIController
             StopCoroutine("FollowPath");
             StopCoroutine("CycleRandomAttacks");
         }
+    }
+
+    public void defaultMobCollisionEnter(Collision2D col) {
         if (col.gameObject.name.Contains("Mob")) {
             Physics2D.IgnoreCollision(col.collider, GetComponent<Collider2D>());
         }
+    }
+
+    public void defaultBulletCollisionEnter(Collision2D col) {
         if (col.gameObject.name.Contains("DoCPlayerBullet")) {
             var projectileScript = col.gameObject.GetComponent<Projectile>();
             updateDamage(projectileScript.damage);

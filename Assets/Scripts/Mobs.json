@@ -3,7 +3,12 @@
         "speed": 30,
         "maxHealth": 26,
         "damage": 15,
-        "xpValue": 30
+        "xpValue": 30,
+        "scrapLoot": {
+            "common": ["weakAdhesive", "smallMetalScraps"],
+            "uncommon": ["steelScraps"],
+            "rare": ["refinedAdhesive"]
+        }
     },
     "mobWebRat": {
         "speed": 22,
