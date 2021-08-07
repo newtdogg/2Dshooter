@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Random=UnityEngine.Random;
+
 using System.Linq;
 
 public enum SpawnerType {
@@ -23,7 +25,9 @@ public class Spawner : MonoBehaviour {
     public bool isWave;
     public Transform mobsList;
     public int width;
+    public int spawnableWidth => width - 1;
     public int height;
+    public int spawnableHeight => height - 1;
     public List<string> mobsToSpawn;
     public int initialMobSpawn;
     public Action keyPickupCallback;
@@ -163,8 +167,7 @@ public class Spawner : MonoBehaviour {
         battleCompleted = true;
         // lootController.dropArenaLoot(centerOfObject);
         transform.GetChild(1).gameObject.SetActive(false);
-        if (holdsItemKey)
-        {
+        if (holdsItemKey) {
             var roomKeyClone = Instantiate(roomKey, centerOfObject, Quaternion.identity);
             roomKeyClone.GetComponent<Key>().pickupCallback = keyPickupCallback;
         }
@@ -184,13 +187,12 @@ public class Spawner : MonoBehaviour {
     public void spawnMobGroup() {
         empty = false;
         var quantity = mobsToSpawn.Count;
-        var distance = width / quantity;
+        var distance = spawnableWidth / quantity;
         var seed = Time.time.ToString();
         var mobCount = 0;
         while(mobCount < quantity) {
-            System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
-            var mobPosX = pseudoRandom.Next(mobCount * distance, (mobCount + 1) * distance);
-            var mobPosY = pseudoRandom.Next(0, height);
+            var mobPosX = Random.Range(mobCount * distance, (mobCount + 1) * distance);
+            var mobPosY = Random.Range(0, spawnableHeight);
             var tileInt = tileTools.intMap[(int)Mathf.Floor(mobPosX) + (int)transform.position.x, (int)Mathf.Floor(mobPosY) + (int)transform.position.y];
             // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(mobPosX)} {(int)Mathf.Floor(mobPosY)} )");
             if(tileInt != 1 && tileInt != 2) {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.IO;
-using UnityEngine.Tilemaps;
+using Random=UnityEngine.Random;
 
 public class MobController : AIController
 {
@@ -27,7 +27,8 @@ public class MobController : AIController
         var mobList = JsonUtility.FromJson<Mobs>(jsonString);
         var mobJsonObject = mobList.GetType().GetProperty(mobTitle).GetValue(mobList, null) as MobStats;
         startingPosition = transform.position;
-        speed = mobJsonObject.speed;
+        speed = Random.Range(mobJsonObject.speed - 1.5f, mobJsonObject.speed + 1.5f);
+        attackDelay = Random.Range(mobJsonObject.speed - 1f, mobJsonObject.speed + 3.5f);
         defaultSpeed = speed;
         damage = mobJsonObject.damage;
         maxHealth = mobJsonObject.maxHealth;
@@ -56,6 +57,7 @@ public class MobController : AIController
         // };
 
         damageIndicatorTimer = 0f;
+        attacks = new List<Action>();
         damageParent = transform.GetChild(0);
         damageIndicator = damageParent.GetChild(0).gameObject.GetComponent<Text>();
         damageIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2.34f, 0);
@@ -104,7 +106,6 @@ public class MobController : AIController
     }
 
     public void stopAttackingBehaviours() {
-        Debug.Log("stopAttackingBehaviours");
         StopCoroutine("FollowPath");
         StopCoroutine("UpdatePath");
         StopCoroutine("CycleRandomAttacks");
@@ -122,9 +123,9 @@ public class MobController : AIController
 
     public void defaultPlayerCollisionEnter(Collision2D col) {
         if (col.gameObject.name == "Player") {
-            inContactWithPlayer = true;
-            playerController.canMove = false;
-            contactController.updateBrawlStatus(gameObject);
+            // inContactWithPlayer = true;
+            // playerController.canMove = false;
+            // contactController.updateBrawlStatus(gameObject);
             StopCoroutine("FollowPath");
             StopCoroutine("CycleRandomAttacks");
         }
@@ -179,7 +180,11 @@ public class MobController : AIController
         yield return null;
     }
 
-
+    public IEnumerator knockPlayerBack(Collision2D col, float velocity) {
+        var rbody = col.gameObject.GetComponent<Rigidbody2D>();
+        rbody.AddForce(facingDirection * velocity * rbody.mass * 100f);
+        yield return null;
+    }
 
 
     ////////////////////////////////////////////

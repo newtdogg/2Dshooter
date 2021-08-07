@@ -2,7 +2,7 @@
     "mobRedJacket": {
         "speed": 30,
         "maxHealth": 26,
-        "damage": 15,
+        "damage": 11,
         "xpValue": 30,
         "scrapLoot": {
             "common": ["weakAdhesive", "smallMetalScraps"],
@@ -13,8 +13,13 @@
     "mobWebRat": {
         "speed": 22,
         "maxHealth": 26,
-        "damage": 15,
-        "xpValue": 30
+        "damage": 8,
+        "xpValue": 30,
+        "scrapLoot": {
+            "common": ["weakAdhesive", "smallMetalScraps"],
+            "uncommon": ["steelScraps"],
+            "rare": ["refinedAdhesive"]
+        }
     },
     "mobSlugopod": {
         "speed": 7,

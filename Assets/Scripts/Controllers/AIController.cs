@@ -149,10 +149,14 @@ public class AIController : MonoBehaviour
 
     public IEnumerator CycleRandomAttacks() {
         while(true) {
-            var rand = new System.Random((int)System.DateTime.Now.Ticks);
-            var randAttack = attacks[rand.Next(0, attacks.Count)];
-            randAttack();
-            yield return new WaitForSeconds (attackDelay);
+            if(attacks.Count > 0) {
+                var rand = new System.Random((int)System.DateTime.Now.Ticks);
+                var randAttack = attacks[rand.Next(0, attacks.Count)];
+                randAttack();
+                yield return new WaitForSeconds (attackDelay);
+            } else {
+                yield return null;
+            }
         }
     }
 

@@ -60,7 +60,7 @@ public class PlayerController : PlayableCharacterController {
         activeSpawners = new List<Spawner>();
         canMove = true;
         defaultSpeed = 50f;
-        speed = 15f;
+        speed = 12f;
         scrap = new Dictionary<string, int>() {
             { "junkMetal", 20 },
             { "brokenGlass", 10 }
@@ -92,7 +92,7 @@ public class PlayerController : PlayableCharacterController {
         detection.transform.GetChild(1).localScale = new Vector3(sneak["attackDistance"], sneak["attackDistance"], 0) * 2;
         var movSpeed = 0f;
         if(slowTimer >= 0) {
-            movSpeed = (speed/2) * gameController.globalSpeed;
+            movSpeed = (speed/3) * gameController.globalSpeed;
             slowTimer -= Time.deltaTime;
         } else {
             movSpeed = speed * gameController.globalSpeed;
@@ -288,6 +288,7 @@ public class PlayerController : PlayableCharacterController {
     }
 
     public void pickupScrapUI(Dictionary<string, int> scrapDict) {
+        Debug.Log(scrapDict.Count);
         foreach (var scrapObj in scrapDict) {
             if(!checkScrapPickupUI(scrapObj)) {
                 var pickupTitleObject = Instantiate(pickupUI.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);
@@ -304,6 +305,7 @@ public class PlayerController : PlayableCharacterController {
     public bool checkScrapPickupUI(KeyValuePair<string, int> scrapObj) {
         foreach (Transform pickupText in pickupUI) {
             if(pickupText.gameObject.name == scrapObj.Key) {
+                Debug.Log("here");
                 var textScript = pickupText.gameObject.GetComponent<PickupText>();
                 textScript.timer = 0;
                 textScript.value += scrapObj.Value;

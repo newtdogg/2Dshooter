@@ -13,7 +13,7 @@ public class Scrap : Pickup {
     public Dictionary<string, int> getScrapDictionary() {
         var scrapDict = new Dictionary<string, int>();
         foreach (var scrapStr in scrapList){
-             if(scrapDict.ContainsKey(scrapStr)) {
+            if(scrapDict.ContainsKey(scrapStr)) {
                 scrapDict[scrapStr] += 1;
             } else {
                 scrapDict.Add(scrapStr, 1);

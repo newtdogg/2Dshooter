@@ -1,13 +1,17 @@
 {
     "temperate": {
         "spawns": [
-            // {
-            //     "enemies": ["MobRedJacket", "MobRedJacket"],
-            //     "spawnerTypes": ["Default", "Source"]
-            // },
             {
-                "enemies": ["MobWebRat", "MobWebRat"],
+                "enemies": ["MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket"],
                 "spawnerTypes": ["Default", "Walled"]
+            },
+            {
+                "enemies": ["MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat"],
+                "spawnerTypes": ["Default"]
+            },
+            {
+                "enemies": ["MobWebRat", "MobWebRat", "MobWebRat"],
+                "spawnerTypes": ["Default"]
             }
         ],
         "bosses": []

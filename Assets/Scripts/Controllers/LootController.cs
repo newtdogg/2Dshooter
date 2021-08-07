@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Tilemaps;
-using System.Collections;
+using Newtonsoft.Json;
 using System.IO;
 
 public class LootController : MonoBehaviour {
@@ -9,8 +8,8 @@ public class LootController : MonoBehaviour {
     private Dictionary<string,GameObject> lootTypes;
     public DropChanceList stats;
     private Mobs mobData;
-    public int multiplierMax;
     public int multiplierMin;
+    public int multiplierMax;
     private AttachmentType[] attachmentList;
 
     void Start() {
@@ -18,10 +17,12 @@ public class LootController : MonoBehaviour {
             { "scrap", GameObject.Find("Scrap") },
             { "attachmentRecipe", GameObject.Find("AttachmentRecipe") }
         };
+        multiplierMin = 1;
+        multiplierMax = 4;
         var scrapJSON = File.ReadAllText("./Assets/Scripts/Scrap.json"); 
-        stats = JsonUtility.FromJson<DropChanceList>(scrapJSON);
+        stats = JsonConvert.DeserializeObject<DropChanceList>(scrapJSON);
         var mobJsonString = File.ReadAllText("./Assets/Scripts/Mobs.json");
-        mobData = JsonUtility.FromJson<Mobs>(mobJsonString);
+        mobData = JsonConvert.DeserializeObject<Mobs>(mobJsonString);
         // var attachmentJSON = File.ReadAllText("./Assets/Scripts/Attachments/Attachments.json");
         // var allAttachments = JsonUtility.FromJson<Attachments>(jsonString);
         attachmentList = AttachmentType.GetValues(typeof(AttachmentType)) as AttachmentType[];
@@ -49,16 +50,16 @@ public class LootController : MonoBehaviour {
         var allScrap = new List<string>();
         var deadMobData = mobData.GetType().GetProperty(title).GetValue(mobData, null) as MobStats;
         var mobDrops = deadMobData.scrapLoot;
-        var combinedScrap = new List<string>();
+
         for(var i = 0; i < lootQuantity; i++) {
             var lootRand = new System.Random((int)System.DateTime.Now.Ticks + 1);
             var rarityInt = rand.Next(0, 100);
             if(rarityInt > 95) {
-                allScrap.Add(mobDrops["rare"][rand.Next(mobDrops["rare"].Count)]);
+                allScrap.Add(mobDrops["rare"][lootRand.Next(mobDrops["rare"].Count)]);
             } else if (rarityInt > 75) {
-                allScrap.Add(mobDrops["uncommon"][rand.Next(mobDrops["uncommon"].Count)]);
+                allScrap.Add(mobDrops["uncommon"][lootRand.Next(mobDrops["uncommon"].Count)]);
             } else {
-                allScrap.Add(mobDrops["common"][rand.Next(mobDrops["common"].Count)]);
+                allScrap.Add(mobDrops["common"][lootRand.Next(mobDrops["common"].Count)]);
             }
         }
         generateScrapObject(allScrap, position);

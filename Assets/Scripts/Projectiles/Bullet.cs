@@ -24,7 +24,7 @@ public class Bullet : Projectile {
             if(gameObject.name == "DoCPlayerBullet(Clone)" && col.gameObject.name != "DoCPlayerBullet(Clone)") {
                 Destroy (gameObject);
             }
-            if(col.gameObject.name.Contains("Player")){
+            if(col.gameObject.name == "Player") {
                 var colliderScript = col.gameObject.GetComponent<PlayerController>();
                 colliderScript.health -= damage;
             }

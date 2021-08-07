@@ -8,10 +8,10 @@ public class Mobs {
     public MobStats mobSlugopod;
     public MobStats mobChucker;
     public MobStats mobWebRat;
-    public MobStats MobRedJacket { get { return mobRedJacket; } }
-    public MobStats MobSlugopod { get { return mobSlugopod; } }
-    public MobStats MobChucker { get { return mobChucker; } }
-    public MobStats MobWebRat { get { return mobWebRat; } }
+    public MobStats MobRedJacket => mobRedJacket;
+    public MobStats MobSlugopod => mobSlugopod;
+    public MobStats MobChucker => mobChucker;
+    public MobStats MobWebRat => mobWebRat;
 }
 
 [System.Serializable]

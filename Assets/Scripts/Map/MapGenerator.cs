@@ -231,6 +231,7 @@ public class MapGenerator : MonoBehaviour {
 		var id = $"{spawnerIndex}v{spawnerVector.x}:{spawnerVector.y}";
 		spawnerScript.cellVector = spawnerVector;
 		if (id == $"0v{activeMapData.itemRoomKeyLocation.x}:{activeMapData.itemRoomKeyLocation.y}") {
+			Debug.Log(id);
 			spawnerScript.holdsItemKey = true;
 			spawnerScript.keyPickupCallback = destroyItemRoomWalls;
 		}

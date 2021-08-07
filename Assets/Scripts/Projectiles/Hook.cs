@@ -21,7 +21,7 @@ public class Hook : Projectile {
             line.SetPosition(0, transform.parent.position);
             line.SetPosition(1, transform.position);
             returnTimer += Time.deltaTime;
-            if(returnTimer > lifetime || (transform.position - transform.parent.position).magnitude > 10) {
+            if(returnTimer > lifetime || (transform.position - transform.parent.position).magnitude > 8.5f) {
                 transform.localPosition = Vector3.zero;
                 returnTimer = 0;
                 Destroy(gameObject);
@@ -35,7 +35,7 @@ public class Hook : Projectile {
     void OnCollisionEnter2D(Collision2D col) {
         var colName = col.gameObject.name;
         if(colName != parent) {
-            if(colName.Contains("Player")){
+            if(colName == "Player"){
                 transform.parent.gameObject.GetComponent<WebRat>().hookAttached = true;
                 col.gameObject.GetComponent<PlayerController>().slow(2f);
                 hookAttached = true;
