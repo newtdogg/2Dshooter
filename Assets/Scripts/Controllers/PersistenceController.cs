@@ -31,6 +31,7 @@ public class SaveData {
     public float experience;
     public float experienceForNextLevel;
     public int experienceLevel;
-    public Weapons weapons;
+    // public Weapons weapons;
+    public List<string> unlockedWeapons;
 
 }

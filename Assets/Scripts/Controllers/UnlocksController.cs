@@ -9,7 +9,7 @@ public class UnlocksController : MonoBehaviour {
 
     private GameObject treeNodeParents;
     public PlayerController playerController;
-    public Weapons weaponsList;
+    public List<string> unlockedWeapons;
     public Text xp;
 
     void Start() {
@@ -21,39 +21,39 @@ public class UnlocksController : MonoBehaviour {
     }
 
     public void initialiseWeaponNodes(int selectGroup = 0) {
-        var parentCount = 0;
-        var count = 0;
-        foreach (var weapon in typeof(Weapons).GetProperties()) {
-            if(transform.GetChild(parentCount).GetChild(0).childCount <= count) {
-                parentCount++;
-                count = 0;
-            }     
-            var newWeapon = weapon.GetValue(weaponsList) as Weapon;
-            // Debug.Log($"{transform.GetChild(parentCount).GetChild(0).childCount}, {count}, {newWeapon.title}");
-            if(newWeapon.requiredUnlocks != "") {
-                setWeaponChildren(newWeapon);
-            }
-            transform.GetChild(parentCount).GetChild(0).GetChild(count).gameObject.GetComponent<WeaponNode>().setupNode(newWeapon, parentCount + 1);
-            count++;
-        }
-        if(selectGroup != 0) {
-            transform.GetChild(selectGroup - 1).GetChild(1).gameObject.GetComponent<UnlocksOverlay>().selectGunGroup();
-        }
+        // var parentCount = 0;
+        // var count = 0;
+        // foreach (var weapon in typeof(Weapons).GetProperties()) {
+        //     if(transform.GetChild(parentCount).GetChild(0).childCount <= count) {
+        //         parentCount++;
+        //         count = 0;
+        //     }     
+        //     var newWeapon = weapon.GetValue(unlockedWeapons) as Weapon;
+        //     // Debug.Log($"{transform.GetChild(parentCount).GetChild(0).childCount}, {count}, {newWeapon.title}");
+        //     if(newWeapon.requiredUnlocks != "") {
+        //         setWeaponChildren(newWeapon);
+        //     }
+        //     transform.GetChild(parentCount).GetChild(0).GetChild(count).gameObject.GetComponent<WeaponNode>().setupNode(newWeapon, parentCount + 1);
+        //     count++;
+        // }
+        // if(selectGroup != 0) {
+        //     transform.GetChild(selectGroup - 1).GetChild(1).gameObject.GetComponent<UnlocksOverlay>().selectGunGroup();
+        // }
     }
 
-    public void setWeaponChildren(Weapon weapon) {
-        weapon.createUnlocksList();
-        string[] gunStrings = weapon.requiredUnlocks.Split(',');
-        foreach (var gunStr in gunStrings) {
-            var capGunStr = char.ToUpper(gunStr[0]) + gunStr.Substring(1);
-            var gunObject = weaponsList.GetType().GetProperty(capGunStr).GetValue(weaponsList, null) as Weapon;
-            weapon.addWeaponToUnlocks(gunObject);
-        }
-    }
+    // public void setWeaponChildren(Weapon weapon) {
+    //     weapon.createUnlocksList();
+    //     string[] gunStrings = weapon.requiredUnlocks.Split(',');
+    //     foreach (var gunStr in gunStrings) {
+    //         var capGunStr = char.ToUpper(gunStr[0]) + gunStr.Substring(1);
+    //         var gunObject = weaponsList.GetType().GetProperty(capGunStr).GetValue(weaponsList, null) as Weapon;
+    //         weapon.addWeaponToUnlocks(gunObject);
+    //     }
+    // }
 
-    public void updatePlayerWeapons() {
-        playerController.weaponsList = weaponsList;
-    }
+    // public void updatePlayerWeapons() {
+    //     playerController.weaponsList = weaponsList;
+    // }
 
     
 }

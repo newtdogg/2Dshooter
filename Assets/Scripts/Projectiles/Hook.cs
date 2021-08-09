@@ -34,7 +34,8 @@ public class Hook : Projectile {
 
     void OnCollisionEnter2D(Collision2D col) {
         var colName = col.gameObject.name;
-        if(colName != parent) {
+        Debug.Log($"{colName}, {transform.parent.gameObject.name}");
+        if(colName != transform.parent.gameObject.name) {
             if(colName == "Player"){
                 transform.parent.gameObject.GetComponent<WebRat>().hookAttached = true;
                 col.gameObject.GetComponent<PlayerController>().slow(2f);

@@ -31,7 +31,6 @@ public class UIController : MonoBehaviour
                 foreach(Transform node in scrapList) {
                     Destroy(node.gameObject);
                 }
-                Debug.Log("piss1");
 
                 scrapWindow.SetActive(true);
                 var count = 0;
@@ -45,7 +44,6 @@ public class UIController : MonoBehaviour
                 }
             } else {
                 scrapWindow.SetActive(false);
-                Debug.Log("piss1");
             }
         }
     }

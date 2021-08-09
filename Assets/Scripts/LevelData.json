@@ -10,7 +10,7 @@
                 "spawnerTypes": ["Default"]
             },
             {
-                "enemies": ["MobWebRat", "MobWebRat", "MobWebRat"],
+                "enemies": ["MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat"],
                 "spawnerTypes": ["Default"]
             }
         ],

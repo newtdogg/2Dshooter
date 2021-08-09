@@ -9,7 +9,6 @@ using Random=UnityEngine.Random;
 public class MobController : AIController
 {
     // Start is called before the first frame update
-    
     public float damage;
     public bool hookAttached;
     public Transform intents;
@@ -18,7 +17,10 @@ public class MobController : AIController
     public GameObject mobObj;
     public GameObject scrapObject;
     public GameObject recipeObject;
+    public Action deathCallback;
+    private float outOfRangeTimer;
     public int scrap;
+    public float outOfRangeDuration = 4f;
     public ContactController contactController;
     public float xpValue;
 
@@ -55,14 +57,15 @@ public class MobController : AIController
         //     leftPerimeterWalkWithPauses,
         //     moveToCenterThenLeftWithPauses
         // };
-
+        outOfRangeTimer = outOfRangeDuration;
         damageIndicatorTimer = 0f;
         attacks = new List<Action>();
         damageParent = transform.GetChild(0);
         damageIndicator = damageParent.GetChild(0).gameObject.GetComponent<Text>();
         damageIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -2.34f, 0);
         damageParent.GetChild(0).gameObject.SetActive(false);
-        if(gameObject.name == $"{title}(Clone)") {
+        movementTextUI = damageParent.GetChild(1).GetComponent<Text>();
+        if(gameObject.name.Contains($"{title}(Clone)")) {
             behaviourState = "idle";
         }
         // remove when not needed for debugging
@@ -75,26 +78,28 @@ public class MobController : AIController
         // attacks player if in range
         // if(distance < playerController.getSneakStat("attackDistance") && behaviourState == "attacking") {
         if(distance < playerController.getSneakStat("attackDistance") && behaviourState == "alert") {
-            speed = defaultSpeed;
-            behaviourState = "attacking";
-            StopCoroutine("UpdatePath");
-            StopCoroutine("PathToLocation");
-            StartCoroutine("UpdatePath");
-            StartCoroutine("CycleRandomAttacks");
-            stopAllIdleBehaviours();
+            triggerAttackState();
         }
 
         // alerts enemy to players presence
-        if((distance < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) || 
-        // enemy deaggros if player is too far away
-        (distance > playerController.getSneakStat("detectionDistance") && behaviourState == "attacking")) {
-        // (distance > playerController.getSneakStat("detectionDistance") && (behaviourState == "alert" || behaviourState == "attacking"))) {
-            stopAttackingBehaviours();
+        if(distance < playerController.getSneakStat("detectionDistance") && detectionTimer < 0) {
             triggerAlertState();
+        }
+        // enemy deaggros if player is too far away
+        if((distance > playerController.getSneakStat("detectionDistance") && behaviourState == "attacking" && outOfRangeTimer > 0)) {
+            outOfRangeTimer -= Time.deltaTime;
+            setMovementText("deaggrroing");
+        }
+        if((distance > playerController.getSneakStat("detectionDistance") && behaviourState == "attacking" && outOfRangeTimer <= 0)) {
+        // (distance > playerController.getSneakStat("detectionDistance") && (behaviourState == "alert" || behaviourState == "attacking"))) {
+            triggerAlertState();
+            outOfRangeTimer = outOfRangeDuration;
+            
         }
 
         // enemy stops moving after being alerted
         if(detectionTimer <= 0 && behaviourState == "alert") {
+            setMovementText("idle");
             StopCoroutine("PathToLocation");
             detectionTimer = -1f;
             behaviourState = "idle";
@@ -111,8 +116,22 @@ public class MobController : AIController
         StopCoroutine("CycleRandomAttacks");
     }
 
+    public void triggerAttackState() {
+        Debug.Log("attacking!!!");
+        setMovementText("attacking");
+        speed = defaultSpeed;
+        behaviourState = "attacking";
+        StopCoroutine("UpdatePath");
+        StopCoroutine("PathToLocation");
+        StartCoroutine("UpdatePath");
+        StartCoroutine("CycleRandomAttacks");
+        stopAllIdleBehaviours();
+    }
+
     public void triggerAlertState() {
+        stopAttackingBehaviours();
         behaviourState = "alert";
+        setMovementText("alert");
         speed = defaultSpeed/2;
         playersLastKnownPosition = playerController.transform.position;
         detectionTimer = playerController.getSneakStat("timeUntilDetection");
@@ -139,6 +158,9 @@ public class MobController : AIController
 
     public void defaultBulletCollisionEnter(Collision2D col) {
         if (col.gameObject.name.Contains("DoCPlayerBullet")) {
+            if(behaviourState != "attacking") {
+                triggerAttackState();
+            }
             var projectileScript = col.gameObject.GetComponent<Projectile>();
             updateDamage(projectileScript.damage);
         }
@@ -158,6 +180,7 @@ public class MobController : AIController
     }
 
     public void onDeath() {
+        deathCallback();
         Destroy(gameObject);
         lootController.dropMobLoot(transform.position, title);
         playerController.updateXP(xpValue);

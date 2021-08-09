@@ -34,6 +34,8 @@ public class PlayerController : PlayableCharacterController {
     public Weapons weaponsList;
     private Vector3 lastDirection;
     private GameObject torch;
+    public bool invulnerable;
+    public float invulnerableTimer;
     public Transform enemyIndicatorParent;
     private List<Spawner> activeSpawners;
 
@@ -108,6 +110,14 @@ public class PlayerController : PlayableCharacterController {
             movSpeed = speed;
             sneak["detectionDistance"] = sneakDefault["detectionDistance"];
             sneak["attackDistance"] = sneakDefault["attackDistance"];
+        }
+        if(invulnerableTimer > 0 && invulnerable) {
+            invulnerableTimer -= Time.deltaTime;
+        }
+        if(invulnerableTimer <= 0 && invulnerable) {
+            invulnerableTimer = -1;
+            invulnerable = false;
+            gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         }
         // TOGGLE TORCH
         if (Input.GetKeyDown(KeyCode.T)) {
@@ -185,6 +195,19 @@ public class PlayerController : PlayableCharacterController {
             }
             count++;
         }
+    }
+
+    public void dealMobDamage(float damage) {
+        if(!invulnerable) {
+            updateHealth(damage);
+            triggerInvulnerability();
+        }
+    }
+
+    public void triggerInvulnerability() {
+        invulnerable = true;
+        invulnerableTimer = 1.2f;
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.234959f, 0.9339623f, 0.8856441f);
     }
 
     public Gun getGun() {
@@ -288,7 +311,6 @@ public class PlayerController : PlayableCharacterController {
     }
 
     public void pickupScrapUI(Dictionary<string, int> scrapDict) {
-        Debug.Log(scrapDict.Count);
         foreach (var scrapObj in scrapDict) {
             if(!checkScrapPickupUI(scrapObj)) {
                 var pickupTitleObject = Instantiate(pickupUI.GetChild(0).gameObject, new Vector2(0, 0), Quaternion.identity);

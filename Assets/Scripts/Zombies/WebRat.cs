@@ -39,7 +39,7 @@ public class WebRat : MobController
             hookAttached = false;
             // playerController.canMove = false;
             // contactController.updateBrawlStatus(gameObject);
-            StartCoroutine(knockPlayerBack(col, 7.0f));
+            StartCoroutine(knockPlayerBack(col, 9.0f));
             playerController.updateHealth(-damage);
             Destroy(hookClone);
             // StopCoroutine("FollowPath");

@@ -33,6 +33,7 @@ public class AIController : MonoBehaviour
     public Vector2 currentWaypoint;
 	private int targetIndex;
     public float distance;
+    public Text movementTextUI;
     public Spawner spawner;
     public GameObject bullet;
     public bool inIdleMovement;
@@ -40,7 +41,7 @@ public class AIController : MonoBehaviour
     public PlayerController playerController;
     public GameController gameController;
     public Rigidbody2D rbody;
-    private float minPathUpdateTime = 0.2f;
+    private float minPathUpdateTime = 0.15f;
 	private float pathUpdateMoveThreshold = 0.6f;
     public bool canMove;
     public List<Action> attacks;
@@ -48,13 +49,15 @@ public class AIController : MonoBehaviour
     public Vector3 spawnPosition;
 
     public void OnPathFound(Vector2[] newPath, bool pathSuccessful) {
-		if (pathSuccessful && newPath.Length > 1) {
+		if (pathSuccessful && newPath.Length > 0) {
 			path = newPath;
             currentWaypoint = path[0];
 			targetIndex = 0;
 			StopCoroutine("FollowPath");
 			StartCoroutine("FollowPath");
-		}
+		} else {
+            Debug.Log("path couldnt be found soz");
+        }
     }
 
     public IEnumerator handleIdleBehaviours() {
@@ -87,7 +90,7 @@ public class AIController : MonoBehaviour
 				targetPosOld = player.transform.position;
             // }
             if(distance < 2) {
-                // Debug.Log("chasing");
+                setMovementText("Chasing");
                 currentWaypoint = player.transform.position;
             }
 		}
@@ -102,11 +105,7 @@ public class AIController : MonoBehaviour
             var currentWaypointInt = new Vector3Int((int)Mathf.Floor(currentWaypoint.x), (int)Mathf.Floor(currentWaypoint.y), 0);
             var lastWaypointInt = new Vector3Int((int)Mathf.Floor(path[path.Length - 1].x), (int)Mathf.Floor(path[path.Length - 1].y), 0);
             var mobPosInt = new Vector3Int((int)Mathf.Floor(zomPos.x), (int)Mathf.Floor(zomPos.y), 0);
-            if(distance > playerController.getSneakStat("detectionDistance") * 2f && type != "boss") {
-                Debug.Log("out of range :(");
-                StopCoroutine("UpdatePath");
-                yield break;
-            } else if (mobPosInt.x == currentWaypointInt.x && mobPosInt.y == currentWaypointInt.y) {
+            if (mobPosInt.x == currentWaypointInt.x && mobPosInt.y == currentWaypointInt.y) {
 				targetIndex ++;
                 if(targetIndex < path.Length) {
                 }
@@ -130,6 +129,7 @@ public class AIController : MonoBehaviour
             // tilemap.SetColor(currentWaypointInt, Color.black);
             // rbody.AddForce(new Vector3(currentWaypoint.x * -1, currentWaypoint.y * -1, 0).normalized * 2);
             lastPosition = transform.position;
+            setMovementText("Moving to Location");
             transform.position = Vector3.MoveTowards(transform.position, (Vector3)currentWaypoint, Time.deltaTime * (speed/5f) * (playerController.gameController.globalSpeed));
             facingDirection = ((Vector3)currentWaypoint - transform.position).normalized;
             calculateCompassFacingDirection(facingDirection);
@@ -205,6 +205,10 @@ public class AIController : MonoBehaviour
             compassFacingDirection = new Vector2Int(0, (int)Mathf.Round(facingDirection.y));
         }
         // Debug.Log(compassFacingDirection);
+    }
+
+    public void setMovementText(string text) {
+        movementTextUI.text = text;
     }
 
 }

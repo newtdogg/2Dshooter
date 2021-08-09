@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
-using System.Collections;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using System;
+using Random=UnityEngine.Random;
 
 
 public class MapGenerator : MonoBehaviour {
@@ -24,6 +24,7 @@ public class MapGenerator : MonoBehaviour {
 	private TileTools tileTools;
 	public bool mapGenerated;
 	public GameController gameController;
+	private bool itemRoomSet = false;
 	public int[,] mapToCreate;
 	public Dictionary<string, Spawner> spawners;
 	public Spawner bossSpawner;
@@ -228,18 +229,21 @@ public class MapGenerator : MonoBehaviour {
 		var spawnerPos = isBossSpawner ? new Vector2(posX - 12, posY - 12) : new Vector2(posX, posY); 
 		var spawnerClone = Instantiate(GameObject.Find("Spawner"), spawnerPos, Quaternion.identity) as GameObject;
 		var spawnerScript = spawnerClone.GetComponent<Spawner>();
-		var id = $"{spawnerIndex}v{spawnerVector.x}:{spawnerVector.y}";
+		var id = $"{Random.Range(0,999)}v{spawnerVector.x}:{spawnerVector.y}";
 		spawnerScript.cellVector = spawnerVector;
-		if (id == $"0v{activeMapData.itemRoomKeyLocation.x}:{activeMapData.itemRoomKeyLocation.y}") {
-			Debug.Log(id);
+		if ((spawnerVector == activeMapData.itemRoomKeyLocation) && !itemRoomSet) {
+			Debug.Log($"{id}, spawns key");
 			spawnerScript.holdsItemKey = true;
+			itemRoomSet = true;
 			spawnerScript.keyPickupCallback = destroyItemRoomWalls;
 		}
 		if(isBossSpawner) {
 			// spawnerScript.setBossSpawnerAttributes(spawnerInt, spawnerIndex, player.transform);
 			bossSpawner = spawnerScript;
-			Debug.Log(bossSpawner);
+			Debug.Log($"{id}, boss");
+			// Debug.Log(bossSpawner);
 		} else {
+			Debug.Log($"{id}, normal");
 			spawnerScript.setAttributes(spawnerInt, spawnerVector, player.transform);
 			spawners.Add(id, spawnerScript);
 		}

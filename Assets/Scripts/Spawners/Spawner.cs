@@ -45,6 +45,8 @@ public class Spawner : MonoBehaviour {
     public string boss;
     public List<List<Vector2Int>> walls;
     public LootController lootController;
+    public bool droppedKey = false;
+    public bool active = true;
     public GameObject mobSourceClone;
 
     void Awake () {
@@ -67,6 +69,13 @@ public class Spawner : MonoBehaviour {
         }
         if(!empty && mobsList.childCount == 0) {
             empty = true;
+        }
+    }
+
+    public void mobDeathCallback() {
+        if(mobsList.childCount == 1 && holdsItemKey) {
+            var roomKeyClone = Instantiate(roomKey, centerOfObject, Quaternion.identity);
+            roomKeyClone.GetComponent<Key>().pickupCallback = keyPickupCallback;
         }
     }
 
@@ -104,12 +113,12 @@ public class Spawner : MonoBehaviour {
 
     public IEnumerator spawnMobsOverTime() {
         var mobCount = 0;
+        active = true;
         while (mobCount < mobsToSpawn.Count * 2) {
             yield return new WaitForSeconds (2f);
             if(Vector3.Distance(centerOfObject, playerTransform.position) < 20f) {
-                System.Random pseudoRandom = new System.Random((int)System.DateTime.Now.Ticks);
-                var mobPosX = pseudoRandom.Next(0, width);
-                var mobPosY = pseudoRandom.Next(0, height);
+                var mobPosX = Random.Range(0, width);
+                var mobPosY = Random.Range(0, height);
                 var tileInt = tileTools.intMap[(int)Mathf.Floor(mobPosX) + (int)transform.position.x, (int)Mathf.Floor(mobPosY) + (int)transform.position.y];
                 // Debug.Log($"{tileInt} ( {(int)Mathf.Floor(mobPosX)} {(int)Mathf.Floor(mobPosY)} )");
                 if(tileInt != 1 && tileInt != 2) {
@@ -167,10 +176,6 @@ public class Spawner : MonoBehaviour {
         battleCompleted = true;
         // lootController.dropArenaLoot(centerOfObject);
         transform.GetChild(1).gameObject.SetActive(false);
-        if (holdsItemKey) {
-            var roomKeyClone = Instantiate(roomKey, centerOfObject, Quaternion.identity);
-            roomKeyClone.GetComponent<Key>().pickupCallback = keyPickupCallback;
-        }
         // foreach (var wall in walls) {
         //     foreach (var block in wall) {
         //         tileTools.removeWallTile(block.x, block.y);
@@ -181,7 +186,9 @@ public class Spawner : MonoBehaviour {
     public void spawnMob(int x, int y, GameObject mobTypeObject) {
         var mobClone = Instantiate(mobTypeObject, new Vector2(transform.position.x + x, transform.position.y + y), Quaternion.identity) as GameObject;
         mobClone.transform.SetParent(mobsList);
+        mobClone.name = $"{mobClone.name}{mobClone.transform.parent.childCount}";
         mobClone.GetComponent<MobController>().setDormant();
+        mobClone.GetComponent<MobController>().deathCallback = mobDeathCallback;
     }
 
     public void spawnMobGroup() {
@@ -202,6 +209,7 @@ public class Spawner : MonoBehaviour {
             spawnMob(mobPosX, mobPosY, mobGameObject);
             mobCount++;
         }
+        active = true;
     }
 
     public void createBoundaryWall(int edge) {

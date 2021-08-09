@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
+using Random=UnityEngine.Random;
 
 public class GameController : MonoBehaviour {
     public string mode;
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour {
     public bool waveComplete;
     private bool gameStarted;
     private Mobs mobData;
+    public Weapons weaponData;
     public bool survival;
     public float globalSpeed;
     private PlayerController playerController;
@@ -38,17 +40,19 @@ public class GameController : MonoBehaviour {
         }
         var mobJsonString = File.ReadAllText("./Assets/Scripts/Mobs.json");
         mobData = JsonUtility.FromJson<Mobs>(mobJsonString);
+        var weaponJsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json");
+        weaponData = JsonUtility.FromJson<Weapons>(weaponJsonString);
         persistenceController = new PersistenceController();
         maps = new string[] { "IntroMap", "DebugMap" };
         persistenceController.loadGame();
         unlocksController = GameObject.Find("Unlocks").transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<UnlocksController>();
-        unlocksController.weaponsList = persistenceController.saveData.weapons;
+        unlocksController.unlockedWeapons = persistenceController.saveData.unlockedWeapons;
     }
 
     void Start() {
         if (SceneManager.GetActiveScene().name != "MainMenu") {
             playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-            playerController.weaponsList = persistenceController.saveData.weapons;
+            playerController.unlockedWeapons = persistenceController.saveData.unlockedWeapons;
             playerController.gameController = this;
             // playerController.loadData(persistenceController.saveData);
             door = GameObject.Find("Door");
@@ -112,10 +116,9 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds (1f);
         var remainingMobs = 0;
         for(var i = 0; i < mapGenerator.spawners.Count; i++) {
-            var rand = new System.Random((int)System.DateTime.Now.Ticks);
-            var spawn = levels.temperate.spawns[rand.Next(levels.temperate.spawns.Count)] as Spawn;
+            var spawn = levels.temperate.spawns[Random.Range(0, levels.temperate.spawns.Count)] as Spawn;
             var mobGroup = spawn.enemies;
-            spawners[i].type = spawn.spawnerTypes[rand.Next(spawn.spawnerTypes.Count)];
+            spawners[i].type = spawn.spawnerTypes[Random.Range(0, spawn.spawnerTypes.Count)];
             remainingMobs = mobGroup.Count;
             spawners[i].startSpawnerByType(mobGroup);
         }
@@ -136,7 +139,7 @@ public class GameController : MonoBehaviour {
         // mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat", "MobWebRat"});
         // mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobWebRat", "MobWebRat", "MobWebRat"});
         // mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobRedJacket", "MobRedJacket"});
-        mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket"});
+        mapGenerator.spawners.First().Value.startSpawnerByType(new List<string> {"MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket", "MobRedJacket"});
     }
 
     public IEnumerator StartSmallLevel() {
@@ -149,9 +152,9 @@ public class GameController : MonoBehaviour {
         var remainingMobs = 0;
         for(var i = 0; i < mapGenerator.spawners.Count; i++) {
             var rand = new System.Random((int)System.DateTime.Now.Ticks);
-            var spawn = levels.temperate.spawns[rand.Next(levels.temperate.spawns.Count)] as Spawn;
+            var spawn = levels.temperate.spawns[Random.Range(0, levels.temperate.spawns.Count)] as Spawn;
             var mobGroup = spawn.enemies;
-            spawners[i].type = spawn.spawnerTypes[rand.Next(spawn.spawnerTypes.Count)];
+            spawners[i].type = spawn.spawnerTypes[Random.Range(0, spawn.spawnerTypes.Count)];
             remainingMobs = mobGroup.Count;
             spawners[i].startSpawnerByType(mobGroup);
         }
@@ -163,8 +166,8 @@ public class GameController : MonoBehaviour {
         gameStarted = true;
         levelIndex = 0;
         // StartCoroutine("StartLevel");
-        // StartCoroutine("StartDebugLevel");
-        StartCoroutine("StartSmallLevel");
+        StartCoroutine("StartDebugLevel");
+        // StartCoroutine("StartSmallLevel");
     }
 
     public void globalSpeedSlow() {

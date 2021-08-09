@@ -1,11 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.Tilemaps;
 
-public class Slugopod : MobController
-{
+public class Slugopod : MobController {
     private Transform weakSpot;
     // Start is called before the first frame update
     void Start()
