@@ -5,15 +5,14 @@ using System;
 public class Slugopod : MobController {
     private Transform weakSpot;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         weakSpot = transform.GetChild(3);
         defaultMobAwake("MobSlugopod");
         attacks = new List<Action>() { lungeAtPlayer };
         attackDelay = 2.2f;
     }
 
-    void Update() {
+    void FixedUpdate() {
         distance = Vector3.Distance(transform.position, player.transform.position);
         manageBehaviourState();
         defaultUpdate();

@@ -99,14 +99,14 @@ public class WeaponNode : MonoBehaviour,
     }
 
     public void unlockGun() {
-        var unlocks = transform.parent.parent.parent.GetComponent<UnlocksController>();
-        Debug.Log($"{unlocks.playerController.experienceSpendable}, {weapon.cost}");
-        var unlocksWeapon = unlocks.weaponsList.GetType().GetProperty(weapon.script).GetValue(unlocks.weaponsList, null) as Weapon;
-        gunInfoModal.gameObject.SetActive(false);
-        unlocksWeapon.unlocked = true;
-        unlocks.playerController.experienceSpendable -= weapon.xpCost;
-        unlocks.xp.text = unlocks.playerController.experienceSpendable.ToString();
-        unlocks.initialiseWeaponNodes(parentIndex);
-        unlocks.updatePlayerWeapons();
+        // var unlocks = transform.parent.parent.parent.GetComponent<UnlocksController>();
+        // Debug.Log($"{unlocks.playerController.experienceSpendable}, {weapon.cost}");
+        // var unlocksWeapon = unlocks.weaponsList.GetType().GetProperty(weapon.script).GetValue(unlocks.weaponsList, null) as Weapon;
+        // gunInfoModal.gameObject.SetActive(false);
+        // unlocksWeapon.unlocked = true;
+        // unlocks.playerController.experienceSpendable -= weapon.xpCost;
+        // unlocks.xp.text = unlocks.playerController.experienceSpendable.ToString();
+        // unlocks.initialiseWeaponNodes(parentIndex);
+        // unlocks.updatePlayerWeapons();
     }
 }

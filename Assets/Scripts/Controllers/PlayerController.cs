@@ -31,7 +31,7 @@ public class PlayerController : PlayableCharacterController {
     public float experienceForNextLevel;
     public int experienceLevel;
     public float[] experienceLevelUpRequirement;
-    public Weapons weaponsList;
+    public Dictionary<string, Weapon> unlockedWeapons;
     private Vector3 lastDirection;
     private GameObject torch;
     public bool invulnerable;
@@ -90,6 +90,16 @@ public class PlayerController : PlayableCharacterController {
         if(gun == null) {
             gun = transform.GetChild(0).gameObject.GetComponent<Gun>();
         }
+        // TOGGLE TORCH
+        if (Input.GetKeyDown(KeyCode.T)) {
+            transform.GetChild(9).gameObject.SetActive(!transform.GetChild(9).gameObject.activeSelf);
+            // TODO:
+            // Handle stealth change with torch toggle
+        }
+        
+    }
+
+    void FixedUpdate() {
         detection.transform.GetChild(0).localScale = new Vector3(sneak["detectionDistance"], sneak["detectionDistance"], 0) * 2;
         detection.transform.GetChild(1).localScale = new Vector3(sneak["attackDistance"], sneak["attackDistance"], 0) * 2;
         var movSpeed = 0f;
@@ -118,12 +128,6 @@ public class PlayerController : PlayableCharacterController {
             invulnerableTimer = -1;
             invulnerable = false;
             gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-        // TOGGLE TORCH
-        if (Input.GetKeyDown(KeyCode.T)) {
-            transform.GetChild(9).gameObject.SetActive(!transform.GetChild(9).gameObject.activeSelf);
-            // TODO:
-            // Handle stealth change with torch toggle
         }
         movementControls(movSpeed);
         updateEnemyIndicators();

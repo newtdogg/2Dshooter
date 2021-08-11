@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour {
     void Start() {
         if (SceneManager.GetActiveScene().name != "MainMenu") {
             playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-            playerController.unlockedWeapons = persistenceController.saveData.unlockedWeapons;
+            playerController.unlockedWeapons = getWeapons(persistenceController.saveData.unlockedWeapons);
             playerController.gameController = this;
             // playerController.loadData(persistenceController.saveData);
             door = GameObject.Find("Door");
@@ -103,7 +103,7 @@ public class GameController : MonoBehaviour {
         persistenceController.saveData.experience = playerController.experience;
         persistenceController.saveData.experienceForNextLevel = playerController.experienceForNextLevel;
         persistenceController.saveData.experienceLevel = playerController.experienceLevel;
-        persistenceController.saveData.weapons = unlocksController.weaponsList;
+        persistenceController.saveData.unlockedWeapons = unlocksController.unlockedWeapons;
         persistenceController.saveGame();
     }
 
@@ -182,5 +182,17 @@ public class GameController : MonoBehaviour {
         }
         globalSpeed = 1;
         yield return null;
+    }
+
+    private Weapon getWeapon(string weaponName) {
+        return weaponData.GetType().GetProperty(weaponName).GetValue(weaponData, null) as Weapon;
+    }
+
+    private Dictionary<string, Weapon> getWeapons(List<string> weaponList) {
+        var weaponDictionary = new Dictionary<string, Weapon>();
+        foreach (var weaponStr in weaponList) {
+            weaponDictionary.Add(weaponStr, getWeapon(weaponStr));
+        }
+        return weaponDictionary;
     }
 }
