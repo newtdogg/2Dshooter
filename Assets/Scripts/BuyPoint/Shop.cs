@@ -30,7 +30,7 @@ public class Shop : MonoBehaviour {
         gunInfoAmmoCap = parentUI.GetChild(4).GetChild(4).gameObject.GetComponent<Text>();
         buyButton = parentUI.GetChild(4).GetChild(5).gameObject.GetComponent<Button>();
         selectGunGroup("Handgun");
-        updateGunInfo(playerController.weaponsList.Pistol9mm);
+        updateGunInfo(playerController.unlockedWeapons["Pistol9mm"]);
         parentUI.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => selectGunGroup("Handgun"));
         parentUI.GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<Button>().onClick.AddListener(() => selectGunGroup("SMG"));
     }
@@ -81,8 +81,8 @@ public class Shop : MonoBehaviour {
     public List<Weapon> getAvailableGunsToBuy() {
         var gunTiers = getWeaponTierCount();
         var availableWeapons = new List<Weapon>();
-        foreach (var weaponObject in playerController.weaponsList.GetType().GetProperties()) {
-            var weaponScript = weaponObject.GetValue(playerController.weaponsList) as Weapon;
+        foreach (var weaponObject in playerController.unlockedWeapons) {
+            var weaponScript = weaponObject.Value;
             if(gunTiers.ContainsKey(weaponScript.group)) {
                 if(weaponScript.unlocked && weaponScript.tier <= gunTiers[weaponScript.group]) {
                     availableWeapons.Add(weaponScript);

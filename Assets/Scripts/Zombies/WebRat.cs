@@ -15,7 +15,7 @@ public class WebRat : MobController
         attacks.Add(throwHook);
     }
 
-    void Update() {
+    void FixedUpdate() {
         distance = Vector3.Distance(transform.position, player.transform.position);
         manageBehaviourState();
         if(hookAttached) {

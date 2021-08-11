@@ -13,7 +13,7 @@ public class RedJacket : MobController {
         attackDelay = 1.5f;
     }
 
-    void Update() {
+    void FixedUpdate() {
         distance = Vector3.Distance(transform.position, player.transform.position);
         manageBehaviourState();
         defaultUpdate();
