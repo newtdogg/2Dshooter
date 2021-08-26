@@ -73,6 +73,7 @@ public class Shop : MonoBehaviour {
         gunInfoTitle.text = gun.title;
         gunInfoDamage.text = gun.stats.damage.ToString();
         gunInfoAmmoCap.text = gun.stats.ammoCapacity.ToString();
+        Debug.Log(gun.cost);
         buyButton.interactable = playerController.checkScapAmount(gun.cost);
         buyButton.onClick.RemoveAllListeners();
         buyButton.onClick.AddListener(() => purchaseGun(gun.script, gun.cost));

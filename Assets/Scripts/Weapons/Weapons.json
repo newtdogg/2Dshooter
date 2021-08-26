@@ -1,301 +1,365 @@
 {
-   "pistol9mm":{
-      "stats":{
-         "ammoCapacity":10,
-         "reloadSpeed":1.2,
-         "damage":7,
-         "shotDelay":0.7,
-         "spread":110,
-         "bulletVelocity":120,
-         "lifetime":1.1,
-         "loudness":5
-      },
-      "script":"Pistol9mm",
-      "title":"9mm Pistol",
-      "description":"wah",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":true,
-      "tier":1,
-      "requiredUnlocks":"",
-      "group":"Handgun"
-   },
-   "tec9":{
-      "stats":{
-         "ammoCapacity":10,
-         "reloadSpeed":1.2,
-         "damage":7,
-         "shotDelay":0.7,
-         "spread":110,
-         "bulletVelocity":120,
-         "lifetime":1.1,
-         "loudness":5
-      },
-      "script":"Tec9",
-      "title":"Tec 9",
-      "description":"sdhiasd",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":true,
-      "tier":1,
-      "requiredUnlocks":"",
-      "group":"Handgun"
-   },
-   "pistol45":{
-      "stats":{
-         "ammoCapacity":10,
-         "reloadSpeed":1.2,
-         "damage":7,
-         "shotDelay":0.7,
-         "spread":110,
-         "bulletVelocity":120,
-         "lifetime":1.1,
-         "loudness":5
-      },
-      "script":"Pistol45",
-      "title":".45 Pistol",
-      "description":"asdasdas",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":true,
-      "tier":2,
-      "requiredUnlocks":"pistol9mm",
-      "group":"Handgun"
-   },
-   "revolver357":{
-      "stats":{
-         "ammoCapacity":10,
-         "reloadSpeed":1.2,
-         "damage":7,
-         "shotDelay":0.7,
-         "spread":110,
-         "bulletVelocity":120,
-         "lifetime":1.1,
-         "loudness":5
-      },
-      "script":"Revolver357",
-      "title":".357 Revolver",
-      "description":"das",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
-      "tier":2,
-      "requiredUnlocks":"pistol9mm",
-      "group":"Handgun"
-   },
-   "autoPistol":{
-      "stats":{
-         "ammoCapacity":19,
-         "reloadSpeed":1.4,
-         "damage":4,
-         "shotDelay":0.25,
-         "spread":130,
-         "bulletVelocity":105,
-         "lifetime":1.1,
-         "loudness":4.5
-      },
-      "script":"AutoPistol",
-      "title":"Auto-Pistol",
-      "description":"wah",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
-      "tier":2,
-      "requiredUnlocks":"pistol9mm,tec9",
-      "group":"Handgun"
-   },
-   "revolver44":{
-      "stats":{
-         "ammoCapacity":6,
-         "reloadSpeed":2.2,
-         "damage":16,
-         "shotDelay":0.9,
-         "spread":90,
-         "bulletVelocity":170,
-         "lifetime":1.4,
-         "loudness":7
-      },
-      "script":"Revolver44",
-      "title":".44 Revolver",
-      "description":"wah",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
-      "tier":3,
-      "requiredUnlocks":"pistol45,revolver357",
-      "group":"Handgun"
-   },
-   "akimboAutoPistols":{
-      "stats":{
-         "ammoCapacity":6,
-         "reloadSpeed":2.2,
-         "damage":16,
-         "shotDelay":0.9,
-         "spread":90,
-         "bulletVelocity":170,
-         "lifetime":1.4,
-         "loudness":7
-      },
-      "script":"AkimboAutoPistols",
-      "title":"Akimbo Auto-Pistols",
-      "description":"wah",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
-      "tier":4,
-      "requiredUnlocks":"autoPistol,uzi",
-      "group":"Handgun"
-   },
-   "desertEagle":{
-      "stats":{
-         "ammoCapacity":9,
-         "reloadSpeed":2.2,
-         "damage":26,
-         "shotDelay":1.1,
-         "spread":75,
-         "bulletVelocity":200,
-         "lifetime":1.4,
-         "loudness":8
-      },
-      "script":"DesertEagle",
-      "title":"Desert Eagle",
-      "description":"wah",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
-      "tier":5,
-      "requiredUnlocks":"revolver44",
-      "group":"Handgun"
-   },
-   "smg22":{
-      "stats":{
-         "ammoCapacity":25,
-         "reloadSpeed":3.2,
-         "damage":6,
-         "shotDelay":0.37,
-         "spread":125,
-         "bulletVelocity":102,
-         "lifetime":1.1,
-         "loudness":5
-      },
-      "script":"Smg22",
-      "title":".22 SMG",
-      "description":"asdasdas",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":true,
-      "tier":1,
-      "requiredUnlocks":"",
-      "group":"SMG"
-   },
-   "uzi":{
-      "stats":{
-         "ammoCapacity":32,
-         "reloadSpeed":3.2,
-         "damage":6,
-         "shotDelay":0.37,
-         "spread":125,
-         "bulletVelocity":110,
-         "lifetime":1.1,
-         "loudness":5
-      },
-      "script":"Uzi",
-      "title":"Uzi",
-      "description":"asdasdas",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
-      "tier":3,
-      "requiredUnlocks":"autoPistol,uzi,smg22",
-      "group":"SMG"
-   },
    "compactSmg":{
-      "stats":{
-         "ammoCapacity":50,
-         "reloadSpeed":3.2,
-         "damage":6,
-         "shotDelay":0.28,
-         "spread":130,
-         "bulletVelocity":102,
-         "lifetime":1.4,
-         "loudness":6
+      "cost":{
+         "copper":18,
+         "plastic":10,
+         "aluminium":6,
+         "steel":10,
+         "iron":4
       },
-      "script":"CompactSmg",
-      "title":"Compact SMG",
-      "description":"asdasdas",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
+      "group":"SMG",
       "tier":3,
-      "requiredUnlocks":"tec9,smg22",
-      "group":"SMG"
+      "required Unlocks":[
+         "tec9",
+         "smg22"
+      ],
+      "description":"test",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"Compact SMG"
    },
    "akimboUzis":{
+      "cost":{
+         "adhesive":6,
+         "copper":24,
+         "plastic":28,
+         "steel":16
+      },
+      "group":"SMG",
+      "tier":5,
+      "required Unlocks":[
+         "akimboAutoPistols",
+         "uzi"
+      ],
+      "description":"test",
       "stats":{
-         "ammoCapacity":25,
-         "reloadSpeed":3.2,
-         "damage":6,
-         "shotDelay":0.37,
-         "spread":125,
-         "bulletVelocity":102,
-         "lifetime":1.1,
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
          "loudness":5
       },
-      "script":"AkimboUzis",
-      "title":"Akimbo Uzis",
-      "description":"asdasdas",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
-      "tier":5,
-      "requiredUnlocks":"akimboAutoPistols,uzi",
-      "group":"SMG"
+      "title":"Akimbo Uzis"
    },
    "heavySmg":{
-      "stats":{
-         "ammoCapacity":25,
-         "reloadSpeed":3.2,
-         "damage":6,
-         "shotDelay":0.37,
-         "spread":118,
-         "bulletVelocity":140,
-         "lifetime":1.7,
-         "loudness":6.5
+      "cost":{
+         "adhesive":4,
+         "copper":18,
+         "plastic":10,
+         "aluminium":3,
+         "steel":14,
+         "iron":12
       },
-      "script":"HeavySmg",
-      "title":"Heavy SMG",
-      "description":"asdasdas",
-      "cost": {
-         "brokenGlass": 10,
-         "junkMetal": 25
-      },
-      "unlocked":false,
+      "group":"SMG",
       "tier":5,
-      "requiredUnlocks":"compactSmg,uzi",
-      "group":"SMG"
+      "required Unlocks":[
+         "uzi",
+         "compactSmg"
+      ],
+      "description":"test",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"Heavy SMG"
+   },
+   "desertEagle":{
+      "cost":{
+         "copper":20,
+         "plastic":8,
+         "aluminium":2,
+         "steel":10,
+         "iron":5
+      },
+      "group":"Handgun",
+      "tier":5,
+      "required Unlocks":[
+         "revolver44"
+      ],
+      "description":"test",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"Desert Eagle"
+   },
+   "akimboAutoPistols":{
+      "cost":{
+         "adhesive":8,
+         "copper":30,
+         "steel":16
+      },
+      "group":"Handgun",
+      "tier":4,
+      "required Unlocks":[
+         "autoPistol",
+         "uzi"
+      ],
+      "description":"test",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"Akimbo Auto-Pistols"
+   },
+   "smg22":{
+      "cost":{
+         "copper":22,
+         "plastic":10,
+         "aluminium":5,
+         "steel":5,
+         "iron":4
+      },
+      "group":"SMG",
+      "tier":1,
+      "required Unlocks":[
+         
+      ],
+      "description":"test",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":".22 SMG"
+   },
+   "revolver44":{
+      "cost":{
+         "copper":10,
+         "leather":4,
+         "steel":8
+      },
+      "group":"Handgun",
+      "tier":3,
+      "required Unlocks":[
+         "revolver357",
+         "pistol45"
+      ],
+      "description":"One of the highest calibre revolvers, a reliable long range weapon",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":".44 Revolver"
+   },
+   "uzi":{
+      "cost":{
+         "adhesive":3,
+         "copper":12,
+         "plastic":14,
+         "steel":8
+      },
+      "group":"SMG",
+      "tier":3,
+      "required Unlocks":[
+         "autoPistol",
+         "smg22"
+      ],
+      "description":"test",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"Uzi"
+   },
+   "autoPistol":{
+      "cost":{
+         "adhesive":4,
+         "copper":15,
+         "plastic":5,
+         "steel":8
+      },
+      "group":"Handgun",
+      "tier":2,
+      "required Unlocks":[
+         "tec9",
+         "pistol9mm"
+      ],
+      "description":"A powerful, and somewhat hard to control automatic handgun",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"Auto-Pistol"
+   },
+   "revolver357":{
+      "cost":{
+         "copper":8,
+         "steel":20,
+         "wood":5,
+         "iron":5
+      },
+      "group":"Handgun",
+      "tier":2,
+      "required Unlocks":[
+         "pistol9mm"
+      ],
+      "description":"An antiquated 6-shot pistol, it hasn't lost any of its punch despite its age",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":".357 Revolver"
+   },
+   "pistol45":{
+      "cost":{
+         "adhesive":2,
+         "copper":5,
+         "leather":4,
+         "aluminium":5,
+         "steel":12
+      },
+      "group":"Handgun",
+      "tier":2,
+      "required Unlocks":[
+         "pistol9mm"
+      ],
+      "description":"The standard pistol used by pre-catastrophe armed forces",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":".45 Pistol"
+   },
+   "pistol9mm":{
+      "cost":{
+         "copper":4,
+         "steel":5,
+         "wood":2,
+         "iron":10
+      },
+      "group":"Handgun",
+      "tier":1,
+      "required Unlocks":[
+         
+      ],
+      "description":"Basic pistol",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"9mm Pistol"
+   },
+   "tec9":{
+      "cost":{
+         "adhesive":5,
+         "copper":8,
+         "plastic":12,
+         "steel":4,
+         "iron":4
+      },
+      "group":"Handgun",
+      "tier":1,
+      "required Unlocks":[
+         
+      ],
+      "description":"A high capacity 9mm machine pistol",
+      "stats":{
+         "ammoCapacity":11,
+         "bulletVelocity":1,
+         "range":5,
+         "shotDelay":0.3,
+         "spread":1,
+         "lifetime":5,
+         "attackSpeed":5,
+         "reloadSpeed":2,
+         "damage":10,
+         "loudness":5
+      },
+      "title":"Tec 9"
    }
 }

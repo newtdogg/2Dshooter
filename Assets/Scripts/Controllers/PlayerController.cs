@@ -45,6 +45,7 @@ public class PlayerController : PlayableCharacterController {
         detection = transform.GetChild(2).gameObject;
         gun.reloadMagazine();
         gun.setPlayerController(this);
+        gun.type = "player";
         // scrapText = transform.GetChild(3).GetChild(0).GetChild(1).gameObject.GetComponent<Text>();
         healthBar = transform.GetChild(3).GetChild(1).GetChild(1).gameObject;
         pickupUI = transform.GetChild(8);
@@ -62,7 +63,7 @@ public class PlayerController : PlayableCharacterController {
         activeSpawners = new List<Spawner>();
         canMove = true;
         defaultSpeed = 50f;
-        speed = 12f;
+        speed = 60f;
         scrap = new Dictionary<string, int>() {
             { "junkMetal", 20 },
             { "brokenGlass", 10 }

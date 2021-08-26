@@ -7,6 +7,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using Random=UnityEngine.Random;
+using UnityEngine.Networking;
+
 
 public class GameController : MonoBehaviour {
     public string mode;
@@ -39,13 +41,14 @@ public class GameController : MonoBehaviour {
             Destroy(gameObject);
         }
         var mobJsonString = File.ReadAllText("./Assets/Scripts/Mobs.json");
-        mobData = JsonUtility.FromJson<Mobs>(mobJsonString);
+        mobData = JsonConvert.DeserializeObject<Mobs>(mobJsonString);
         var weaponJsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json");
-        weaponData = JsonUtility.FromJson<Weapons>(weaponJsonString);
+        weaponData = JsonConvert.DeserializeObject<Weapons>(weaponJsonString);
         persistenceController = new PersistenceController();
         maps = new string[] { "IntroMap", "DebugMap" };
         persistenceController.loadGame();
-        unlocksController = GameObject.Find("Unlocks").transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<UnlocksController>();
+        // StartCoroutine(GetRequest("http://localhost:3000/weapons"));
+        unlocksController = GameObject.Find(">--UNLOCKS=======").transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<UnlocksController>();
         unlocksController.unlockedWeapons = persistenceController.saveData.unlockedWeapons;
     }
 
@@ -165,9 +168,20 @@ public class GameController : MonoBehaviour {
     public void startGame() {
         gameStarted = true;
         levelIndex = 0;
-        // StartCoroutine("StartLevel");
-        StartCoroutine("StartDebugLevel");
-        // StartCoroutine("StartSmallLevel");
+        if (SceneManager.GetActiveScene().name == "GunRange") {
+            StartCoroutine("StartGunRange");
+        } else {
+            // StartCoroutine("StartLevel");
+            StartCoroutine("StartDebugLevel");
+            // StartCoroutine("StartSmallLevel");
+        }
+    }
+
+    public IEnumerator StartGunRange() {
+        yield return new WaitForSeconds (0.5f);
+        mapGenerator.generateGunRangeMap();
+        mapGenerator.mapGenerated = true;
+        yield return null;
     }
 
     public void globalSpeedSlow() {
@@ -194,5 +208,27 @@ public class GameController : MonoBehaviour {
             weaponDictionary.Add(weaponStr, getWeapon(weaponStr));
         }
         return weaponDictionary;
+    }
+
+    IEnumerator GetRequest(string uri) {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri)) {
+            yield return webRequest.SendWebRequest();
+
+            string[] pages = uri.Split('/');
+            int page = pages.Length - 1;
+
+            switch (webRequest.result) {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError(pages[page] + ": Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    File.WriteAllText("./Assets/Scripts/Weapons/Weapons.json", webRequest.downloadHandler.text);
+                    break;
+            }
+        }
     }
 }

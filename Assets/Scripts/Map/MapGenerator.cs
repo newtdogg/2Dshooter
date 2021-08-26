@@ -80,10 +80,6 @@ public class MapGenerator : MonoBehaviour {
 			new Vector2Int(1, 0),
 			new Vector2Int(1, 1)
 		);
-		// smallestMapData.grid = new List<List<int[]>>() {
-		// 	new List<int[]>() {new int[] {0, 0, 1, 1}, new int[] {0, 1, 1, 0}},
-		// 	new List<int[]>() {new int[] {1, 0, 0, 1}, new int[] {1, 1, 0, 0}}
-		// };
 		smallestMapData.grid = new List<List<int[]>>() {
 			new List<int[]>() {new int[] {1, 1, 0, 0}, new int[] {1, 0, 0, 1}},
 			new List<int[]>() {new int[] {0, 1, 1, 0}, new int[] {0, 0, 1, 1}}
@@ -122,6 +118,14 @@ public class MapGenerator : MonoBehaviour {
 
 	public void generateSmallMap() {
 		mapToCreate = generateMapFromCells("smallestfloor");
+		createMap();
+	}
+
+	public void generateGunRangeMap() {
+		var mapJSONString = File.ReadAllText($"./Assets/Scripts/Map/Maps/Primary/Bottom.json");
+		var mapPrimaryCell = JsonConvert.DeserializeObject<MapCell>(mapJSONString);
+		mapToCreate = mapPrimaryCell.map;
+		activeMapData = new MapData(1, 1);
 		createMap();
 	}
 

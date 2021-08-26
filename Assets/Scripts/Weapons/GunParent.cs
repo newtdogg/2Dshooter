@@ -27,11 +27,13 @@ public class GunParent : MonoBehaviour {
     public GameObject bulletObject;
     public Dictionary<string, bool> bulletProperties;
     public GameObject activeBullet;
+    public Vector2Int shootingDirection;
     public PlayerController playerController;
     public Vector3 bulletPosition;
     public Vector2 bulletDirection;
     public Transform gunUI;
     public Text ammoCountUI;
+    public string type;
     public Text clipSizeUI;
     public Text gunNameUI;
     public void defaultGunAwake(string weaponName) {
@@ -65,7 +67,9 @@ public class GunParent : MonoBehaviour {
 
     public virtual void reloadMagazine () {
         transform.GetChild(1).gameObject.SetActive(false);
-        ammoCountUI.text = ammoQuantity.ToString();
+        if(type == "player"){ 
+            ammoCountUI.text = ammoQuantity.ToString();
+        }
     }
 
     public void directionallyShootGun(Vector2 bPos, Vector2 bDir) {
@@ -83,9 +87,11 @@ public class GunParent : MonoBehaviour {
     }
 
     public virtual void shootGun () {
-        playerController.resetSneakStats();
-        playerController.setSneakStat("detectionDistance", playerController.getSneakStat("detectionDistance") + (currentStats.loudness ));
-        playerController.setSneakStat("attackDistance", playerController.getSneakStat("attackDistance") + currentStats.loudness);
+        if(type == "player") {
+            playerController.resetSneakStats();
+            playerController.setSneakStat("detectionDistance", playerController.getSneakStat("detectionDistance") + (currentStats.loudness ));
+            playerController.setSneakStat("attackDistance", playerController.getSneakStat("attackDistance") + currentStats.loudness);
+        }
         shooting = currentStats.shotDelay;
         ammoQuantity -= 1;
         ammoCountUI.text = ammoQuantity.ToString();
@@ -96,12 +102,13 @@ public class GunParent : MonoBehaviour {
     }
 
     public virtual void fireBullet () {
-        GameObject bullet = Instantiate(bulletObject, playerController.transform.position + bulletPosition, Quaternion.identity) as GameObject;
+        GameObject bullet = Instantiate(bulletObject, transform.parent.position + bulletPosition, Quaternion.identity) as GameObject;
         var bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.properties = bulletProperties;
         bulletScript.damage = currentStats.damage;
         // Debug.Log(bulletScript.properties["poison"]);
-        bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity * playerController.gameController.globalSpeed);
+        bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * currentStats.bulletVelocity);
+        // playerController.gameController.globalSpeed
         bulletScript.setLifetime(currentStats.lifetime);
         bulletScript.parent = gameObject.name;
     }

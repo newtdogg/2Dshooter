@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public abstract class Gun : GunParent {
 
     void Update() {
-        if(playerController == null) {
+        if(playerController == null && type == "player") {
             playerController = transform.parent.GetComponent<PlayerController>();
         }
         if(reloadTimer > 0f) {
@@ -21,7 +21,9 @@ public abstract class Gun : GunParent {
         if(shooting > 0f) {
             shooting -= Time.deltaTime;
             if(shooting <= 0f) {
-                playerController.resetSneakStats();
+                if(type == "player") {
+                    playerController.resetSneakStats();
+                }
                 shooting = -1f;
             }
         }
@@ -33,13 +35,13 @@ public abstract class Gun : GunParent {
             var spread = rand.Next(0, (int)currentStats.spread);
             float spreadFloat = ((float)spread - currentStats.spread/2)/1000;
             
-            if (Input.GetKey(KeyCode.UpArrow)) {
+            if (Input.GetKey(KeyCode.UpArrow) || shootingDirection == Vector2Int.up) {
                 directionallyShootGun(new Vector3(0f, 0.6f, 0f), new Vector2(spreadFloat, 1));
-            } else if (Input.GetKey(KeyCode.DownArrow)) {
+            } else if (Input.GetKey(KeyCode.DownArrow) || shootingDirection == Vector2Int.down) {
                 directionallyShootGun(new Vector3(0f, -0.6f, 0f), new Vector2(spreadFloat, -1));
-            } else if (Input.GetKey(KeyCode.LeftArrow)) {
+            } else if (Input.GetKey(KeyCode.LeftArrow) || shootingDirection == Vector2Int.left) {
                 directionallyShootGun(new Vector3(-0.6f, 0f, 0f), new Vector2(-1, spreadFloat));
-            } else if (Input.GetKey(KeyCode.RightArrow)) {
+            } else if (Input.GetKey(KeyCode.RightArrow) || shootingDirection == Vector2Int.right) {
                 directionallyShootGun(new Vector3(0.6f, 0f, 0f), new Vector2(1, spreadFloat));
             }
         }
