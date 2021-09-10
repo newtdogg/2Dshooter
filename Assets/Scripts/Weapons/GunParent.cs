@@ -33,6 +33,7 @@ public class GunParent : MonoBehaviour {
     public Vector2 bulletDirection;
     public Transform gunUI;
     public Text ammoCountUI;
+    public string script;
     public string type;
     public Text clipSizeUI;
     public Text gunNameUI;
@@ -43,6 +44,7 @@ public class GunParent : MonoBehaviour {
         baseStats = weaponJsonObject.stats;
         title = weaponJsonObject.title;
         description = weaponJsonObject.description;
+        script = weaponJsonObject.script;
         unlocked = weaponJsonObject.unlocked;
         cost = weaponJsonObject.cost;
         xpCost = weaponJsonObject.xpCost;

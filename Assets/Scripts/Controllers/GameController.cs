@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour {
     private PersistenceController persistenceController;
     private MapGenerator mapGenerator;
     public Spawner bossSpawner;
-    public List<Spawner> spawners;
+    public List<MobSpawner> spawners;
 
     public static GameController controller;
 
@@ -47,16 +47,15 @@ public class GameController : MonoBehaviour {
         persistenceController = new PersistenceController();
         maps = new string[] { "IntroMap", "DebugMap" };
         persistenceController.loadGame();
-        // StartCoroutine(GetRequest("http://localhost:3000/weapons"));
         unlocksController = GameObject.Find(">--UNLOCKS=======").transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<UnlocksController>();
         unlocksController.unlockedWeapons = persistenceController.saveData.unlockedWeapons;
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        playerController.unlockedWeapons = getWeapons(persistenceController.saveData.unlockedWeapons);
+        playerController.gameController = this;
     }
 
     void Start() {
         if (SceneManager.GetActiveScene().name != "MainMenu") {
-            playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-            playerController.unlockedWeapons = getWeapons(persistenceController.saveData.unlockedWeapons);
-            playerController.gameController = this;
             // playerController.loadData(persistenceController.saveData);
             door = GameObject.Find("Door");
             transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(() => saveGame());
@@ -126,7 +125,7 @@ public class GameController : MonoBehaviour {
             spawners[i].startSpawnerByType(mobGroup);
         }
         var bossRand = new System.Random((int)System.DateTime.Now.Ticks);
-        bossSpawner.boss = "MobEyeSore";
+        // bossSpawner.boss = "MobEyeSore";
         playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
     }
 
@@ -161,7 +160,7 @@ public class GameController : MonoBehaviour {
             remainingMobs = mobGroup.Count;
             spawners[i].startSpawnerByType(mobGroup);
         }
-        bossSpawner.boss = "MobEyeSore";
+        // bossSpawner.boss = "MobEyeSore";
         playerController.setupEnemyIndicators(mapGenerator.spawners.Values.ToList().Where(spawner => !spawner.empty).ToList());
     }
 
@@ -172,12 +171,13 @@ public class GameController : MonoBehaviour {
             StartCoroutine("StartGunRange");
         } else {
             // StartCoroutine("StartLevel");
-            StartCoroutine("StartDebugLevel");
-            // StartCoroutine("StartSmallLevel");
+            // StartCoroutine("StartDebugLevel");
+            StartCoroutine("StartSmallLevel");
         }
     }
 
     public IEnumerator StartGunRange() {
+        StartCoroutine(GetRequest("http://localhost:3000/weapons"));
         yield return new WaitForSeconds (0.5f);
         mapGenerator.generateGunRangeMap();
         mapGenerator.mapGenerated = true;
@@ -227,8 +227,16 @@ public class GameController : MonoBehaviour {
                     break;
                 case UnityWebRequest.Result.Success:
                     File.WriteAllText("./Assets/Scripts/Weapons/Weapons.json", webRequest.downloadHandler.text);
+                    setupTurrets();
                     break;
             }
         }
+    }
+
+    public void setupTurrets() {
+        foreach (Transform child in GameObject.Find("Turrets").transform) {
+            var turretScript = child.gameObject.GetComponent<Turret>();
+            turretScript.startTurret();
+        } 
     }
 }

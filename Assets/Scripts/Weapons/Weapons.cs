@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class Weapons {
@@ -31,8 +32,27 @@ public class Weapons {
 	public Weapon CompactSmg { get { return compactSmg; } }
 	public Weapon AkimboUzis { get { return akimboUzis; } }
 	public Weapon HeavySmg { get { return heavySmg; } }
-	// public Weapon shotgun;
-	// public Weapon Shotgun { get { return shotgun; } }
+
+	private List<Weapon> getWeaponList () {
+		return new List<Weapon>() {
+			pistol9mm,
+			tec9,
+			pistol45,
+			revolver357,
+			autoPistol,
+			revolver44,
+			akimboAutoPistols,
+			desertEagle,
+			smg22,
+			uzi,
+			compactSmg,
+			akimboUzis,
+			heavySmg
+		};
+	}
+	public IEnumerable<Weapon> getWeaponsByGroup(string group) {
+		return getWeaponList().Where(weapon => weapon.group == group);
+	}
 }
 
 [System.Serializable]

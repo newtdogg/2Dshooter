@@ -26,7 +26,7 @@ public class Eyesore : MiniBoss {
         if(gameObject.name == $"{title}(Clone)") {
             // Debug.Log(transform.parent.parent.gameObject);
             spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
-            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
+            // lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
         }
     }
 

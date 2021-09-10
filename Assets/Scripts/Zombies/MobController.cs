@@ -42,9 +42,9 @@ public class MobController : AIController
         scrapObject = GameObject.Find("Scrap");
         recipeObject = GameObject.Find("RecipeObject");
         rbody = gameObject.GetComponent<Rigidbody2D>();
-        if(gameObject.name == $"{title}(Clone)") {
-            spawner = transform.parent.parent.gameObject.GetComponent<Spawner>();
-            lootController = transform.parent.parent.gameObject.GetComponent<Spawner>().lootController;
+        if(gameObject.name.Contains("(Clone)")) {
+            spawner = transform.parent.parent.gameObject.GetComponent<MobSpawner>();
+            lootController = GameObject.Find("LootController").GetComponent<LootController>();
         }
         player = GameObject.Find("Player");
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();

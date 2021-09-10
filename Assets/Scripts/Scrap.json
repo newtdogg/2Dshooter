@@ -1,27 +1,142 @@
 {
-    "weakAdhesive": {
-        "baseType": "adhesive",
-        "title": "Weak Adhesive",
-        "value": 1
+    "aluminiumScraps":{
+       "title":"Aluminium Scraps",
+       "value":1,
+       "category":"Metal",
+       "rarity":"uncommon",
+       "baseType":"Aluminium"
     },
-    "refinedAdhesive": {
-        "baseType": "adhesive",
-        "title": "Refined Adhesive",
-        "value": 3
+    "crushedGlass":{
+       "title":"Crushed Glass",
+       "value":1,
+       "category":"Synthetic",
+       "rarity":"common",
+       "baseType":"Glass"
     },
-    "smallMetalScraps": {
-        "baseType": "steel",
-        "title": "Small Metal Scraps",
-        "value": 1
+    "glassShards":{
+       "title":"Glass Shards",
+       "value":3,
+       "category":"Synthetic",
+       "rarity":"common",
+       "baseType":"Glass"
     },
-    "steelScraps": {
-        "baseType": "steel",
-        "title": "Steel Scraps",
-        "value": 3
+    "glassPane":{
+       "title":"Glass Pane",
+       "value":5,
+       "category":"Synthetic",
+       "rarity":"common",
+       "baseType":"Glass"
     },
-    "aluminiumScraps": {
-        "baseType": "aluminum",
-        "title": "Aluminum Scraps",
-        "value": 1
+    "leatherScraps":{
+       "title":"Leather Scraps",
+       "value":1,
+       "category":"Organic",
+       "rarity":"common",
+       "baseType":"Leather"
+    },
+    "untreatedLeather":{
+       "title":"Untreated Leather",
+       "value":3,
+       "category":"Organic",
+       "rarity":"common",
+       "baseType":"Leather"
+    },
+    "leatherHide":{
+       "title":"Leather Hide",
+       "value":5,
+       "category":"Organic",
+       "rarity":"common",
+       "baseType":"Leather"
+    },
+    "wastePlastic":{
+       "title":"Waste Plastic",
+       "value":1,
+       "category":"Synthetic",
+       "rarity":"common",
+       "baseType":"Plastic"
+    },
+    "plasticSheets":{
+       "title":"Plastic Sheets",
+       "value":5,
+       "category":"Synthetic",
+       "rarity":"common",
+       "baseType":"Plastic"
+    },
+    "concentratedAcid":{
+       "title":"Concentrated Acid",
+       "value":5,
+       "category":"Chemical",
+       "rarity":"rare",
+       "baseType":"Acid"
+    },
+    "adhesiveGunk":{
+       "title":"Adhesive Gunk",
+       "value":1,
+       "category":"Chemical",
+       "rarity":"common",
+       "baseType":"Adhesive"
+    },
+    "weakGlue":{
+       "title":"Weak Glue",
+       "value":3,
+       "category":"Chemical",
+       "rarity":"common",
+       "baseType":"Adhesive"
+    },
+    "strongAdhesive":{
+       "title":"Strong Adhesive",
+       "value":5,
+       "category":"Chemical",
+       "rarity":"common",
+       "baseType":"Adhesive"
+    },
+    "steelJunk":{
+       "title":"Steel Junk",
+       "value":1,
+       "category":"Metal",
+       "rarity":"common",
+       "baseType":"Steel"
+    },
+    "steelRods":{
+       "title":"Steel Rods",
+       "value":5,
+       "category":"Metal",
+       "rarity":"common",
+       "baseType":"Steel"
+    },
+    "roughIron":{
+       "title":"Rough Iron",
+       "value":1,
+       "category":"Metal",
+       "rarity":"common",
+       "baseType":"Iron"
+    },
+    "scrapIron":{
+       "title":"Scrap Iron",
+       "value":3,
+       "category":"Metal",
+       "rarity":"common",
+       "baseType":"Iron"
+    },
+    "ironBars":{
+       "title":"Iron Bars",
+       "value":5,
+       "category":"Metal",
+       "rarity":"common",
+       "baseType":"Iron"
+    },
+    "wooden":{
+       "title":"Wooden ",
+       "value":1,
+       "category":"Organic",
+       "rarity":"common",
+       "baseType":"Wood"
+    },
+    "lumber":{
+       "title":"Lumber",
+       "value":5,
+       "category":"Organic",
+       "rarity":"common",
+       "baseType":"Wood"
     }
-}
+ }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 
 public class Shop : MonoBehaviour {
     // Start is called before the first frame update
@@ -12,6 +13,7 @@ public class Shop : MonoBehaviour {
     private Weapons weapons;
     private PlayerController playerController;
     public GameObject player;
+    public Weapons weaponData;
     public Transform parentUI;
     private GameObject gunButton;
     private Text gunInfoTitle;
@@ -24,6 +26,8 @@ public class Shop : MonoBehaviour {
         playerController = player.GetComponent<PlayerController>();
         parentUI = transform;
         gunButton = parentUI.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject;
+        var weaponJsonString = File.ReadAllText("./Assets/Scripts/Weapons/weapons.json");
+        weaponData = JsonConvert.DeserializeObject<Weapons>(weaponJsonString);
         parentUI.gameObject.SetActive(false);
         gunInfoTitle = parentUI.GetChild(4).GetChild(0).gameObject.GetComponent<Text>();
         gunInfoDamage = parentUI.GetChild(4).GetChild(2).gameObject.GetComponent<Text>();
@@ -36,30 +40,35 @@ public class Shop : MonoBehaviour {
     }
 
     private void selectGunGroup(string group) {
-        var gunList = getAvailableGunsToBuy().Where(gunScript => gunScript.group == group);
-        createGunButtons(gunList);
-    }
-
-    private void createGunButtons(IEnumerable<Weapon> weaponsInGroup) {
+        var weaponsInGroup = getAvailableGunsToBuy().Where(gunScript => gunScript.group == group);
+        var allWeaponsInGroup = weaponData.getWeaponsByGroup(group).Where(weapon => !weaponsInGroup.Contains(weapon));
         foreach (Transform button in gunButton.transform.parent.GetChild(0)) {
             Destroy(button.gameObject);
         }
         var count = 0;
         foreach (var wep in weaponsInGroup) {
-            generateGunButtonInShop(wep, count);
+            generateGunButtonInShop(wep, count, true);
+            count += 1;
+        }
+        foreach (var wep in allWeaponsInGroup) {
+            generateGunButtonInShop(wep, count, false);
             count += 1;
         }
     }
 
-    private void generateGunButtonInShop(Weapon weapon, int index) {
+    private void generateGunButtonInShop(Weapon weapon, int index, bool interactable) {
         var button = Instantiate(gunButton, new Vector2(0, 0), Quaternion.identity);
         button.transform.SetParent(gunButton.transform.parent.GetChild(0));
         // button.transform.localScale = new Vector3(1, 1, 1);
         button.transform.localPosition = new Vector3(-10f, 1.5f - (index * 93), 0);
         button.transform.GetChild(1).gameObject.GetComponent<Text>().text = weapon.title;
         var buttonScript = button.GetComponent<Button>();
-        buttonScript.onClick.RemoveAllListeners();
-        buttonScript.onClick.AddListener(() => updateGunInfo(weapon));
+        if(interactable) {
+            buttonScript.onClick.RemoveAllListeners();
+            buttonScript.onClick.AddListener(() => updateGunInfo(weapon));
+        } else {
+            buttonScript.interactable = false;
+        }
     }
 
     public void purchaseGun(string gun, Dictionary<string, int> cost) {
@@ -94,20 +103,20 @@ public class Shop : MonoBehaviour {
     }
 
     public Dictionary<string, int> getWeaponTierCount() {
-        // var weaponTiers = new Dictionary<string, int>();
-        // var weaponRecipesParent = playerController.transform.GetChild(6);
-        // foreach (Transform recipe in weaponRecipesParent) {
-        //     var recipeWeaponGroup = recipe.gameObject.GetComponent<WeaponRecipe>().gunType;
-        //     if(weaponTiers.ContainsKey(recipeWeaponGroup)) {
-        //         weaponTiers[recipeWeaponGroup]++;
-        //     } else {
-        //         weaponTiers.Add(recipeWeaponGroup, 1);
-        //     }
-        // }
-        // return weaponTiers;
-        return new Dictionary<string, int>() {
-            { "Handgun" , 5 },
-            { "SMG" , 5 }
-        };
+        var weaponTiers = new Dictionary<string, int>();
+        var weaponRecipesParent = playerController.transform.GetChild(6);
+        foreach (Transform recipe in weaponRecipesParent) {
+            var recipeWeaponGroup = recipe.gameObject.GetComponent<WeaponRecipe>().gunType;
+            if(weaponTiers.ContainsKey(recipeWeaponGroup)) {
+                weaponTiers[recipeWeaponGroup]++;
+            } else {
+                weaponTiers.Add(recipeWeaponGroup, 1);
+            }
+        }
+        return weaponTiers;
+        // return new Dictionary<string, int>() {
+        //     { "Handgun" , 5 },
+        //     { "SMG" , 5 }
+        // };
     }
 }

@@ -21,7 +21,7 @@ public class Bullet : Projectile {
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.name != parent) {
-            if(gameObject.name == "DoCPlayerBullet(Clone)" && col.gameObject.name != "DoCPlayerBullet(Clone)") {
+            if((gameObject.name == "DoCPlayerBullet(Clone)" && col.gameObject.name != "DoCPlayerBullet(Clone)") && !col.gameObject.name.Contains("TargetDummy")) {
                 Destroy (gameObject);
             }
             if(col.gameObject.name == "Player") {

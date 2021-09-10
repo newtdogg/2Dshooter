@@ -37,7 +37,7 @@ public class PlayerController : PlayableCharacterController {
     public bool invulnerable;
     public float invulnerableTimer;
     public Transform enemyIndicatorParent;
-    private List<Spawner> activeSpawners;
+    private List<MobSpawner> activeSpawners;
 
     void Start() {		
         rbody = GetComponent<Rigidbody2D>();
@@ -60,7 +60,7 @@ public class PlayerController : PlayableCharacterController {
         experienceLevel = 0;
         experienceForNextLevel = experienceLevelUpRequirement[experienceLevel + 1];
         updateXP(0f);
-        activeSpawners = new List<Spawner>();
+        activeSpawners = new List<MobSpawner>();
         canMove = true;
         defaultSpeed = 50f;
         speed = 60f;
@@ -169,7 +169,7 @@ public class PlayerController : PlayableCharacterController {
         lastDirection = direction;
     }
 
-    public void setupEnemyIndicators(List<Spawner> spawners) {
+    public void setupEnemyIndicators(List<MobSpawner> spawners) {
         activeSpawners = spawners;
         foreach (Transform child in enemyIndicatorParent.GetChild(1)) {
             Destroy(child.gameObject);
@@ -240,8 +240,11 @@ public class PlayerController : PlayableCharacterController {
     public bool checkScapAmount(Dictionary<string, int> scrapValues) {
         var hasScrap = true;
         foreach (var scrapAmount in scrapValues) {
-            if(scrap[scrapAmount.Key] < scrapAmount.Value) {
-                hasScrap = false;
+            // Debug.Log(scrapAmount.Key);
+            if (scrap.ContainsKey(scrapAmount.Key)) {
+                if(scrap[scrapAmount.Key] < scrapAmount.Value) {
+                    hasScrap = false;
+                }
             }
         }
         return hasScrap;
